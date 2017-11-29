@@ -1,0 +1,238 @@
+html {
+  font-family: Roboto;
+}
+
+/*header */
+.wrap {
+  width: 100%;
+  display: inline-flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #272e3a;
+  color: white;
+  height: 10%;
+}
+/*Login */
+
+.wrap .search-input {
+  width: 50%;
+
+  margin-left: 20%;
+
+  /* When the input field gets focus, change its width to 100% */
+}
+
+.wrap .search-input input[type="text"] {
+  width: 130px;
+  height: 40px;
+  -webkit-transition: width 0.4s ease-in-out;
+  transition: width 0.4s ease-in-out;
+}
+
+.wrap .search-input input[type="text"]:focus {
+  width: 50%;
+}
+
+.wrap img {
+  margin-left: 2%;
+  width: 100px;
+  height: 100px;
+}
+
+.wrap .login {
+  display: flex;
+  flex-direction: column;
+  margin-right: 3%;
+}
+
+.wrap .login input[type="text"] {
+  width: 13em;
+  height: 1.2em;
+  margin-top: 0.3em;
+}
+
+.wrap .login .login-section {
+  margin-top: 0.3em;
+  display: flex;
+  justify-content: space-between;
+}
+
+.wrap .login img {
+  width: 2em;
+  height: 2em;
+}
+.wrap .login img:hover {
+  cursor: pointer;
+  box-shadow: 2px 2px 2px grey;
+}
+
+.wrap .login .button-login {
+  padding: 0.5em 1em 0.5em 1em;
+}
+
+/*body */
+
+.forum-content {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 30px;
+  flex-wrap: wrap;
+}
+
+.subforumicon {
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  margin: 1%;
+}
+
+img {
+  width: 250;
+  height: 250;
+}
+
+/*forum */
+.tab ul {
+  display: column;
+}
+
+/*Collapsible is the wrapper class of the forum collapse*/
+.Collapsible {
+  margin-top: 10px;
+  width: 80%;
+}
+.Collapsible__trigger {
+  display: block;
+  width: 100%;
+  height: 50px;
+  background-color: grey;
+  color: white;
+  text-align: left;
+  font-size: 20px;
+  font-weight: 400;
+  transition-delay: 0s;
+}
+
+.Collapsible__trigger:hover {
+  cursor: pointer;
+  background-color: #ef7334;
+}
+
+.forum-link {
+  margin-left: 30px;
+}
+
+/*subforum */
+/*navigator */
+.navigator {
+  display: flex;
+  width: 100%;
+  height: 50px;
+  align-items: center;
+  margin-bottom: 10px;
+  background-color: #eaeaea;
+}
+
+.navigator a {
+  padding-left: 10px;
+  padding-right: 10px;
+  color: black;
+  text-decoration: underline;
+}
+
+/*Intro */
+.intro {
+  width: 80%;
+  margin-top: 50px;
+  margin-left: 50px;
+  padding: 5%;
+  background-color: #eaeaea;
+}
+
+/*tools */
+.tools {
+  display: flex;
+  margin-left: 50px;
+  margin-top: 50px;
+  align-items: center;
+  width: 80%;
+}
+
+.tools .new_thread {
+  background-color: #eaeaea;
+  padding: 10px;
+}
+
+.tools .no_pages {
+  display: flex;
+  justify-content: flex-end;
+  width: 90%;
+}
+.tools .no_pages a {
+  padding: 10px 15px 10px 15px;
+  background-color: #eaeaea;
+  color: #ef7334;
+}
+
+/*subforum bar */
+.subforum_bar {
+  display: flex;
+  width: 80%;
+  margin-left: 50px;
+  margin-top: 50px;
+  align-items: center;
+  height: 50px;
+  background-color: #eaeaea;
+}
+.subforum_bar .search_bar {
+  display: flex;
+  justify-content: flex-end;
+  width: 85%;
+}
+.subforum_bar .subforum_name {
+  padding-left: 50px;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+/*thread table */
+.thread_container {
+  background: #eaeaea;
+  width: 80%;
+  margin-left: 50px;
+  display: flex;
+  align-items: center;
+  height: 50px;
+}
+.thread_container .thread_info {
+  display: column;
+  width: 70%;
+}
+.thread_container .thread_info .thread_name {
+  font-size: 18px;
+  font-weight: bold;
+}
+.thread_container .lasted_post {
+  display: columns;
+  width: 20%;
+  padding-left: 10px;
+}
+.thread_container .no_rep_view {
+  display: columns;
+  width: 10%;
+  text-align: right;
+  padding-right: 5px;
+}
+
+.thread_info,
+.lasted_post,
+.no_rep_view {
+  border: solid 1px;
+  border-color: grey;
+  height: 50px;
+}
+
+/*# sourceMappingURL=app.css.map */

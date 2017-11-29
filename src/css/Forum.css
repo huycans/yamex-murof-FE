@@ -1,0 +1,68 @@
+.tab {
+  display: columns;
+  width: 80%;
+  margin: 10%;
+}
+
+.title {
+  color: #272e3a;
+  display: flex;
+  align-items: flex-end;
+}
+.title .topic {
+  width: 70%;
+  font-size: 24px;
+  text-decoration: underline;
+}
+.title .rep {
+  width: 15%;
+  padding-right: 5%;
+  text-align: right;
+}
+.title .view {
+  width: 15%;
+  text-align: right;
+}
+
+.singleTopic {
+  display: flex;
+  align-items: flex-end;
+}
+.singleTopic:hover {
+  background-color: #dddddd;
+}
+.singleTopic .Date {
+  font-weight: bold;
+  width: 5%;
+  color: #ef7334;
+}
+.singleTopic .singleTopic_name {
+  color: #ef7334;
+  width: 65%;
+  font-size: 18px;
+}
+.singleTopic a {
+  color: #ef7334;
+}
+.singleTopic a:hover {
+  text-decoration: none;
+}
+.singleTopic a:link,
+.singleTopic a visited {
+  text-decoration: none;
+}
+.singleTopic .singleTopic_rep {
+  width: 15%;
+
+  text-align: right;
+}
+.singleTopic .singleTopic_view {
+  width: 15%;
+  text-align: center;
+}
+
+.more a {
+  color: #ef7334;
+  font-size: 18px;
+  font-weight: 300;
+}
