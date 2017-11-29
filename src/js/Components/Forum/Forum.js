@@ -71,9 +71,17 @@ class Forum extends Component {
 				<div className="more">
 					<a href="#">More about this things bla bla</a>
 				</div>
+				<hr />
 			</div>
 		);
 	}
 }
-
+Forum.propTypes = {
+	match: {
+		url: PropTypes.string,
+		path: PropTypes.string,
+		isExact: PropTypes.bool,
+		params: PropTypes.object
+	}
+};
 export default Forum;
