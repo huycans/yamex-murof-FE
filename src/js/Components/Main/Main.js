@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import Collapsible from "react-collapsible";
 import { Link, Route, Switch } from "react-router-dom";
 import Forum from "../Forum";
-import { URL, SERVER_API } from "../../Constants/API";
+
 // const SubForumIconList = [
 // 	"FAQ",
 // 	"Accessories",
@@ -61,76 +61,24 @@ const MiniForumView = props => {
 class Main extends Component {
 	constructor(props) {
 		super(props);
-		this.getForumList = this.getForumList.bind(this);
-		this.state = {
-			isError: null,
-			forumList: []
-		};
-	}
-
-	async getForumList() {
-		try {
-			let link = URL + SERVER_API.getAllForum;
-			let response = await fetch(link, {
-				method: "GET",
-				headers: {
-					Accept: "application/json",
-					"Access-Control-Allow-Origin": "*"
-				}
-			});
-			let responseJSON = await response.json();
-			return responseJSON.content;
-		} catch (error) {
-			throw error;
-		}
-	}
-	componentDidMount() {
-		this.getForumList().then(
-			forumList => {
-				this.setState({ forumList: forumList });
-			},
-			error => {
-				this.setState({ isError: true });
-				console.log("Error while getting forum list: ", error);
-			}
-		);
 	}
 
 	render() {
-		let { forumList, isError } = this.state;
-		console.log("forumList", forumList);
+		let { forumList } = this.props;
 		let listOfForum = null;
 		let listOfForumRoute = null;
-		if (isError) {
-			return <div>There has been an error, please refresh the page</div>;
-		} else if (forumList) {
-			//create a list of minimal forum views
-			listOfForum = forumList.map(forumData => (
-				<MiniForumView forumData={forumData} key={forumData.id} />
-			));
-			//create a list of route for main forum view, e.g /honda-future
-			console.log("before routes list", forumList);
-			listOfForumRoute = forumList.map(forum => {
-				return (
-					<Route
-						path={`/${forum.path}`}
-						key={forum.id}
-						//render={forum => <Forum forumData={forum} />}
-						component={Forum}
-					/>
-				);
-			});
-			console.log("Forums: ", listOfForum);
-			console.log("Routes: ", listOfForumRoute);
-			return (
-				<div>
-					{listOfForum}
-					{listOfForumRoute}
-				</div>
-			);
-		}
+
+		//create a list of minimal forum views
+		listOfForum = forumList.map(forumData => (
+			<MiniForumView forumData={forumData} key={forumData.id} />
+		));
+
+		console.log("Forums: ", listOfForum);
+		console.log("Routes: ", listOfForumRoute);
+		return <div>{listOfForum}</div>;
 	}
 }
+//<Switch>{listOfForumRoute}</Switch>
 Main.propTypes = {
 	match: {
 		url: PropTypes.string,

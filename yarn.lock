@@ -5433,6 +5433,10 @@ react-form@^2.12.1:
     redux-logger "^3.0.6"
     redux-thunk "^2.2.0"
 
+react-loading@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/react-loading/-/react-loading-1.0.2.tgz#227ae6b5fef2275f26bcad501f52a1ba312d6804"
+
 react-modal@^3.1.5:
   version "3.1.5"
   resolved "https://registry.yarnpkg.com/react-modal/-/react-modal-3.1.5.tgz#9cfdb7634b5003148ffb7c8ead13a36f671d744e"
