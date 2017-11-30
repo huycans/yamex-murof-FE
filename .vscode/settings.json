@@ -1,0 +1,8 @@
+{
+  "flow.enabled": false,
+  "editor.formatOnSave": true,
+  "javascript.format.enable": false,
+  "prettier.eslintIntegration": true,
+  "eslint.packageManager": "yarn",
+  "eslint.workingDirectories": ["./src"]
+}
