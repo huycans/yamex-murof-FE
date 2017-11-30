@@ -14,14 +14,8 @@ class App extends Component {
 		return (
 			<div>
 				<Header />
-				<Switch>
-					<Route exact path="/" component={Main} />
-					<Route exact path="/Future" component={Forum} />
-					<Route
-						path={"/Future/:subForumName"}
-						render={props => <SubForum {...props} />}
-					/>
-				</Switch>
+
+				<Route exact path="/" component={Main} />
 			</div>
 		);
 	}

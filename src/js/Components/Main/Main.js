@@ -1,18 +1,17 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import Collapsible from "react-collapsible";
-import { Link, Route } from "react-router-dom";
+import { Link, Route, Switch } from "react-router-dom";
 import Forum from "../Forum";
 import { URL, SERVER_API } from "../../Constants/API";
-
-const SubForumIconList = [
-	"FAQ",
-	"Accessories",
-	"Prices",
-	"Customize",
-	"Buy or Sell",
-	"Where to buy"
-];
+// const SubForumIconList = [
+// 	"FAQ",
+// 	"Accessories",
+// 	"Prices",
+// 	"Customize",
+// 	"Buy or Sell",
+// 	"Where to buy"
+// ];
 
 const MiniSubForumView = () => {
 	return (
@@ -43,7 +42,7 @@ const MiniForumView = props => {
 		<Collapsible
 			trigger={
 				<div className="trigger" id="forum1-trigger">
-					{forumData.name}
+					<Link to={`/${forumData.path}`}>{forumData.name}</Link>
 				</div>
 			}
 			open
@@ -64,6 +63,7 @@ class Main extends Component {
 		super(props);
 		this.getForumList = this.getForumList.bind(this);
 		this.state = {
+			isError: null,
 			forumList: []
 		};
 	}
@@ -89,21 +89,46 @@ class Main extends Component {
 			forumList => {
 				this.setState({ forumList: forumList });
 			},
-			error => console.log("Error while getting forum list: ", error)
+			error => {
+				this.setState({ isError: true });
+				console.log("Error while getting forum list: ", error);
+			}
 		);
 	}
 
 	render() {
-		let { forumList } = this.state;
+		let { forumList, isError } = this.state;
 		console.log("forumList", forumList);
-		let list = null;
-		if (forumList) {
-			list = this.state.forumList.map(forumData => (
+		let listOfForum = null;
+		let listOfForumRoute = null;
+		if (isError) {
+			return <div>There has been an error, please refresh the page</div>;
+		} else if (forumList) {
+			//create a list of minimal forum views
+			listOfForum = forumList.map(forumData => (
 				<MiniForumView forumData={forumData} key={forumData.id} />
 			));
+			//create a list of route for main forum view, e.g /honda-future
+			console.log("before routes list", forumList);
+			listOfForumRoute = forumList.map(forum => {
+				return (
+					<Route
+						path={`/${forum.path}`}
+						key={forum.id}
+						//render={forum => <Forum forumData={forum} />}
+						component={Forum}
+					/>
+				);
+			});
+			console.log("Forums: ", listOfForum);
+			console.log("Routes: ", listOfForumRoute);
+			return (
+				<div>
+					{listOfForum}
+					{listOfForumRoute}
+				</div>
+			);
 		}
-
-		return <div>{list}</div>;
 	}
 }
 Main.propTypes = {
