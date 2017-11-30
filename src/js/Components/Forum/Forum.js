@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
+import PropTypes, { string } from "prop-types";
 import { Link, Route } from "react-router-dom";
 import SubForum from "../SubForum";
 import "../../../css/Forum.css";
@@ -20,12 +20,13 @@ const SingleTopic = props => {
 SingleTopic.propTypes = {
 	topicInfo: PropTypes.object
 };
-
+//full forum view
 class Forum extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			topicList: [
+			//placeholders for subforum data
+			subforum: [
 				{
 					date: "20/10",
 					name: "FAQ",
@@ -54,20 +55,21 @@ class Forum extends Component {
 		};
 	}
 	render() {
-		let topicList = this.state.topicList;
+		let forumData = this.props.forumData;
+		let subforums = this.state.subforum;
 		let match = this.props.match;
-		console.log(this.props);
+		console.log(typeof match);
 		return (
 			<div className="tab">
 				<div className="title">
-					<div className="topic">FORUM</div>
+					<div className="topic">Forum</div>
 					<div className="rep">REPLIES</div>
 					<div className="views">VIEW</div>
 				</div>
-				<SingleTopic topicInfo={topicList[0]} />
-				<SingleTopic topicInfo={topicList[1]} />
-				<SingleTopic topicInfo={topicList[2]} />
-				<SingleTopic topicInfo={topicList[3]} />
+				<SingleTopic topicInfo={subforums[0]} />
+				<SingleTopic topicInfo={subforums[1]} />
+				<SingleTopic topicInfo={subforums[2]} />
+				<SingleTopic topicInfo={subforums[3]} />
 				<div className="more">
 					<a href="#">More about this things bla bla</a>
 				</div>
@@ -82,6 +84,17 @@ Forum.propTypes = {
 		path: PropTypes.string,
 		isExact: PropTypes.bool,
 		params: PropTypes.object
+	},
+	forumData: {
+		bikeInfo: PropTypes.string,
+		coverUrl: PropTypes.string,
+		createdTime: PropTypes.string,
+		description: PropTypes.string,
+		id: PropTypes.string,
+		lastModifiedTime: PropTypes.string,
+		moderators: PropTypes.arrayOf(string),
+		name: PropTypes.string,
+		path: PropTypes.string
 	}
 };
 export default Forum;

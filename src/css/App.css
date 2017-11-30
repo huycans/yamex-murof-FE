@@ -126,6 +126,36 @@ img {
 }
 
 /*subforum */
+.subforum {
+  height: auto;
+  display: flex;
+  justify-content: flex-start;
+  padding: 0em 2em 0em 2em;
+}
+
+.subforum a {
+  color: #ef7334;
+}
+
+.subforum a:hover {
+  color: grey;
+  text-decoration: none;
+}
+
+.subforum .subforum_info {
+  width: 60%;
+}
+
+.subforum .first_unread_post {
+  width: 20%;
+}
+
+.subforum .subforum_info,
+.subforum .first_unread_post,
+.subforum .no_thread_post {
+  border: solid 1px grey;
+  padding: 1em;
+}
 /*navigator */
 .navigator {
   display: flex;
