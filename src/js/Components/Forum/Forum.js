@@ -56,7 +56,7 @@ class Forum extends Component {
 	}
 	render() {
 		//let { forumData, match } = this.props;
-		let { match } = this.props;
+		let { match, forumData } = this.props;
 		let subforums = this.state.subforum;
 		console.log(typeof match);
 		return (

@@ -3,7 +3,8 @@ import PropTypes from "prop-types";
 import Collapsible from "react-collapsible";
 import { Link, Route, Switch } from "react-router-dom";
 import Forum from "../Forum";
-
+import { URL, SERVER_API } from "../../Constants/API";
+import LoadingIcon from "../LoadingIcon";
 // const SubForumIconList = [
 // 	"FAQ",
 // 	"Accessories",
@@ -36,56 +37,135 @@ const MiniSubForumView = () => {
 	);
 };
 
-const MiniForumView = props => {
-	let { forumData } = props;
-	return (
-		<Collapsible
-			trigger={
-				<div className="trigger" id="forum1-trigger">
-					<Link to={`/${forumData.path}`}>{forumData.name}</Link>
-				</div>
-			}
-			open
-			key={forumData.id}
-		>
-			<div id="wrapper" className="open">
-				<div className="forum-content" id="forum1-content">
-					<MiniSubForumView />
-				</div>
-			</div>
-		</Collapsible>
-	);
-};
-
+// const MiniForumView = props => {
+// 	let { forum } = props;
+// 	return (
+// 		<Collapsible
+// 			trigger={
+// 				<div className="trigger" id="forum1-trigger">
+// 					<Link to={`/${forum.path}`}>{forum.name}</Link>
+// 				</div>
+// 			}
+// 			open
+// 			key={forum.id}
+// 		>
+// 			<div id="wrapper" className="open">
+// 				<div className="forum-content" id="forum1-content">
+// 					<MiniSubForumView />
+// 				</div>
+// 			</div>
+// 		</Collapsible>
+// 	);
+// // };
+// MiniForumView.propTypes = {
+// 	forum: PropTypes.arrayOf(PropTypes.object)
+// };
 //Main will display the list of all forums on the site with their subforums
 class Main extends Component {
 	constructor(props) {
 		super(props);
+		this.state = {
+			isError: null,
+			forumList: [],
+			isLoading: true
+		};
+		this.getForumList = this.getForumList.bind(this);
 	}
-
+	async getForumList() {
+		try {
+			let link = URL + SERVER_API.getAllForum;
+			let response = await fetch(link, {
+				method: "GET",
+				headers: {
+					Accept: "application/json",
+					"Access-Control-Allow-Origin": "*"
+				}
+			});
+			let responseJSON = await response.json();
+			return responseJSON.content;
+		} catch (error) {
+			throw error;
+		}
+	}
+	componentDidMount() {
+		this.getForumList().then(
+			forumList => {
+				this.setState({ isLoading: false, forumList: forumList });
+			},
+			error => {
+				this.setState({ isLoading: false, isError: true });
+				console.log("Error while getting forum list: ", error);
+			}
+		);
+	}
 	render() {
-		let { forumList } = this.props;
+		let { forumList, isError, isLoading } = this.state;
+		let { match } = this.props;
+		console.log("forumList", forumList);
+
+		if (isLoading)
+			return (
+				<div>
+					<LoadingIcon />
+				</div>
+			);
+		if (isError) {
+			return (
+				<div>
+					<div>There has been an error, please refresh the page</div>
+				</div>
+			);
+		}
+
 		let listOfForum = null;
 		let listOfForumRoute = null;
 
 		//create a list of minimal forum views
-		listOfForum = forumList.map(forumData => (
-			<MiniForumView forumData={forumData} key={forumData.id} />
+		listOfForum = forumList.map(forum => (
+			<Collapsible
+				trigger={
+					<div className="trigger" id="forum1-trigger">
+						<Link to={`${match.url}${forum.path}`}>{forum.name}</Link>
+					</div>
+				}
+				open
+				key={forum.id}
+			>
+				<div id="wrapper" className="open">
+					<div className="forum-content" id="forum1-content">
+						<MiniSubForumView />
+					</div>
+				</div>
+			</Collapsible>
+		));
+		listOfForumRoute = forumList.map(forum => (
+			<Route
+				exact
+				path={`${match.path}${forum.path}`}
+				key={forum.id}
+				// render={(forum, props) => <Forum {...props} forumData={forum} />}
+				component={Forum}
+			/>
 		));
 
-		console.log("Forums: ", listOfForum);
-		console.log("Routes: ", listOfForumRoute);
-		return <div>{listOfForum}</div>;
+		return (
+			<div>
+				{listOfForum}
+				{listOfForumRoute}
+			</div>
+		);
 	}
 }
-//<Switch>{listOfForumRoute}</Switch>
+
 Main.propTypes = {
 	match: {
 		url: PropTypes.string,
 		path: PropTypes.string,
 		isExact: PropTypes.bool,
 		params: PropTypes.object
-	}
+	},
+	forumList: PropTypes.array,
+	listOfForumRoute: PropTypes.array
 };
 
 // bikeInfo: null
