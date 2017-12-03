@@ -37,31 +37,31 @@ const MiniSubForumView = () => {
 	);
 };
 
-// const MiniForumView = props => {
-// 	let { forum } = props;
-// 	return (
-// 		<Collapsible
-// 			trigger={
-// 				<div className="trigger" id="forum1-trigger">
-// 					<Link to={`/${forum.path}`}>{forum.name}</Link>
-// 				</div>
-// 			}
-// 			open
-// 			key={forum.id}
-// 		>
-// 			<div id="wrapper" className="open">
-// 				<div className="forum-content" id="forum1-content">
-// 					<MiniSubForumView />
-// 				</div>
-// 			</div>
-// 		</Collapsible>
-// 	);
-// // };
-// MiniForumView.propTypes = {
-// 	forum: PropTypes.arrayOf(PropTypes.object)
-// };
-//Main will display the list of all forums on the site with their subforums
-class Main extends Component {
+const MiniForumView = props => {
+	let { forum, match } = props;
+	return (
+		<Collapsible
+			trigger={
+				<div className="trigger" id="forum1-trigger">
+					<Link to={`${match.url}${forum.path}`}>{forum.name}</Link>
+				</div>
+			}
+			open
+			key={forum.id}
+		>
+			<div id="wrapper" className="open">
+				<div className="forum-content" id="forum1-content">
+					<MiniSubForumView />
+				</div>
+			</div>
+		</Collapsible>
+	);
+};
+MiniForumView.propTypes = {
+	forum: PropTypes.arrayOf(PropTypes.object)
+};
+//MainContent will display the list of all forums on the site with their subforums
+class MainContent extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -120,23 +120,8 @@ class Main extends Component {
 		let listOfForum = null;
 		let listOfForumRoute = null;
 
-		//create a list of minimal forum views
 		listOfForum = forumList.map(forum => (
-			<Collapsible
-				trigger={
-					<div className="trigger" id="forum1-trigger">
-						<Link to={`${match.url}${forum.path}`}>{forum.name}</Link>
-					</div>
-				}
-				open
-				key={forum.id}
-			>
-				<div id="wrapper" className="open">
-					<div className="forum-content" id="forum1-content">
-						<MiniSubForumView />
-					</div>
-				</div>
-			</Collapsible>
+			<MiniForumView forum={forum} match={match} key={forum.id} />
 		));
 		listOfForumRoute = forumList.map(forum => (
 			<Route
@@ -150,14 +135,17 @@ class Main extends Component {
 
 		return (
 			<div>
-				{listOfForum}
-				{listOfForumRoute}
+				<Link to="/honda-future">future</Link>
+				<Switch>
+					<Route exact path="/" render={() => listOfForum} />
+					{listOfForumRoute}
+				</Switch>
 			</div>
 		);
 	}
 }
 
-Main.propTypes = {
+MainContent.propTypes = {
 	match: {
 		url: PropTypes.string,
 		path: PropTypes.string,
@@ -177,4 +165,4 @@ Main.propTypes = {
 // moderators: null
 // name: "Honda Future"
 // path: "honda-future"
-export default Main;
+export default MainContent;
