@@ -1,3 +1,3 @@
-import { getSubForumList } from "./SubforumFuncs";
+import { getSubForumList, getForumList } from "./SubforumFuncs";
 
-export { getSubForumList };
+export { getSubForumList, getForumList };

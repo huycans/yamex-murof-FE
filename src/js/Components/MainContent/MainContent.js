@@ -5,7 +5,7 @@ import { Link, Route, Switch } from "react-router-dom";
 import Forum from "../Forum";
 import { URL, SERVER_API } from "../../Constants/API";
 import LoadingIcon from "../LoadingIcon";
-import { getSubForumList } from "../API_Functions";
+import { getSubForumList, getForumList } from "../API_Functions";
 // subforumData
 // "id": "5a2405a1799a83547a3cb970",
 // "createdTime": "2017-12-03T14:09:37.308Z",
@@ -17,7 +17,6 @@ import { getSubForumList } from "../API_Functions";
 // "threadNumber": 0,
 // "replyNumber": 0
 const MiniSubForumView = props => {
-	console.log("in MiniSubForumView");
 	let { subforumData, match, forumPath } = props;
 	return (
 		<div className="subforum">
@@ -70,7 +69,6 @@ class MiniForumView extends Component {
 		};
 	}
 	componentDidMount() {
-		console.log("getSubForumList");
 		let { forum } = this.props;
 		getSubForumList(forum.id).then(
 			subforumList => {
@@ -79,13 +77,11 @@ class MiniForumView extends Component {
 			},
 			error => console.log(error)
 		);
-		// let subforumList = getSubForumList(forum.id);
-		// this.setState({ subforumList: subforumList });
 	}
 	render() {
 		let { forum, match } = this.props;
 		let { subforumList } = this.state;
-		console.log("state", this.state.subforumList);
+		//create a list of mini (small) subforums of each forum
 		let MiniSubForumViewList = subforumList.map(subforum => (
 			<MiniSubForumView
 				forumPath={forum.path}
@@ -95,7 +91,6 @@ class MiniForumView extends Component {
 			/>
 		));
 
-		console.log("MiniSubForumViewList", MiniSubForumViewList);
 		return (
 			<Collapsible
 				trigger={
@@ -130,27 +125,10 @@ class MainContent extends Component {
 			forumList: [],
 			isLoading: true
 		};
-		this.getForumList = this.getForumList.bind(this);
-	}
-	async getForumList() {
-		try {
-			let link = URL + SERVER_API.getAllForum;
-			let response = await fetch(link, {
-				method: "GET",
-				headers: {
-					Accept: "application/json",
-					"Access-Control-Allow-Origin": "*"
-				}
-			});
-			let responseJSON = await response.json();
-			return responseJSON.content;
-		} catch (error) {
-			throw error;
-		}
 	}
 
 	componentDidMount() {
-		this.getForumList().then(
+		getForumList().then(
 			forumList => {
 				this.setState({ isLoading: false, forumList: forumList });
 			},
@@ -164,13 +142,14 @@ class MainContent extends Component {
 		let { forumList, isError, isLoading } = this.state;
 		let { match } = this.props;
 		console.log("forumList", forumList);
-
+		//if the component is loading display LoadingIcon component
 		if (isLoading)
 			return (
 				<div>
 					<LoadingIcon />
 				</div>
 			);
+		//if there is an error display this error message
 		if (isError) {
 			return (
 				<div>
@@ -181,21 +160,20 @@ class MainContent extends Component {
 
 		let listOfForum = null;
 		let listOfForumRoute = null;
-
+		//create a list of mini (small) peak of the forums in the site
 		listOfForum = forumList.map(forum => (
 			<MiniForumView forum={forum} match={match} key={forum.id} />
 		));
-
+		//create a list of routes to go to each forum
 		listOfForumRoute = forumList.map(forum => (
 			<Route
-				exact
 				path={`${match.path}${forum.path}`}
 				key={forum.id}
 				render={props => <Forum {...props} forumData={forum} />}
 				// component={Forum}
 			/>
 		));
-
+		//TODO: add user routes
 		return (
 			<div>
 				<Switch>

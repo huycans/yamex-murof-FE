@@ -24,39 +24,39 @@
   text-align: right;
 }
 
-.singleTopic {
+.MiniThreadView {
   display: flex;
   align-items: flex-end;
 }
-.singleTopic:hover {
+.MiniThreadView:hover {
   background-color: #dddddd;
 }
-.singleTopic .Date {
+.MiniThreadView .Date {
   font-weight: bold;
   width: 5%;
   color: #ef7334;
 }
-.singleTopic .singleTopic_name {
+.MiniThreadView .MiniThreadView_name {
   color: #ef7334;
   width: 65%;
   font-size: 18px;
 }
-.singleTopic a {
+.MiniThreadView a {
   color: #ef7334;
 }
-.singleTopic a:hover {
+.MiniThreadView a:hover {
   text-decoration: none;
 }
-.singleTopic a:link,
-.singleTopic a visited {
+.MiniThreadView a:link,
+.MiniThreadView a visited {
   text-decoration: none;
 }
-.singleTopic .singleTopic_rep {
+.MiniThreadView .MiniThreadView_rep {
   width: 15%;
 
   text-align: right;
 }
-.singleTopic .singleTopic_view {
+.MiniThreadView .subforum_view {
   width: 15%;
   text-align: center;
 }

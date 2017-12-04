@@ -3,22 +3,27 @@ import PropTypes, { string } from "prop-types";
 import { Link, Route } from "react-router-dom";
 import SubForum from "../SubForum";
 import "../../../css/Forum.css";
+import { getSubForumList } from "../API_Functions";
 
-const SingleTopic = props => {
-	let { date, name, rep, view } = props.topicInfo;
+const MiniThreadView = props => {
+	let { forumPath, subforumData } = props;
+	let date = new Date(subforumData.lastModifiedTime);
 	return (
-		<div className="singleTopic">
-			<div className="Date">{date}</div>
-			<div className="singleTopic_name">
-				<a href="#">{name}</a>
+		<div className="MiniThreadView">
+			<div className="Date">{`${date.getDate()}/${date.getMonth()}`}</div>
+			<div className="MiniThreadView_name">
+				<Link to={`/${forumPath}/${subforumData.path}`}>
+					{subforumData.name}
+				</Link>
 			</div>
-			<div className="singleTopic_rep">{rep}</div>
-			<div className="singleTopic_view">{view}</div>
+			<div className="MiniThreadView_rep">{subforumData.threadNumber}</div>
+			<div className="MiniThreadView_view">chua co</div>
 		</div>
 	);
 };
-SingleTopic.propTypes = {
-	topicInfo: PropTypes.object
+MiniThreadView.propTypes = {
+	forumPath: PropTypes.string,
+	subforumData: PropTypes.object
 };
 //full forum view
 class Forum extends Component {
@@ -26,53 +31,55 @@ class Forum extends Component {
 		super(props);
 		this.state = {
 			//placeholders for subforum data
-			subforum: [
-				{
-					date: "20/10",
-					name: "FAQ",
-					rep: 100,
-					view: 400
-				},
-				{
-					date: "30/10",
-					name: "Accessories",
-					rep: 100,
-					view: 400
-				},
-				{
-					date: "40/10",
-					name: "Prices",
-					rep: 100,
-					view: 400
-				},
-				{
-					date: "20/33",
-					name: "Customize",
-					rep: 100,
-					view: 444
-				}
-			]
+			subforumList: []
 		};
 	}
+	componentDidMount() {
+		let { forumData } = this.props;
+		getSubForumList(forumData.id).then(
+			subforumList => {
+				console.log("subforumList", subforumList);
+				this.setState({ subforumList: subforumList });
+			},
+			error => console.log(error)
+		);
+	}
 	render() {
-		//let { forumData, match } = this.props;
 		let { match, forumData } = this.props;
-		let subforums = this.state.subforum;
-		return (
-			<div className="tab">
+		let subforums = this.state.subforumList;
+		//TODO: add thread views
+		//create a list of subforum in the forum
+		let SubforumList = subforums.map(subforum => (
+			<div key={subforum.id}>
 				<div className="title">
-					<div className="topic">{forumData.name}</div>
+					<div className="topic">{subforum.name} </div>
 					<div className="rep">REPLIES</div>
 					<div className="views">VIEW</div>
 				</div>
-				<SingleTopic topicInfo={subforums[0]} />
-				<SingleTopic topicInfo={subforums[1]} />
-				<SingleTopic topicInfo={subforums[2]} />
-				<SingleTopic topicInfo={subforums[3]} />
+
+				{"thread list"}
 				<div className="more">
-					<a href="#">More about this things bla bla</a>
+					<Link to={`/${forumData.path}/${subforum.path}`}>
+						Go to {subforum.name} subforum
+					</Link>
 				</div>
 				<hr />
+			</div>
+		));
+		// <Subforum
+		// 	forumPath={forumData.path}
+		// 	subforumData={subforum}
+		// 	{...this.props}
+		// 	key={subforum.id}
+		// />
+
+		return (
+			<div className="tab">
+				<Route exact path={`${match.path}`} render={() => SubforumList} />
+				<Route
+					path={`${match.path}/:subforum`}
+					render={props => <SubForum {...props} />}
+				/>
 			</div>
 		);
 	}
