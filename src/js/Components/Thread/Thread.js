@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+
 const NavBar = () => (
 	<div className="navigator">
 		<a href="#">Yamex</a>
