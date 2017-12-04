@@ -19,7 +19,7 @@ class Thread extends Component {
 				<NavBar />
 				<div className="thread_header">
 					<div className="user_avatar">
-						<img src="img/square.png" alt="" />
+						<img src="img/square.png" alt="user_avatar" />
 					</div>
 					<div className="thread_header_info">
 						<div className="thread_name">This is a thread_name</div>
@@ -80,7 +80,7 @@ class Thread extends Component {
 					</div>
 					<div className="post_content">
 						<div className="post_user_content">
-							<img src="img/square.png" alt="" />
+							<img src="img/square.png" alt="user_content" />
 
 							<div className="user_title">%title membership</div>
 						</div>

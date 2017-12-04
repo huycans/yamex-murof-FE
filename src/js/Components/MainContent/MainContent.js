@@ -5,61 +5,122 @@ import { Link, Route, Switch } from "react-router-dom";
 import Forum from "../Forum";
 import { URL, SERVER_API } from "../../Constants/API";
 import LoadingIcon from "../LoadingIcon";
-// const SubForumIconList = [
-// 	"FAQ",
-// 	"Accessories",
-// 	"Prices",
-// 	"Customize",
-// 	"Buy or Sell",
-// 	"Where to buy"
-// ];
-
-const MiniSubForumView = () => {
+import { getSubForumList } from "../API_Functions";
+// subforumData
+// "id": "5a2405a1799a83547a3cb970",
+// "createdTime": "2017-12-03T14:09:37.308Z",
+// "lastModifiedTime": "2017-12-03T14:09:37.308Z",
+// "name": "FAQ",
+// "description": "Question",
+// "forumId": "5a1ecb2b799a833ca2c7657a",
+// "latestThread": null,
+// "threadNumber": 0,
+// "replyNumber": 0
+const MiniSubForumView = props => {
+	console.log("in MiniSubForumView");
+	let { subforumData, match, forumPath } = props;
 	return (
 		<div className="subforum">
 			<div className="subforum_info">
-				<a href="forum.html">Subforum name</a>
-				<p>This is a description</p>
+				<Link to={`${forumPath}/${subforumData.path}`}>
+					{subforumData.name}
+				</Link>
+				<p>{subforumData.description}</p>
 			</div>
 			<div className="no_thread_post">
-				<span>Threads: </span> %number_thread
+				<span>Threads: </span> {subforumData.threadNumber}
 				<br />
-				<span>Posts: </span> %number_post
+				<span>Posts: </span> {subforumData.replyNumber}
 			</div>
-			<div className="first_unread_post">
-				\ %fist_unread_post_name\
-				<br />
-				by <a href="#">Username</a>
-				<br />
-				dd,mm,yy hh:mm AM/PM
-			</div>
+			{subforumData.latestThread === null ? (
+				<div className="first_unread_post">
+					{"null"}
+					<br />
+					by <div>{"null"}</div>
+					<br />
+					{"null"}
+				</div>
+			) : (
+				<div className="first_unread_post">
+					{subforumData.latestThread.name}
+					<br />
+					by{" "}
+					<Link to={`/user/${subforumData.latestThread.author.username}`}>
+						{subforumData.latestThread.author.username}
+					</Link>
+					<br />
+					{subforumData.latestThread.createdTime}
+				</div>
+			)}
 		</div>
 	);
 };
 
-const MiniForumView = props => {
-	let { forum, match } = props;
-	return (
-		<Collapsible
-			trigger={
-				<div className="trigger" id="forum1-trigger">
-					<Link to={`${match.url}${forum.path}`}>{forum.name}</Link>
-				</div>
-			}
-			open
-			key={forum.id}
-		>
-			<div id="wrapper" className="open">
-				<div className="forum-content" id="forum1-content">
-					<MiniSubForumView />
-				</div>
-			</div>
-		</Collapsible>
-	);
+MiniSubForumView.propTypes = {
+	subforumData: PropTypes.object,
+	match: PropTypes.object,
+	forumPath: PropTypes.string
 };
+
+class MiniForumView extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			subforumList: []
+		};
+	}
+	componentDidMount() {
+		console.log("getSubForumList");
+		let { forum } = this.props;
+		getSubForumList(forum.id).then(
+			subforumList => {
+				console.log("subforumList", subforumList);
+				this.setState({ subforumList: subforumList });
+			},
+			error => console.log(error)
+		);
+		// let subforumList = getSubForumList(forum.id);
+		// this.setState({ subforumList: subforumList });
+	}
+	render() {
+		let { forum, match } = this.props;
+		let { subforumList } = this.state;
+		console.log("state", this.state.subforumList);
+		let MiniSubForumViewList = subforumList.map(subforum => (
+			<MiniSubForumView
+				forumPath={forum.path}
+				subforumData={subforum}
+				{...this.props}
+				key={subforum.id}
+			/>
+		));
+
+		console.log("MiniSubForumViewList", MiniSubForumViewList);
+		return (
+			<Collapsible
+				trigger={
+					<div className="trigger" id="forum1-trigger">
+						<Link to={`${match.url}${forum.path}`}>{forum.name}</Link>
+					</div>
+				}
+				open
+				key={forum.id}
+			>
+				<div id="wrapper" className="open">
+					<div className="forum-content" id="forum1-content">
+						{MiniSubForumViewList}
+					</div>
+				</div>
+			</Collapsible>
+		);
+	}
+}
+
 MiniForumView.propTypes = {
-	forum: PropTypes.arrayOf(PropTypes.object)
+	forum: PropTypes.object,
+	match: PropTypes.object
 };
+
 //MainContent will display the list of all forums on the site with their subforums
 class MainContent extends Component {
 	constructor(props) {
@@ -87,6 +148,7 @@ class MainContent extends Component {
 			throw error;
 		}
 	}
+
 	componentDidMount() {
 		this.getForumList().then(
 			forumList => {
@@ -123,19 +185,19 @@ class MainContent extends Component {
 		listOfForum = forumList.map(forum => (
 			<MiniForumView forum={forum} match={match} key={forum.id} />
 		));
+
 		listOfForumRoute = forumList.map(forum => (
 			<Route
 				exact
 				path={`${match.path}${forum.path}`}
 				key={forum.id}
-				// render={(forum, props) => <Forum {...props} forumData={forum} />}
-				component={Forum}
+				render={props => <Forum {...props} forumData={forum} />}
+				// component={Forum}
 			/>
 		));
 
 		return (
 			<div>
-				<Link to="/honda-future">future</Link>
 				<Switch>
 					<Route exact path="/" render={() => listOfForum} />
 					{listOfForumRoute}

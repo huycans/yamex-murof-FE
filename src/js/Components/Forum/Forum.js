@@ -58,11 +58,10 @@ class Forum extends Component {
 		//let { forumData, match } = this.props;
 		let { match, forumData } = this.props;
 		let subforums = this.state.subforum;
-		console.log(typeof match);
 		return (
 			<div className="tab">
 				<div className="title">
-					<div className="topic">{match.path}</div>
+					<div className="topic">{forumData.name}</div>
 					<div className="rep">REPLIES</div>
 					<div className="views">VIEW</div>
 				</div>

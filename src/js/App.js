@@ -21,4 +21,4 @@ class App extends Component {
 	}
 }
 //<Route path="/honda-future" render={() => <Forum />} />
-export default Thread;
+export default App;
