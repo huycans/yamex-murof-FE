@@ -30,7 +30,6 @@ class Forum extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			//placeholders for subforum data
 			subforumList: []
 		};
 	}

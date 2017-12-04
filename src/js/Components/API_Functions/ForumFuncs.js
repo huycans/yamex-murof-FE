@@ -1,7 +1,7 @@
 import { URL, SERVER_API } from "../../Constants/API";
-async function getSubForumList(fid) {
+async function getForumList() {
 	try {
-		let link = URL + SERVER_API.getAllSubforumOfAForum + "?fid=" + fid;
+		let link = URL + SERVER_API.getAllForum;
 		let response = await fetch(link, {
 			method: "GET",
 			headers: {
@@ -16,4 +16,4 @@ async function getSubForumList(fid) {
 	}
 }
 
-export { getSubForumList };
+export { getForumList };

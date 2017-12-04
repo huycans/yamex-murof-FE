@@ -10,7 +10,7 @@ const LoadingIcon = () => (
 			flexDirection: "column"
 		}}
 	>
-		<ReactLoading type="spin" color="#000" height={100} width={100} />
+		<ReactLoading type="balls" color="#000" height={100} width={100} />
 		<div style={{ fontWeight: "bold", fontSize: 24 }}>Please wait...</div>
 	</div>
 );
