@@ -4,6 +4,7 @@ import Collapsible from "react-collapsible";
 import { Link, Route, Switch } from "react-router-dom";
 import Forum from "../Forum";
 import { URL, SERVER_API } from "../../Constants/API";
+import LoadingIcon from "../LoadingIcon";
 // const SubForumIconList = [
 // 	"FAQ",
 // 	"Accessories",
@@ -37,16 +38,16 @@ const MiniSubForumView = () => {
 };
 
 const MiniForumView = props => {
-	let { forumData } = props;
+	let { forum, match } = props;
 	return (
 		<Collapsible
 			trigger={
 				<div className="trigger" id="forum1-trigger">
-					<Link to={`/${forumData.path}`}>{forumData.name}</Link>
+					<Link to={`${match.url}${forum.path}`}>{forum.name}</Link>
 				</div>
 			}
 			open
-			key={forumData.id}
+			key={forum.id}
 		>
 			<div id="wrapper" className="open">
 				<div className="forum-content" id="forum1-content">
@@ -56,18 +57,20 @@ const MiniForumView = props => {
 		</Collapsible>
 	);
 };
-
-//Main will display the list of all forums on the site with their subforums
-class Main extends Component {
+MiniForumView.propTypes = {
+	forum: PropTypes.arrayOf(PropTypes.object)
+};
+//MainContent will display the list of all forums on the site with their subforums
+class MainContent extends Component {
 	constructor(props) {
 		super(props);
-		this.getForumList = this.getForumList.bind(this);
 		this.state = {
 			isError: null,
-			forumList: []
+			forumList: [],
+			isLoading: true
 		};
+		this.getForumList = this.getForumList.bind(this);
 	}
-
 	async getForumList() {
 		try {
 			let link = URL + SERVER_API.getAllForum;
@@ -87,57 +90,70 @@ class Main extends Component {
 	componentDidMount() {
 		this.getForumList().then(
 			forumList => {
-				this.setState({ forumList: forumList });
+				this.setState({ isLoading: false, forumList: forumList });
 			},
 			error => {
-				this.setState({ isError: true });
+				this.setState({ isLoading: false, isError: true });
 				console.log("Error while getting forum list: ", error);
 			}
 		);
 	}
-
 	render() {
-		let { forumList, isError } = this.state;
+		let { forumList, isError, isLoading } = this.state;
+		let { match } = this.props;
 		console.log("forumList", forumList);
-		let listOfForum = null;
-		let listOfForumRoute = null;
-		if (isError) {
-			return <div>There has been an error, please refresh the page</div>;
-		} else if (forumList) {
-			//create a list of minimal forum views
-			listOfForum = forumList.map(forumData => (
-				<MiniForumView forumData={forumData} key={forumData.id} />
-			));
-			//create a list of route for main forum view, e.g /honda-future
-			console.log("before routes list", forumList);
-			listOfForumRoute = forumList.map(forum => {
-				return (
-					<Route
-						path={`/${forum.path}`}
-						key={forum.id}
-						//render={forum => <Forum forumData={forum} />}
-						component={Forum}
-					/>
-				);
-			});
-			console.log("Forums: ", listOfForum);
-			console.log("Routes: ", listOfForumRoute);
+
+		if (isLoading)
 			return (
 				<div>
-					{listOfForum}
-					{listOfForumRoute}
+					<LoadingIcon />
+				</div>
+			);
+		if (isError) {
+			return (
+				<div>
+					<div>There has been an error, please refresh the page</div>
 				</div>
 			);
 		}
+
+		let listOfForum = null;
+		let listOfForumRoute = null;
+
+		listOfForum = forumList.map(forum => (
+			<MiniForumView forum={forum} match={match} key={forum.id} />
+		));
+		listOfForumRoute = forumList.map(forum => (
+			<Route
+				exact
+				path={`${match.path}${forum.path}`}
+				key={forum.id}
+				// render={(forum, props) => <Forum {...props} forumData={forum} />}
+				component={Forum}
+			/>
+		));
+
+		return (
+			<div>
+				<Link to="/honda-future">future</Link>
+				<Switch>
+					<Route exact path="/" render={() => listOfForum} />
+					{listOfForumRoute}
+				</Switch>
+			</div>
+		);
 	}
 }
-Main.propTypes = {
+
+MainContent.propTypes = {
 	match: {
 		url: PropTypes.string,
 		path: PropTypes.string,
 		isExact: PropTypes.bool,
 		params: PropTypes.object
-	}
+	},
+	forumList: PropTypes.array,
+	listOfForumRoute: PropTypes.array
 };
 
 // bikeInfo: null
@@ -149,4 +165,4 @@ Main.propTypes = {
 // moderators: null
 // name: "Honda Future"
 // path: "honda-future"
-export default Main;
+export default MainContent;

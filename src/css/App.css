@@ -235,7 +235,6 @@ html {
   font-weight: bold;
   font-size: 18px;
 }
-
 /*thread table */
 .thread_container {
   background: #eaeaea;
@@ -271,6 +270,131 @@ html {
   border: solid 1px;
   border-color: grey;
   height: 50px;
+}
+
+/*Thread page */
+.thread_header {
+  display: flex;
+  margin-left: 2em;
+}
+.thread_header img {
+  width: 6em;
+  height: 6em;
+}
+.thread_header .user_avatar {
+  padding: 1em;
+  border: solid 1px;
+}
+.thread_header .thread_header_info {
+  padding: 1em;
+  border: solid 1px;
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  justify-content: center;
+}
+.thread_header .thread_header_info .thread_name {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.thread_bar {
+  display: flex;
+  margin: 2em;
+  width: 80%;
+  height: 4em;
+  justify-content: center;
+  align-items: center;
+}
+.thread_bar .rep {
+  height: 3em;
+  background-color: #eaeaea;
+}
+.thread_bar .search_bar {
+  width: 70%;
+  text-align: right;
+}
+.thread_bar .search_bar input[type="text"] {
+  height: 3em;
+}
+.thread_bar .search_no {
+  margin-left: 5em;
+  width: 20%;
+}
+
+.thread_content {
+  padding: 1em;
+  margin: 2em 2em 0 2em;
+  width: 80%;
+  height: auto;
+  background-color: #eaeaee;
+  box-shadow: 0px 5px 5px grey;
+}
+
+.rep_quickrep_tool {
+  display: flex;
+  width: 80%;
+  margin: 0.5em 0 0 2em;
+  background-color: #cecece;
+  align-items: center;
+  box-shadow: 0px 2px 2px grey;
+}
+.rep_quickrep_tool .no_thank {
+  color: #ef7334;
+  width: 70%;
+  padding-left: 2em;
+}
+.rep_quickrep_tool button {
+  height: 3em;
+  width: 10em;
+  margin-left: 1em;
+  border: none;
+  box-shadow: 3px 3px 2px grey;
+}
+.rep_quickrep_tool button:hover {
+  color: #ef7334;
+}
+
+.post_reply {
+  margin: 2em 0 0 2em;
+  width: 80%;
+}
+.post_reply .user_post_rep {
+  display: flex;
+}
+.post_reply .user_post_rep .post_user {
+  text-align: center;
+  width: 15%;
+  padding: 1em;
+}
+.post_reply .user_post_rep .post_info {
+  width: 85%;
+  padding: 1em;
+}
+.post_reply .user_post_rep .post_user,
+.post_reply .user_post_rep .post_info {
+  border: solid 1px;
+  background-color: #eaeaea;
+}
+
+.post_content {
+  display: flex;
+}
+.post_content .post_user_content {
+  width: 15%;
+  text-align: center;
+}
+.post_content .post_user_content img {
+  margin: 2em;
+  width: 8em;
+  height: 8em;
+}
+.post_content .post_rep_content {
+  width: 85%;
+}
+.post_content .post_user_content,
+.post_content .post_rep_content {
+  border: solid 1px;
 }
 
 /*# sourceMappingURL=app.css.map */
