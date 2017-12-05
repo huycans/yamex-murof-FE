@@ -168,11 +168,13 @@ class MainContent extends Component {
 			<Route
 				path={`${match.path}${forum.path}`}
 				key={forum.id}
-				render={props => <Forum {...props} forumData={forum} />}
+				render={props => (
+					<Forum {...props} forumData={forum} userData={this.props.userData} />
+				)}
 				// component={Forum}
 			/>
 		));
-		//TODO: add user routes
+		//TODO: add user info routes
 		return (
 			<div>
 				<Switch>
@@ -185,14 +187,15 @@ class MainContent extends Component {
 }
 
 MainContent.propTypes = {
-	match: {
+	match: PropTypes.objectOf({
 		url: PropTypes.string,
 		path: PropTypes.string,
 		isExact: PropTypes.bool,
 		params: PropTypes.object
-	},
+	}),
 	forumList: PropTypes.array,
-	listOfForumRoute: PropTypes.array
+	listOfForumRoute: PropTypes.array,
+	userData: PropTypes.object
 };
 
 // bikeInfo: null

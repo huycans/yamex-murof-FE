@@ -44,7 +44,6 @@ class App extends Component {
 		let provider = null;
 		let result = null;
 		let user = null;
-		let clientIdToken = null;
 		let { email, password } = this.state;
 		try {
 			console.log("Switching");
@@ -164,11 +163,19 @@ class App extends Component {
 				console.log(errorMessage);
 				self.setState({ errorMessage: errorMessage, isLoading: false });
 			});
-		await firebase.auth().onAuthStateChanged(function(user) {
+		await firebase.auth().onAuthStateChanged(async function(user) {
 			if (user) {
 				//Signed in user
 				console.log(user);
-				self.setState({ user: user });
+				let clientIdToken = await user.getIdToken();
+				let serverResponse = await verifyToken(clientIdToken, null);
+				console.log(serverResponse);
+				//save user, sessionToken, userId to state
+				self.setState({
+					user: user,
+					sessionToken: serverResponse.sessionToken,
+					userId: serverResponse.userId
+				});
 			} else {
 				console.log("No user is logged in");
 			}
@@ -184,7 +191,6 @@ class App extends Component {
 			.signOut()
 			.then(function() {
 				self.setState({ isLoading: false, user: null });
-				localStorage.setItem(CLIENT_ID_TOKEN, undefined);
 				// Sign-out successful.
 				console.log("Sign-out successful.");
 			})
@@ -202,11 +208,19 @@ class App extends Component {
 		this.setState({ isLoading: true });
 		let self = this;
 		console.log("Checking if user is signed in or not");
-		firebase.auth().onAuthStateChanged(function(user) {
+		firebase.auth().onAuthStateChanged(async function(user) {
 			if (user) {
 				//Signed in user
 				console.log(user);
-				self.setState({ user: user });
+				let clientIdToken = await user.getIdToken();
+				let serverResponse = await verifyToken(clientIdToken, null);
+				console.log(serverResponse);
+				//save user, sessionToken, userId to state
+				self.setState({
+					user: user,
+					sessionToken: serverResponse.sessionToken,
+					userId: serverResponse.userId
+				});
 			} else {
 				console.log("No user is logged in");
 			}
@@ -239,7 +253,9 @@ class App extends Component {
 		const authSection = user ? (
 			<div className="login">
 				<div className="login-section">
-					<button className="button-signout" onClick={() => this.signout()}>Signout</button>
+					<button className="button-signout" onClick={() => this.signout()}>
+						Signout
+					</button>
 				</div>
 			</div>
 		) : (
@@ -286,6 +302,8 @@ class App extends Component {
 				</div>
 			</div>
 		);
+		//user object from firebase is passed as a prop called userData to all other children components
+		//to determined if user is signed in or not
 		return (
 			<div>
 				{LoadingModal}
@@ -295,7 +313,6 @@ class App extends Component {
 					<div className="search-input">
 						<input type="text" name="search" placeholder="Search.." />
 					</div>
-
 					{authSection}
 				</div>
 

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { Link, Route } from "react-router-dom";
 const threadList = [
 	{
 		name: "thread 1",
@@ -10,7 +11,7 @@ const threadList = [
 		views: 300
 	}
 ];
-class Subforum extends Component {
+class SubForum extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -18,6 +19,7 @@ class Subforum extends Component {
 		};
 		this.handleSearchType = this.handleSearchType.bind(this);
 		this.handleSearch = this.handleSearch.bind(this);
+		this.createNewThread = this.createNewThread.bind(this);
 	}
 
 	handleSearchType(event) {
@@ -28,30 +30,32 @@ class Subforum extends Component {
 		console.log("click");
 	}
 
+	createNewThread() {}
+
 	render() {
-		let { match } = this.props;
+		let { match, forumData, userData, subForumData } = this.props;
 		let threads = threadList.map(thread => (
 			<div className="thread_container" key={thread.name}>
 				<div className="thread_info">
 					<div className="thread_name">
-						<a href="#">{thread.name}</a>
+						<Link to={`${match.path}`}>{thread.name}</Link>
 					</div>
 					<div className="thread_creator">
-						Thread by : <a href="#">{thread.creator}</a>
+						Thread by : <Link to={`${match.path}`}>{thread.creator}</Link>
 					</div>
 				</div>
 				<div className="lasted_post">
 					<div className="lasted_post_time">
-						<a href="#">{thread.lasted_post_time}</a>
+						<Link to={`${match.path}`}>{thread.lasted_post_time}</Link>
 						<span> 10:46 PM</span>
 					</div>
 					<div className="lasted_post_owner">
 						<span>by</span>
-						<a href="#">{thread.lasted_post_owner} </a>
+						<Link to={`${match.path}`}>{thread.lasted_post_owner} </Link>
 					</div>
 				</div>
 				<div className="no_rep_view">
-					<a href="#">Replies: {thread.rep}</a>
+					<Link to={`${match.path}`}>Replies: {thread.rep}</Link>
 					<span>Views: {thread.views}</span>
 				</div>
 			</div>
@@ -59,21 +63,21 @@ class Subforum extends Component {
 		return (
 			<div>
 				<div className="navigator">
-					<a href="#">Yamex</a>
+					<Link to={`/${forumData.path}`}>{forumData.name}</Link>
 					<span>-&gt;</span>
-					<a href="#">Forum Name</a>
-					<span>-&gt;</span>
-					<a href="#">Subforum Name</a>
+					<Link to={`/${forumData.path}/${subForumData.path}`}>
+						{subForumData.name}
+					</Link>
 				</div>
 
-				<div className="intro">
-					This is a description for the Subforum {match.params.subForumName}
-				</div>
+				<div className="intro">{subForumData.description}</div>
 
 				<div className="tools">
-					<div className="new_thread">
-						<button>New Thread</button>
-					</div>
+					{userData ? (
+						<div className="new_thread">
+							<button onClick={() => this.createNewThread}>New Thread</button>
+						</div>
+					) : null}
 					<div className="no_pages">
 						<a href="#">1</a>
 						<a href="#">2</a>
@@ -103,5 +107,45 @@ class Subforum extends Component {
 		);
 	}
 }
-
-export default Subforum;
+// subforumData
+// "id": "5a2405a1799a83547a3cb970",
+// "createdTime": "2017-12-03T14:09:37.308Z",
+// "lastModifiedTime": "2017-12-03T14:09:37.308Z",
+// "name": "FAQ",
+// "description": "Question",
+// "forumId": "5a1ecb2b799a833ca2c7657a",
+// "latestThread": null,
+// "threadNumber": 0,
+// "replyNumber": 0
+SubForum.propTypes = {
+	match: {
+		url: PropTypes.string,
+		path: PropTypes.string,
+		isExact: PropTypes.bool,
+		params: PropTypes.object
+	},
+	subForumData: {
+		id: PropTypes.string,
+		createdTime: PropTypes.string,
+		lastModifiedTime: PropTypes.string,
+		name: PropTypes.string,
+		description: PropTypes.string,
+		forumId: PropTypes.string,
+		latestThread: PropTypes.object,
+		threadNumber: PropTypes.number,
+		replyNumber: PropTypes.number
+	},
+	forumData: {
+		bikeInfo: PropTypes.string,
+		coverUrl: PropTypes.string,
+		createdTime: PropTypes.string,
+		description: PropTypes.string,
+		id: PropTypes.string,
+		lastModifiedTime: PropTypes.string,
+		moderators: PropTypes.arrayOf(PropTypes.string),
+		name: PropTypes.string,
+		path: PropTypes.string
+	},
+	userData: PropTypes.object
+};
+export default SubForum;

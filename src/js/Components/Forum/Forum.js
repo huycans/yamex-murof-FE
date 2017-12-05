@@ -37,7 +37,6 @@ class Forum extends Component {
 		let { forumData } = this.props;
 		getSubForumList(forumData.id).then(
 			subforumList => {
-				console.log("subforumList", subforumList);
 				this.setState({ subforumList: subforumList });
 			},
 			error => console.log(error)
@@ -46,7 +45,6 @@ class Forum extends Component {
 	render() {
 		let { match, forumData } = this.props;
 		let subforums = this.state.subforumList;
-
 		//TODO: add thread views
 		//create a list of subforum in the forum
 		let SubforumList = subforums.map(subforum => (
@@ -66,7 +64,20 @@ class Forum extends Component {
 				<hr />
 			</div>
 		));
-
+		let listOfSubForumRoutes = subforums.map(subforum => (
+			<Route
+				key={subforum.id}
+				path={`${match.path}/${subforum.path}`}
+				render={props => (
+					<SubForum
+						{...props}
+						forumData={forumData}
+						subForumData={subforum}
+						userData={this.props.userData}
+					/>
+				)}
+			/>
+		));
 		let ForumView = (
 			<div>
 				<h1>{forumData.name}</h1>
@@ -80,34 +91,33 @@ class Forum extends Component {
 		// 	key={subforum.id}
 		// />
 
+		//SubForum should have a list of threads
 		return (
 			<div className="tab">
 				<Route exact path={`${match.path}`} render={() => ForumView} />
-				<Route
-					path={`${match.path}/:subforum`}
-					render={props => <SubForum {...props} />}
-				/>
+				{listOfSubForumRoutes}
 			</div>
 		);
 	}
 }
 Forum.propTypes = {
-	match: {
+	match: PropTypes.objectOf({
 		url: PropTypes.string,
 		path: PropTypes.string,
 		isExact: PropTypes.bool,
 		params: PropTypes.object
-	},
-	forumData: {
+	}),
+	forumData: PropTypes.objectOf({
 		bikeInfo: PropTypes.string,
 		coverUrl: PropTypes.string,
 		createdTime: PropTypes.string,
 		description: PropTypes.string,
 		id: PropTypes.string,
 		lastModifiedTime: PropTypes.string,
-		moderators: PropTypes.arrayOf(string),
+		moderators: PropTypes.arrayOf(PropTypes.string),
 		name: PropTypes.string,
 		path: PropTypes.string
-	}
+	}),
+	userData: PropTypes.object
 };
 export default Forum;
