@@ -291,10 +291,59 @@ class App extends Component {
 					<img src={require("../img/logo.png")} alt="Logo" />
 
 					<div className="search-input">
-						<input type="text" name="search" placeholder="Search.." />
+						<input type="text" name="search" placeholder="Search.."  />
 					</div>
 
+<<<<<<< HEAD
 					{authSection}
+=======
+					<div className="login">
+						<input
+							type="text"
+							name="username"
+							placeholder="Username"
+							value={email}
+							onChange={this.handleInputEmail}
+						/>
+
+						<input
+							type="text"
+							name="pwd"
+							placeholder="Password"
+							value={password}
+							onChange={this.handleInputPassword}
+						/>
+
+						<div className="login-section">
+							<button
+								className="button-login"
+								onClick={() => this.login("email")}
+							>
+								Login
+							</button>
+
+							<button
+								className="button-signup" 
+								onClick={this.signup}>Sign up</button>
+							<input
+								className="login-button"
+								type="image"
+								src={require("../img/facebook.png")}
+								alt="fb logo"
+								onClick={() => this.login("facebook")}
+								onKeyPress={() => this.login("facebook")}
+							/>
+							<input
+								className="login-button"
+								type="image"
+								src={require("../img/google-plus.png")}
+								alt="google logo"
+								onClick={() => this.login("google")}
+								onKeyPress={() => this.login("google")}
+							/>
+						</div>
+					</div>
+>>>>>>> dfd27cbcb2eb5600386c705794a0750141c9432f
 				</div>
 
 				{errorDisplay}
