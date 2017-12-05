@@ -52,7 +52,6 @@ class Subforum extends Component {
 				</div>
 				<div className="no_rep_view">
 					<a href="#">Replies: {thread.rep}</a>
-					<br />
 					<span>Views: {thread.views}</span>
 				</div>
 			</div>

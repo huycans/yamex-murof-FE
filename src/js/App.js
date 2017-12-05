@@ -203,7 +203,7 @@ class App extends Component {
 					<img src={require("../img/logo.png")} alt="Logo" />
 
 					<div className="search-input">
-						<input type="text" name="search" placeholder="Search.." />
+						<input type="text" name="search" placeholder="Search.."  />
 					</div>
 
 					<div className="login">
@@ -231,7 +231,9 @@ class App extends Component {
 								Login
 							</button>
 
-							<button onClick={this.signup}>Sign up</button>
+							<button
+								className="button-signup" 
+								onClick={this.signup}>Sign up</button>
 							<input
 								className="login-button"
 								type="image"
