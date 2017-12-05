@@ -16,7 +16,7 @@ html {
 
 .wrap .search-input {
   width: 50%;
-  
+
   margin-left: 20%;
 
   /* When the input field gets focus, change its width to 100% */
@@ -29,9 +29,9 @@ html {
   transition: width 0.4s ease-in-out;
   border-radius: 3em;
   padding-left: 2em;
-  padding-right: 2em; 
+  padding-right: 2em;
   background-color: transparent;
-  border-color:white;
+  border-color: white;
   border-style: solid;
   border-width: 0.1em;
 }
@@ -41,8 +41,6 @@ html {
   outline: none;
   color: #ef7334;
 }
-
-
 
 .wrap img {
   margin-left: 2%;
@@ -56,7 +54,8 @@ html {
   margin-right: 3%;
 }
 
-input[type="text"] {
+input[type="text"],
+input[type="password"] {
   width: 13em;
   height: 2em;
   margin-top: 0.3em;
@@ -64,12 +63,14 @@ input[type="text"] {
   padding-left: 1em;
   padding-right: 1em;
   background-color: transparent;
-  border-color:white;
+  border-color: white;
   border-style: solid;
   border-width: 0.1em;
+  color: white;
 }
 
-input[type="text"]:focus{
+input[type="text"]:focus,
+input[type="password"]:focus {
   outline: none;
   border-color: #ef7334;
   color: #ef7334;
@@ -92,7 +93,9 @@ input[type="text"]:focus{
   box-shadow: 0 0 4px grey;
 }
 
-.wrap .login .button-login,.button-signup {
+.wrap .login .button-login,
+.button-signup,
+.button-signout {
   border-radius: 2em;
   background-color: transparent;
   border: solid 0.1em white;
@@ -100,19 +103,20 @@ input[type="text"]:focus{
   padding-right: 1em;
   padding-left: 1em;
 }
-.wrap .login .button-login:hover,.button-signup:hover{
+.wrap .login .button-login:hover,
+.button-signup:hover,
+.button-signout:hover {
   cursor: pointer;
   border-color: #ef7334;
   color: #ef7334;
 }
 
-::-webkit-input-placeholder{
-  color:white;
+::-webkit-input-placeholder {
+  color: white;
 }
-input:focus::-webkit-input-placeholder{
+input:focus::-webkit-input-placeholder {
   color: transparent;
 }
-
 
 /*body */
 
@@ -135,7 +139,7 @@ input:focus::-webkit-input-placeholder{
 }
 
 /*forum */
-.tab{
+.tab {
   margin: 0;
   width: 100%;
 }
@@ -178,7 +182,6 @@ input:focus::-webkit-input-placeholder{
 
 /*subforum */
 
-
 .subforum {
   height: auto;
   display: flex;
@@ -186,8 +189,8 @@ input:focus::-webkit-input-placeholder{
   width: 90%;
   justify-content: flex-start;
 }
-.subforum:hover{
-  background-color:#eaeaea;
+.subforum:hover {
+  background-color: #eaeaea;
 }
 
 .subforum a {
@@ -204,7 +207,7 @@ input:focus::-webkit-input-placeholder{
 .subforum .subforum_info {
   width: 60%;
 }
-.subforum .no_thread_post{
+.subforum .no_thread_post {
   width: 10%;
 }
 
@@ -254,15 +257,15 @@ input:focus::-webkit-input-placeholder{
   width: 80%;
 }
 
-.tools .new_thread button{
-  padding:  0.5em 1em 0.5em 1em;
+.tools .new_thread button {
+  padding: 0.5em 1em 0.5em 1em;
   border-radius: 2em;
   background-color: transparent;
   border: solid 1px #ef7334;
   color: #ef7334;
 }
 
-.tools .new_thread button:hover{
+.tools .new_thread button:hover {
   cursor: pointer;
   border-color: grey;
   color: grey;
@@ -280,7 +283,7 @@ input:focus::-webkit-input-placeholder{
   border: solid 1px #ef7334;
   color: #ef7334;
 }
-.no_pages a:hover{
+.no_pages a:hover {
   border-color: gray;
   color: gray;
 }
@@ -308,7 +311,7 @@ input:focus::-webkit-input-placeholder{
 .subforum_bar .subforum_name {
   padding-left: 2em;
   font-weight: bold;
-  color:#ef7334;
+  color: #ef7334;
   font-size: 18px;
   width: 20%;
 }
@@ -322,7 +325,7 @@ input:focus::-webkit-input-placeholder{
   height: 5em;
 }
 
-.thread_container a{
+.thread_container a {
   text-decoration: none;
   color: #ef7334;
 }
@@ -333,14 +336,13 @@ input:focus::-webkit-input-placeholder{
   justify-content: center;
   width: 70%;
 }
-.thread_container .thread_info .thread_name,.thread_creator {
+.thread_container .thread_info .thread_name,
+.thread_creator {
   font-size: 18px;
   font-weight: bold;
   padding-left: 2em;
-  
 }
 .thread_container .lasted_post {
-
   width: 20%;
   padding-left: 1em;
   display: flex;
@@ -348,7 +350,6 @@ input:focus::-webkit-input-placeholder{
   justify-content: center;
 }
 .thread_container .no_rep_view {
-
   width: 10%;
   text-align: right;
   padding-right: 0.3em;
@@ -387,11 +388,10 @@ input:focus::-webkit-input-placeholder{
   width: 80%;
   justify-content: center;
 }
-.thread_header .thread_header_info .thread_name{
+.thread_header .thread_header_info .thread_name {
   font-size: 1.5em;
   font-weight: bold;
 }
-
 
 .thread_bar {
   display: flex;

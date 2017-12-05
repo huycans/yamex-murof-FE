@@ -1,7 +1,7 @@
 //constants for api access
 const PROTOCOL = "http://";
 // const PROTOCOL = "http://";
-const SERVER_IP = "35.196.21.217:5003";
+const SERVER_IP = "104.196.11.70:5003";
 // const SERVER_IP = "192.168.137.1:5003";
 const SERVER_LINK = "/yamex";
 const SERVER_API = {

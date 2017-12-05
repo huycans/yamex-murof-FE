@@ -46,6 +46,7 @@ class Forum extends Component {
 	render() {
 		let { match, forumData } = this.props;
 		let subforums = this.state.subforumList;
+
 		//TODO: add thread views
 		//create a list of subforum in the forum
 		let SubforumList = subforums.map(subforum => (
@@ -65,6 +66,13 @@ class Forum extends Component {
 				<hr />
 			</div>
 		));
+
+		let ForumView = (
+			<div>
+				<h1>{forumData.name}</h1>
+				{SubforumList}{" "}
+			</div>
+		);
 		// <Subforum
 		// 	forumPath={forumData.path}
 		// 	subforumData={subforum}
@@ -74,7 +82,7 @@ class Forum extends Component {
 
 		return (
 			<div className="tab">
-				<Route exact path={`${match.path}`} render={() => SubforumList} />
+				<Route exact path={`${match.path}`} render={() => ForumView} />
 				<Route
 					path={`${match.path}/:subforum`}
 					render={props => <SubForum {...props} />}
