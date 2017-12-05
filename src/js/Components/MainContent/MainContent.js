@@ -72,7 +72,6 @@ class MiniForumView extends Component {
 		let { forum } = this.props;
 		getSubForumList(forum.id).then(
 			subforumList => {
-				console.log("subforumList", subforumList);
 				this.setState({ subforumList: subforumList });
 			},
 			error => console.log(error)
@@ -141,7 +140,7 @@ class MainContent extends Component {
 	render() {
 		let { forumList, isError, isLoading } = this.state;
 		let { match } = this.props;
-		console.log("forumList", forumList);
+
 		//if the component is loading display LoadingIcon component
 		if (isLoading)
 			return (

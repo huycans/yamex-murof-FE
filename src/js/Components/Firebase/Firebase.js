@@ -1,4 +1,5 @@
 import firebase from "firebase";
+
 var config = {
 	apiKey: "AIzaSyCy93G3wD2478MhVTsVeseWfNLCaR70RXk",
 	authDomain: "yamex-a0b5a.firebaseapp.com",
