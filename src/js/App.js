@@ -115,21 +115,6 @@ class App extends Component {
 		console.log(method);
 		this.setState({ isLoading: true });
 		try {
-			// await firebase
-			// 	.messaging()
-			// 	.requestPermission()
-			// 	.then(function(e = null) {
-			// 		console.log("Granted!" + e);
-			// 		return firebase.messaging().getToken();
-			// 	})
-			// 	.then(function(fcmToken) {
-			// 		fcmKey = fcmToken;
-			// 		console.log(fcmToken);
-			// 	})
-			// 	.catch(function(err) {
-			// 		console.log("Error! :: " + err);
-			// 	});
-
 			let user = await this.loginMethod(method);
 			let clientIdToken = await user.getIdToken();
 			console.log("clientIdToken", clientIdToken);
@@ -229,7 +214,14 @@ class App extends Component {
 	}
 
 	render() {
-		let { email, password, errorMessage, isLoading, user } = this.state;
+		let {
+			email,
+			password,
+			errorMessage,
+			isLoading,
+			sessionToken,
+			userId
+		} = this.state;
 		//display a error message
 		let errorDisplay = (
 			<div
@@ -250,7 +242,7 @@ class App extends Component {
 		);
 
 		//if state.user exist display the signout button, if not display the login buttons
-		const authSection = user ? (
+		const authSection = userId ? (
 			<div className="login">
 				<div className="login-section">
 					<button className="button-signout" onClick={() => this.signout()}>
@@ -302,7 +294,7 @@ class App extends Component {
 				</div>
 			</div>
 		);
-		//user object from firebase is passed as a prop called userData to all other children components
+		//sessionToken and userId is passed as a prop called authData to all other children components
 		//to determined if user is signed in or not
 		return (
 			<div>
@@ -319,7 +311,12 @@ class App extends Component {
 				{errorDisplay}
 				<Route
 					path="/"
-					render={props => <MainContent {...props} userData={user} />}
+					render={props => (
+						<MainContent
+							{...props}
+							authData={{ sessionToken: sessionToken, userId: userId }}
+						/>
+					)}
 				/>
 			</div>
 		);
