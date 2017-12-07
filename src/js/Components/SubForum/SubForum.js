@@ -4,6 +4,11 @@ import { Link, Route } from "react-router-dom";
 import { getThreadList } from "../API_Functions/index";
 import Modal from "react-modal";
 import { createThread } from "../API_Functions";
+
+const formatTime = time => {
+	return `${time.getDate()}/${time.getMonth() +
+		1}/${time.getFullYear()} ${time.getHours()}:${time.getMinutes()}`;
+};
 class SubForum extends Component {
 	constructor(props) {
 		super(props);
@@ -39,6 +44,7 @@ class SubForum extends Component {
 				newThreadContent,
 				authData
 			);
+			window.location.reload();
 			if (response !== 1) throw Error("Error while creating thread");
 		} catch (error) {
 			console.log("Error while creating thread: ", error);
@@ -69,8 +75,8 @@ class SubForum extends Component {
 
 	componentWillMount() {
 		//thread data are not passed to subforum, must be downloaded again
-		let { subforumData } = this.props;
-		let self = this;
+		const { subforumData } = this.props;
+		const self = this;
 		getThreadList(subforumData.id).then(
 			threadList => {
 				self.setState({ threadList: threadList });
@@ -80,8 +86,9 @@ class SubForum extends Component {
 	}
 
 	render() {
-		let { match, forumData, authData, subforumData } = this.props;
-		let {
+		const { match, forumData, authData, subforumData } = this.props;
+
+		const {
 			threadList,
 			newThreadName,
 			newThreadContent,
@@ -97,7 +104,7 @@ class SubForum extends Component {
 				transform: "translate(-50%, -50%)"
 			}
 		};
-		let newThreadModal = (
+		const newThreadModal = (
 			<Modal
 				style={customStyles}
 				isOpen={isModalOpen}
@@ -125,27 +132,25 @@ class SubForum extends Component {
 				</div>
 			</Modal>
 		);
-		let threads = threadList.map(thread => {
-			let lastModifiedTime = new Date(thread.lastModifiedTime);
+		const threads = threadList.map(thread => {
+			const lastModifiedTime = new Date(thread.lastModifiedTime);
+			const formattedTime = formatTime(lastModifiedTime);
 			return (
 				<div className="thread_container" key={thread.id}>
 					<div className="thread_info">
 						<div className="thread_name">
-							<Link to={`${match.path}`}>{thread.name}</Link>
+							<Link to={`${match.path}/${thread.id}`}>{thread.name}</Link>
 						</div>
 						<div className="thread_creator">
 							Thread by :{" "}
-							<Link to={`/user/${thread.author.username}`}>
+							<Link to={`/user/${thread.author.id}`}>
 								{thread.author.username}
 							</Link>
 						</div>
 					</div>
 					<div className="lasted_post">
 						<div className="lasted_post_time">
-							<span>
-								{`${lastModifiedTime.getDate()}/${lastModifiedTime.getMonth() +
-									1}/${lastModifiedTime.getFullYear()} ${lastModifiedTime.getHours()}:${lastModifiedTime.getMinutes()}`}
-							</span>
+							<span>{formattedTime}</span>
 						</div>
 						<div className="lasted_post_owner">
 							<span>by </span>
@@ -155,7 +160,7 @@ class SubForum extends Component {
 						</div>
 					</div>
 					<div className="no_rep_view">
-						<Link to={`${match.path}`}>Replies: {thread.replyNumber}</Link>
+						<span>Replies: {thread.replyNumber}</span>
 						<span>Views: {thread.viewNumber}</span>
 					</div>
 				</div>
@@ -173,7 +178,7 @@ class SubForum extends Component {
 				<div className="intro">{subforumData.description}</div>
 
 				<div className="tools">
-					{authData ? (
+					{authData.sessionToken ? (
 						<div className="new_thread">
 							<button onClick={this.openModal}>New Thread</button>
 						</div>

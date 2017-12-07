@@ -1,5 +1,5 @@
-import { SERVER_API } from "../../Constants/API";
-import { sendDataWithAuth } from "./SecureConnect";
+import { URL, SERVER_API } from "../../Constants/API";
+import { sendDataWithAuth, sendThankWithAuth } from "./SecureConnect";
 async function sendReply(authData, content, threadId) {
 	try {
 		console.log("Sending reply");
@@ -11,17 +11,34 @@ async function sendReply(authData, content, threadId) {
 			content: content
 		};
 
-		let response = await sendDataWithAuth(
-			"PUT",
-			SERVER_API.reply,
-			authData,
-			body
-		);
-
-		if (response.status.httpStatus !== 200) throw Error("Cannot send reply");
+		await sendDataWithAuth("PUT", SERVER_API.reply, authData, body);
 	} catch (error) {
 		throw error;
 	}
 }
 
-export { sendReply };
+async function getReplyList(thrid) {
+	try {
+		let link = URL + SERVER_API.reply + "?thrid=" + thrid;
+		let response = await fetch(link, {
+			method: "GET",
+			headers: {
+				Accept: "application/json",
+				"Access-Control-Allow-Origin": "*"
+			}
+		});
+		let responseJSON = await response.json();
+		return responseJSON.content;
+	} catch (error) {
+		throw error;
+	}
+}
+
+async function sendThank(authData, rid) {
+	try {
+		await sendThankWithAuth("POST", SERVER_API.reply, authData, rid);
+	} catch (error) {
+		throw error;
+	}
+}
+export { sendReply, getReplyList, sendThank };

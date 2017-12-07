@@ -4,6 +4,7 @@ import { Link, Route } from "react-router-dom";
 import SubForum from "../SubForum";
 import "../../../css/Forum.css";
 import { getSubForumList, getThreadList } from "../API_Functions";
+import { Thread } from "../Thread";
 const MiniThreadView = props => {
 	let { forumPath, subforumPath, threadData } = props;
 	let date = new Date(threadData.lastModifiedTime);
@@ -61,7 +62,7 @@ class Forum extends Component {
 			});
 	}
 	render() {
-		let { match, forumData } = this.props;
+		let { match, forumData, authData } = this.props;
 		let subforums = this.state.subforumList;
 
 		//create a list of subforum in the forum
@@ -70,7 +71,7 @@ class Forum extends Component {
 				<MiniThreadView
 					forumPath={forumData.path}
 					subforumPath={subforum.path}
-					key={subforum.id}
+					key={thread.id}
 					threadData={thread}
 				/>
 			));
@@ -95,6 +96,7 @@ class Forum extends Component {
 		});
 		let listOfSubForumRoutes = subforums.map(subforum => (
 			<Route
+				exact
 				key={subforum.id}
 				path={`${match.path}/${subforum.path}`}
 				render={props => (
@@ -102,7 +104,7 @@ class Forum extends Component {
 						{...props}
 						forumData={forumData}
 						subforumData={subforum}
-						authData={this.props.authData}
+						authData={authData}
 					/>
 				)}
 			/>
@@ -125,6 +127,12 @@ class Forum extends Component {
 			<div className="tab">
 				<Route exact path={`${match.path}`} render={() => ForumView} />
 				{listOfSubForumRoutes}
+				{/*route for threads*/}
+				<Route
+					exact
+					path={"/:forumName/:subforumName/:threadId"}
+					render={props => <Thread authData={authData} {...props} />}
+				/>
 			</div>
 		);
 	}

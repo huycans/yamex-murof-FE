@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Forum from "./Components/Forum";
 import "../css/App.css";
 import MainContent from "./Components/MainContent";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, Link } from "react-router-dom";
 import SubForum from "./Components/SubForum";
 import Thread from "./Components/Thread";
 import firebase from "./Components/Firebase/Firebase.js";
@@ -136,8 +136,8 @@ class App extends Component {
 	}
 
 	async signup() {
-		let { email, password } = this.state;
-		let self = this;
+		const { email, password } = this.state;
+		const self = this;
 		this.setState({ isLoading: true });
 		await firebase
 			.auth()
@@ -145,7 +145,6 @@ class App extends Component {
 			.catch(function(error) {
 				// Handle Errors here.
 				let errorMessage = error.message;
-				console.log(errorMessage);
 				self.setState({ errorMessage: errorMessage, isLoading: false });
 			});
 		await firebase.auth().onAuthStateChanged(async function(user) {
@@ -178,6 +177,7 @@ class App extends Component {
 				self.setState({ isLoading: false, user: null });
 				// Sign-out successful.
 				console.log("Sign-out successful.");
+				window.location.reload();
 			})
 			.catch(function(error) {
 				// An error happened.
@@ -194,22 +194,27 @@ class App extends Component {
 		let self = this;
 		console.log("Checking if user is signed in or not");
 		firebase.auth().onAuthStateChanged(async function(user) {
-			if (user) {
-				//Signed in user
-				console.log(user);
-				let clientIdToken = await user.getIdToken();
-				let serverResponse = await verifyToken(clientIdToken, null);
-				console.log(serverResponse);
-				//save user, sessionToken, userId to state
-				self.setState({
-					user: user,
-					sessionToken: serverResponse.sessionToken,
-					userId: serverResponse.userId
-				});
-			} else {
-				console.log("No user is logged in");
+			try {
+				if (user) {
+					//Signed in user
+					console.log(user);
+					let clientIdToken = await user.getIdToken();
+					let serverResponse = await verifyToken(clientIdToken, null);
+					console.log(serverResponse);
+					//save user, sessionToken, userId to state
+					self.setState({
+						user: user,
+						sessionToken: serverResponse.sessionToken,
+						userId: serverResponse.userId
+					});
+				} else {
+					console.log("No user is logged in");
+				}
+			} catch (error) {
+				self.setState({ errorMessage: error.message });
+			} finally {
+				self.setState({ isLoading: false });
 			}
-			self.setState({ isLoading: false });
 		});
 	}
 
@@ -300,7 +305,9 @@ class App extends Component {
 			<div>
 				{LoadingModal}
 				<div className="wrap">
-					<img src={require("../img/logo.png")} alt="Logo" />
+					<Link to="/">
+						<img src={require("../img/logo.png")} alt="Logo" />
+					</Link>
 
 					<div className="search-input">
 						<input type="text" name="search" placeholder="Search.." />
