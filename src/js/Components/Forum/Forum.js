@@ -110,7 +110,7 @@ class Forum extends Component {
 			/>
 		));
 		let ForumView = (
-			<div>
+			<div className="forum_view">
 				<h1>{forumData.name}</h1>
 				{SubforumList}{" "}
 			</div>

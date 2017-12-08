@@ -11,6 +11,7 @@ html {
   background-color: #272e3a;
   color: white;
   height: 10em;
+  box-shadow: 0.5em 0.5em 1em rgb(202, 202, 202);
 }
 /*Login */
 
@@ -396,8 +397,8 @@ input:focus::-webkit-input-placeholder {
 .thread_bar {
   display: flex;
   margin: 2em;
-  width: 80%;
-  height: 4em;
+  width: 85%;
+  height: 3em;
   justify-content: center;
   align-items: center;
 }
@@ -408,13 +409,18 @@ input:focus::-webkit-input-placeholder {
 .thread_bar .search_bar {
   width: 70%;
   text-align: right;
+
 }
 .thread_bar .search_bar input[type="text"] {
   height: 3em;
+  border-color: grey;
 }
 .thread_bar .search_no {
   margin-left: 5em;
-  width: 20%;
+  width: 30%;
+}
+.thread_bar .search_no a{
+  height: 1.5em;
 }
 
 .thread_content {
@@ -502,7 +508,7 @@ input:focus::-webkit-input-placeholder {
 
 .container {
   width: 100%;
-  margin: 0 auto;
+  margin: 2em auto;
 }
 .user {
   display: flex;
