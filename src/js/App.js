@@ -9,7 +9,7 @@ import firebase from "./Components/Firebase/Firebase.js";
 import { verifyToken } from "./Components/API_Functions";
 import Modal from "react-modal";
 import LoadingIcon from "./Components/LoadingIcon";
-
+import UserInfo from "./Components/User";
 const CLIENT_ID_TOKEN = "clientIdToken";
 class App extends Component {
 	constructor(props) {
@@ -322,6 +322,15 @@ class App extends Component {
 						<MainContent
 							{...props}
 							authData={{ sessionToken: sessionToken, userId: userId }}
+						/>
+					)}
+				/>
+				<Route
+					path={"/user/:userId"}
+					render={props => (
+						<UserInfo
+							authData={{ sessionToken: sessionToken, userId: userId }}
+							{...props}
 						/>
 					)}
 				/>

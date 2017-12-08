@@ -498,4 +498,47 @@ input:focus::-webkit-input-placeholder {
   border: solid 1px;
 }
 
+/*user info*/
+
+.container {
+  width: 100%;
+  margin: 0 auto;
+}
+.user {
+  display: flex;
+  height: 10em;
+  align-items: center;
+  padding: 0 2em 0 0em;
+  margin: 0 2em 0 2em;
+  background-color: rgb(241, 241, 241);
+  box-shadow: 0.5em 0.5em 2em grey;
+}
+.user img {
+  width: 10em;
+  height: 10em;
+}
+.user_info {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  color: grey;
+  padding-left: 2em;
+}
+.user_name {
+  font-size: 2em;
+  color: #ef7334;
+}
+.user_title {
+  font-style: italic;
+}
+
+.user_about {
+  margin: 2em 2em 0 2em;
+  padding: 4em;
+  box-shadow: 0.5em 0.5em 2em grey;
+}
+.user_about b {
+  color: #ef7334;
+}
+
 /*# sourceMappingURL=app.css.map */

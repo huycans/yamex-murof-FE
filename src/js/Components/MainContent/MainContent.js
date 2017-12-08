@@ -44,7 +44,7 @@ const MiniSubForumView = props => {
 					{subforumData.latestThread.name}
 					<br />
 					by{" "}
-					<Link to={`/user/${subforumData.latestThread.author.username}`}>
+					<Link to={`/user/${subforumData.latestThread.author.id}`}>
 						{subforumData.latestThread.author.username}
 					</Link>
 					<br />

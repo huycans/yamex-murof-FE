@@ -10,7 +10,8 @@ const SERVER_API = {
 	getAllForum: "/forum/all",
 	getAllSubforumOfAForum: "/subforum",
 	thread: "/thread",
-	reply: "/reply"
+	reply: "/reply",
+	user: "/user/info"
 };
 let URL = PROTOCOL + SERVER_IP + SERVER_LINK;
 

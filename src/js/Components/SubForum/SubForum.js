@@ -4,7 +4,6 @@ import { Link, Route } from "react-router-dom";
 import { getThreadList } from "../API_Functions/index";
 import Modal from "react-modal";
 import { createThread } from "../API_Functions";
-
 const formatTime = time => {
 	return `${time.getDate()}/${time.getMonth() +
 		1}/${time.getFullYear()} ${time.getHours()}:${time.getMinutes()}`;
@@ -154,7 +153,7 @@ class SubForum extends Component {
 						</div>
 						<div className="lasted_post_owner">
 							<span>by </span>
-							<Link to={`/user/${thread.latestReply.author.username}`}>
+							<Link to={`/user/${thread.latestReply.author.id}`}>
 								{thread.latestReply.author.username}{" "}
 							</Link>
 						</div>
@@ -208,6 +207,7 @@ class SubForum extends Component {
 					</div>
 				</div>
 				{threads}
+				
 			</div>
 		);
 	}
