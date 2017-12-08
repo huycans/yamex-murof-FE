@@ -1,5 +1,5 @@
 import { URL, SERVER_API } from "../../Constants/API";
-
+import { sendDataWithAuth } from "./SecureConnect";
 async function getUserInfo(userId) {
 	try {
 		let link = URL + SERVER_API.user + "/" + userId;
@@ -17,4 +17,16 @@ async function getUserInfo(userId) {
 	}
 }
 
-export { getUserInfo };
+async function updateUserInfo(authData, body) {
+	try {
+		await sendDataWithAuth(
+			"POST",
+			SERVER_API.user + "/" + authData.userId,
+			authData,
+			body
+		);
+	} catch (error) {
+		throw error;
+	}
+}
+export { getUserInfo, updateUserInfo };

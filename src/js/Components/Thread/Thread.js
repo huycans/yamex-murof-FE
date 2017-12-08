@@ -112,7 +112,6 @@ class Thread extends Component {
 		} = this.state;
 
 		if (!replies || !thread) return null;
-		//navbar that display the path to the thread
 		//tool bar to thank and reply to posts
 		const RepToolBar = props => {
 			if (props.reply)
@@ -128,8 +127,11 @@ class Thread extends Component {
 			else return;
 		};
 
+		//navbar that display the path to the thread
 		const NavBar = (
 			<div className="navigator">
+				<Link to={"/"}>YAMEX</Link>
+				-&gt;
 				<Link to={`/${match.params.forumName}`}>{match.params.forumName}</Link>
 				-&gt;
 				<Link to={`/${match.params.forumName}/${match.params.subforumName}`}>
@@ -263,9 +265,12 @@ class Thread extends Component {
 
 						<div className="search_bar">
 							<input type="text" placeholder="Search thread.." name="search" />
-							<button type="submit">
-								<i className="fa fa-search" />
-							</button>
+							<input
+								type="image"
+								alt="search_icon"
+								src={require("../../../img/search.png")}
+								onClick={() => {}}
+							/>
 						</div>
 						<div className="no_pages search_no">
 							<a href="#">1</a>

@@ -3,7 +3,7 @@ import { getForumList } from "./ForumFuncs";
 import { verifyToken } from "./VerifyToken";
 import { getThreadList, createThread, getThreadData } from "./ThreadFuncs";
 import { getReplyList, sendReply, sendThank } from "./ReplyFuncs";
-import { getUserInfo } from "./UserFunc";
+import { getUserInfo, updateUserInfo } from "./UserFunc";
 
 export {
 	getSubForumList,
@@ -15,5 +15,6 @@ export {
 	sendReply,
 	getThreadData,
 	sendThank,
-	getUserInfo
+	getUserInfo,
+	updateUserInfo
 };

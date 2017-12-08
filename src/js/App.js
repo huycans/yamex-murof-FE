@@ -2,15 +2,12 @@ import React, { Component } from "react";
 import Forum from "./Components/Forum";
 import "../css/App.css";
 import MainContent from "./Components/MainContent";
-import { Route, Switch, Link } from "react-router-dom";
-import SubForum from "./Components/SubForum";
-import Thread from "./Components/Thread";
+import { Route, Link } from "react-router-dom";
 import firebase from "./Components/Firebase/Firebase.js";
-import { verifyToken } from "./Components/API_Functions";
+import { verifyToken, getUserInfo } from "./Components/API_Functions";
 import Modal from "react-modal";
 import LoadingIcon from "./Components/LoadingIcon";
 import UserInfo from "./Components/User";
-const CLIENT_ID_TOKEN = "clientIdToken";
 class App extends Component {
 	constructor(props) {
 		super(props);
@@ -20,7 +17,9 @@ class App extends Component {
 			email: "ditmehuy@gahuy.com",
 			password: "123456789",
 			errorMessage: "",
+			//user from firebase
 			user: null,
+			userFromServer: null,
 			sessionToken: "",
 			userId: ""
 		};
@@ -201,8 +200,10 @@ class App extends Component {
 					let clientIdToken = await user.getIdToken();
 					let serverResponse = await verifyToken(clientIdToken, null);
 					console.log(serverResponse);
+					let userObj = await getUserInfo(serverResponse.userId);
 					//save user, sessionToken, userId to state
 					self.setState({
+						userFromServer: userObj,
 						user: user,
 						sessionToken: serverResponse.sessionToken,
 						userId: serverResponse.userId
@@ -225,7 +226,8 @@ class App extends Component {
 			errorMessage,
 			isLoading,
 			sessionToken,
-			userId
+			userId,
+			userFromServer
 		} = this.state;
 		//display a error message
 		let errorDisplay = (
@@ -245,11 +247,14 @@ class App extends Component {
 				</div>
 			</Modal>
 		);
-
-		//if state.user exist display the signout button, if not display the login buttons
+		console.log("userFromServer", userFromServer);
+		//if state.user exist display the signout button and link to user info page, if not display the login buttons
 		const authSection = userId ? (
 			<div className="login">
 				<div className="login-section">
+					<Link to={`/user/${userId}`}>
+						Username: {userFromServer.username}
+					</Link>
 					<button className="button-signout" onClick={() => this.signout()}>
 						Signout
 					</button>

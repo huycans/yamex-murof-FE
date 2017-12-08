@@ -110,19 +110,19 @@ class Forum extends Component {
 			/>
 		));
 		let ForumView = (
-			<div className="forum_view">
-				<h1>{forumData.name}</h1>
-				{SubforumList}{" "}
+			<div>
+				<div className="navigator">
+					<Link to={"/"}>YAMEX</Link>
+					-&gt;
+					<Link to={`/${forumData.path}`}>{forumData.name}</Link>
+				</div>
+				<div className="forum_view">
+					<h1>{forumData.name}</h1>
+					{SubforumList}{" "}
+				</div>
 			</div>
 		);
-		// <Subforum
-		// 	forumPath={forumData.path}
-		// 	subforumData={subforum}
-		// 	{...this.props}
-		// 	key={subforum.id}
-		// />
 
-		//SubForum should have a list of threads
 		return (
 			<div className="tab">
 				<Route exact path={`${match.path}`} render={() => ForumView} />

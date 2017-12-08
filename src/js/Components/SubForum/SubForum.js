@@ -169,6 +169,8 @@ class SubForum extends Component {
 			<div>
 				{newThreadModal}
 				<div className="navigator">
+					<Link to={"/"}>YAMEX</Link>
+					<span>-&gt;</span>
 					<Link to={`/${forumData.path}`}>{forumData.name}</Link>
 					<span>-&gt;</span>
 					<Link to={`/${match.path}`}>{subforumData.name}</Link>
@@ -207,7 +209,6 @@ class SubForum extends Component {
 					</div>
 				</div>
 				{threads}
-				
 			</div>
 		);
 	}
