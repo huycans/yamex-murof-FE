@@ -259,7 +259,7 @@ class App extends Component {
 			<div className="login">
 				<div className="login-section">
 					<Link to={`/user/${userId}`}>
-						Username: {userFromServer.username}
+						{userFromServer.username}
 					</Link>
 					<button className="button-signout" onClick={() => this.signout()}>
 						Signout
@@ -348,7 +348,7 @@ class App extends Component {
 				<footer>
 					<div className="container">
 						<div className="col1">
-							<img src={require("../img/logo.png")} alt="logo" />
+							<img src={require("../img/logo_black.png")} alt="logo" />
 							<div className="describe-us">
 								YAMEX RUMOF project is the project of team ... This forum help
 								people discuss about things and things about motorcycle.
