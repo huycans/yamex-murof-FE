@@ -15,6 +15,7 @@ html {
 }
 /*Login */
 
+
 .wrap .search-input {
   width: 50%;
 
@@ -45,7 +46,7 @@ html {
 
 .wrap img {
   margin-left: 2%;
-  width: 23em;
+  width: 13em;
   height: auto;
 }
 
@@ -53,6 +54,17 @@ html {
   display: flex;
   flex-direction: column;
   margin-right: 3%;
+}
+
+.login .login-section a{
+  color: #ef7334;
+  font-size: 0.8em;
+  text-decoration: none;
+  margin-right: 1em;
+}
+.login .login-section a:hover{
+  color:white;
+
 }
 
 input[type="text"],
@@ -80,8 +92,10 @@ input[type="password"]:focus {
 .wrap .login .login-section {
   margin-top: 0.3em;
   display: flex;
+  align-items: center;
   height: 2em;
   justify-content: space-between;
+  
 }
 
 .wrap .login .login-button {
@@ -548,8 +562,7 @@ input:focus::-webkit-input-placeholder {
 
 footer {
   background-color: #ef7334;
-  bottom: 0;
-  position: absolute;
+  margin-top: 10em;
   width: 100%;
   font-size: 0.9em;
 }
@@ -565,8 +578,8 @@ footer .container {
 }
 .col1 img {
   margin-top: 2em;
-  height: 5em;
-  width: 5em;
+  width: 15em;
+  height: auto;
 }
 .col1 .describe-us {
   padding: 2em 10em 2em 0em;
