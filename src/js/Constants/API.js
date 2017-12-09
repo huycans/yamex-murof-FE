@@ -10,6 +10,7 @@ const SERVER_API = {
 	getAllForum: "/forum/all",
 	getAllSubforumOfAForum: "/subforum",
 	thread: "/thread",
+	threadNewest: "/thread/latest",
 	reply: "/reply",
 	user: "/user/info"
 };

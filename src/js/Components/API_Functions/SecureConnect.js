@@ -25,6 +25,7 @@ async function sendDataWithAuth(method, api, authData, body) {
 		});
 
 		let responseJSON = await serverResponse.json();
+		console.log(responseJSON);
 		if (responseJSON.status.httpStatus === 200) {
 			//make sure there is content inside the response before return it
 			return responseJSON;

@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import Collapsible from "react-collapsible";
 import { Link, Route, Switch } from "react-router-dom";
 import Forum from "../Forum";
-import { URL, SERVER_API } from "../../Constants/API";
 import LoadingIcon from "../LoadingIcon";
 import { getSubForumList, getForumList } from "../API_Functions";
 // subforumData
@@ -17,7 +16,7 @@ import { getSubForumList, getForumList } from "../API_Functions";
 // "threadNumber": 0,
 // "replyNumber": 0
 const MiniSubForumView = props => {
-	let { subforumData, match, forumPath } = props;
+	let { subforumData, forumPath } = props;
 	return (
 		<div className="subforum">
 			<div className="subforum_info">
@@ -174,7 +173,7 @@ class MainContent extends Component {
 				// component={Forum}
 			/>
 		));
-		//TODO: add user info routes
+
 		return (
 			<div>
 				<Switch>

@@ -82,8 +82,8 @@ class Thread extends Component {
 			//loading thread is just loading replies in that thread
 			this.setState({ isLoading: true });
 			const { match } = this.props;
-
-			getReplyList(match.params.threadId).then(replies => {
+			const pageNum = match.params.pageNum ? match.params.pageNum : 1;
+			getReplyList(match.params.threadId, pageNum).then(replies => {
 				console.log(replies);
 				this.setState({ replies: replies });
 			});

@@ -3,7 +3,11 @@ import PropTypes from "prop-types";
 import { Link, Route } from "react-router-dom";
 import SubForum from "../SubForum";
 import "../../../css/Forum.css";
-import { getSubForumList, getThreadList } from "../API_Functions";
+import {
+	getSubForumList,
+	getThreadList,
+	getNewestThreadList
+} from "../API_Functions";
 import { Thread } from "../Thread";
 const MiniThreadView = props => {
 	let { forumPath, subforumPath, threadData } = props;
@@ -35,7 +39,7 @@ class Forum extends Component {
 		};
 	}
 	componentDidMount() {
-		let { forumData } = this.props;
+		const { forumData } = this.props;
 		getSubForumList(forumData.id)
 			.then(
 				subforumList => {
@@ -46,10 +50,15 @@ class Forum extends Component {
 			.then(subforumList => {
 				//create a copy of the subforumlist
 				let subforumListCopy = subforumList.slice();
-				//for each subforum, get its list of threads
+				//for each subforum, get its list of threads, use Promise.all to wait for
+				//all Promises return by async functions inside the map function
+
 				Promise.all(
 					subforumListCopy.map(async subforum => {
-						let threadList = await getThreadList(subforum.id);
+						//FIXME: fix get thread func page num, use getNewestThreadList
+						let threadList = await getNewestThreadList(subforum.id);
+						//create a new object which includes the subforum data plus
+						//threadList data for easy data display
 						return Object.assign(
 							{},
 							{ ...subforum },
@@ -64,7 +73,6 @@ class Forum extends Component {
 	render() {
 		let { match, forumData, authData } = this.props;
 		let subforums = this.state.subforumList;
-
 		//create a list of subforum in the forum
 		let SubforumList = subforums.map(subforum => {
 			let MiniThreadViews = subforum.threadList.map(thread => (
@@ -96,7 +104,6 @@ class Forum extends Component {
 		});
 		let listOfSubForumRoutes = subforums.map(subforum => (
 			<Route
-				exact
 				key={subforum.id}
 				path={`${match.path}/${subforum.path}`}
 				render={props => (

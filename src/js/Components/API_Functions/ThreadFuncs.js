@@ -2,9 +2,9 @@ import { URL, SERVER_API } from "../../Constants/API";
 import { sendReply } from "./ReplyFuncs";
 import { sendDataWithAuth } from "./SecureConnect";
 
-async function getThreadList(sfid) {
+async function getThreadList(sfid, page) {
 	try {
-		let link = URL + SERVER_API.thread + "?sfid=" + sfid;
+		let link = URL + SERVER_API.thread + "?sfid=" + sfid + "&page=" + page;
 		let response = await fetch(link, {
 			method: "GET",
 			headers: {
@@ -63,4 +63,20 @@ async function createThread(name, subForumId, content, authData) {
 	}
 }
 
-export { getThreadList, createThread, getThreadData };
+async function getNewestThreadList(sfid) {
+	try {
+		let link = URL + SERVER_API.threadNewest + "?sfid=" + sfid;
+		let response = await fetch(link, {
+			method: "GET",
+			headers: {
+				Accept: "application/json",
+				"Access-Control-Allow-Origin": "*"
+			}
+		});
+		let responseJSON = await response.json();
+		return responseJSON.content;
+	} catch (error) {
+		throw error;
+	}
+}
+export { getThreadList, createThread, getThreadData, getNewestThreadList };

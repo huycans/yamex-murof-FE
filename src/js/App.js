@@ -253,7 +253,6 @@ class App extends Component {
 				</div>
 			</Modal>
 		);
-		console.log("userFromServer", userFromServer);
 		//if state.user exist display the signout button and link to user info page, if not display the login buttons
 		const authSection = userId ? (
 			<div className="login">
@@ -345,7 +344,7 @@ class App extends Component {
 						/>
 					)}
 				/>
-				<footer>
+				{/*				<footer>
 					<div className="container">
 						<div className="col1">
 							<img src={require("../img/logo.png")} alt="logo" />
@@ -372,7 +371,7 @@ class App extends Component {
 							<a href="">Links</a>
 						</div>
 					</div>
-				</footer>
+</footer>*/}
 			</div>
 		);
 	}

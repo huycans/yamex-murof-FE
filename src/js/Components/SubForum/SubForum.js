@@ -74,9 +74,10 @@ class SubForum extends Component {
 
 	componentWillMount() {
 		//thread data are not passed to subforum, must be downloaded again
-		const { subforumData } = this.props;
+		const { subforumData, match } = this.props;
 		const self = this;
-		getThreadList(subforumData.id).then(
+		const pageNum = match.params.pageNum ? match.params.pageNum : 1;
+		getThreadList(subforumData.id, pageNum).then(
 			threadList => {
 				self.setState({ threadList: threadList });
 			},

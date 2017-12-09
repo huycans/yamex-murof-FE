@@ -17,9 +17,9 @@ async function sendReply(authData, content, threadId) {
 	}
 }
 
-async function getReplyList(thrid) {
+async function getReplyList(thrid, page) {
 	try {
-		let link = URL + SERVER_API.reply + "?thrid=" + thrid;
+		let link = URL + SERVER_API.reply + "?thrid=" + thrid + "&page=" + page;
 		let response = await fetch(link, {
 			method: "GET",
 			headers: {
