@@ -129,7 +129,7 @@ class UserInfo extends Component {
 						</div>
 					</div>
 					{authData.userId === match.params.userId ? (
-						<div>
+						<div className="change_info">
 							<h4>Change your info</h4>
 							<label htmlFor="avatarUrl">Avatar url: </label>
 							<input

@@ -560,6 +560,48 @@ input:focus::-webkit-input-placeholder {
   color: #ef7334;
 }
 
+
+/*change userinfo*/
+
+.change_info{
+  margin: 5em;
+}
+.change_info input{
+  margin: 0em 0 2em 5em;
+  height: 2em;
+  border-radius: 5em;
+  padding: 0 1em 0 1em;
+}
+.change_info label{
+  margin: 2em;
+  display: block;
+}
+.change_info #avatarUrl{
+  width: 50%;
+  height: 2em;
+}
+
+.change_info button{
+  background-color: transparent;
+  border-radius: 5em;
+  border-color: gray;
+  color: gray;
+  border-style: solid;
+  padding: 0.5em 2em 0.5em 2em;
+}
+.change_info button:hover{
+  cursor: pointer;
+  color: #ef7334;
+  border-color: #ef7334;
+}
+
+
+
+
+
+
+
+/*footer*/
 footer {
   background-color: #ef7334;
   margin-top: 10em;
