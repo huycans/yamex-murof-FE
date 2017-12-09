@@ -409,7 +409,6 @@ input:focus::-webkit-input-placeholder {
 .thread_bar .search_bar {
   width: 70%;
   text-align: right;
-
 }
 .thread_bar .search_bar input[type="text"] {
   height: 3em;
@@ -419,7 +418,7 @@ input:focus::-webkit-input-placeholder {
   margin-left: 5em;
   width: 30%;
 }
-.thread_bar .search_no a{
+.thread_bar .search_no a {
   height: 1.5em;
 }
 
@@ -545,6 +544,47 @@ input:focus::-webkit-input-placeholder {
 }
 .user_about b {
   color: #ef7334;
+}
+
+footer {
+  background-color: #ef7334;
+  bottom: 0;
+  position: absolute;
+  width: 100%;
+  font-size: 0.9em;
+}
+
+footer .container {
+  display: flex;
+}
+
+.col1 {
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+}
+.col1 img {
+  margin-top: 2em;
+  height: 5em;
+  width: 5em;
+}
+.col1 .describe-us {
+  padding: 2em 10em 2em 0em;
+}
+
+.col2 {
+  width: 50%;
+  padding: 3em;
+}
+
+.col3 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.col3 a {
+  padding: 0.5em;
+  color: white;
 }
 
 /*# sourceMappingURL=app.css.map */
