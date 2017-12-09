@@ -121,7 +121,10 @@ class App extends Component {
 			let serverResponse = await verifyToken(clientIdToken, null);
 			console.log(serverResponse);
 			//save user, sessionToken, userId to state
+			let userObj = await getUserInfo(serverResponse.userId);
+			//save user, sessionToken, userId to state
 			this.setState({
+				userFromServer: userObj,
 				user: user,
 				sessionToken: serverResponse.sessionToken,
 				userId: serverResponse.userId
@@ -154,7 +157,10 @@ class App extends Component {
 				let serverResponse = await verifyToken(clientIdToken, null);
 				console.log(serverResponse);
 				//save user, sessionToken, userId to state
+				let userObj = await getUserInfo(serverResponse.userId);
+				//save user, sessionToken, userId to state
 				self.setState({
+					userFromServer: userObj,
 					user: user,
 					sessionToken: serverResponse.sessionToken,
 					userId: serverResponse.userId
@@ -339,7 +345,34 @@ class App extends Component {
 						/>
 					)}
 				/>
-				
+				<footer>
+					<div className="container">
+						<div className="col1">
+							<img src={require("../img/logo.png")} alt="logo" />
+							<div className="describe-us">
+								YAMEX RUMOF project is the project of team ... This forum help
+								people discuss about things and things about motorcycle.
+							</div>
+						</div>
+						<div className="col2">
+							<p>
+								<b>Group member:</b>
+								<br /> Nguyen Thanh Binh
+								<br /> Ngo Chinh Dung
+								<br /> Dao Thanh Duy
+								<br /> Vuong Thieu Huy
+								<br /> Diep Nhut Phuong
+								<br />
+							</p>
+						</div>
+						<div className="col3">
+							<a href="">Links</a>
+							<a href="">Links</a>
+							<a href="">Links</a>
+							<a href="">Links</a>
+						</div>
+					</div>
+				</footer>
 			</div>
 		);
 	}
