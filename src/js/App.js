@@ -257,9 +257,7 @@ class App extends Component {
 		const authSection = userId ? (
 			<div className="login">
 				<div className="login-section">
-					<Link to={`/user/${userId}`}>
-						{userFromServer.username}
-					</Link>
+					<Link to={`/user/${userId}`}>{userFromServer.username}</Link>
 					<button className="button-signout" onClick={() => this.signout()}>
 						Signout
 					</button>
@@ -344,7 +342,7 @@ class App extends Component {
 						/>
 					)}
 				/>
-				{/*				<footer>
+				<footer>
 					<div className="container">
 						<div className="col1">
 							<img src={require("../img/logo_black.png")} alt="logo" />
@@ -371,7 +369,7 @@ class App extends Component {
 							<a href="">Links</a>
 						</div>
 					</div>
-</footer>*/}
+				</footer>
 			</div>
 		);
 	}
