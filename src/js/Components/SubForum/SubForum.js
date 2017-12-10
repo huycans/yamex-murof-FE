@@ -15,9 +15,7 @@ class SubForum extends Component {
 		this.state = {
 			threadList: [],
 			newThreadName: "",
-			newThreadContent: "",
-			gotoPage: null, //this is the page number that user want to go to
-			initialPage: 0 //this is the initial page that pagination will load
+			newThreadContent: ""
 		};
 		this.createNewThread = this.createNewThread.bind(this);
 		this.handleInputChange = this.handleInputChange.bind(this);
@@ -25,39 +23,18 @@ class SubForum extends Component {
 		this.closeModal = this.closeModal.bind(this);
 		this.handlePageClick = this.handlePageClick.bind(this);
 		this.loadThreadsFromPageNum = this.loadThreadsFromPageNum.bind(this);
-		this.createDummyThreads = this.createDummyThreads.bind(this);
-		this.handlePageInput = this.handlePageInput.bind(this);
-		this.gotoPage = this.gotoPage.bind(this);
+		// this.createDummyThreads = this.createDummyThreads.bind(this);
 	}
 
-	handlePageInput(event) {
-		this.setState({ gotoPage: event.target.value });
-	}
-
-	gotoPage() {
-		console.log("Going");
-		const { subforumData } = this.props;
-		const maxPageNumber = subforumData.pageNumber;
-		const { gotoPage } = this.state;
-		if (!gotoPage || gotoPage > maxPageNumber || gotoPage <= 0) return;
-		else {
-			this.setState({ initialPage: gotoPage }); //set initialPage to the value of gotoPage will rerender the thread
-			this.loadThreadsFromPageNum(gotoPage);
-		}
-	}
-
-	createDummyThreads() {
-		//TODO: remove this
-		// const { subforumData, authData } = this.props;
-		// for (let i = 100; i < 200; i++) {
-		// 	createThread("thread " + i, subforumData.id, "content content", authData);
-		// }
-	}
+	// createDummyThreads() {
+	// 	TODO: remove this
+	// 	const { subforumData, authData } = this.props;
+	// 	for (let i = 100; i < 200; i++) {
+	// 		createThread("thread " + i, subforumData.id, "content content", authData);
+	// 	}
+	// }
 
 	handlePageClick(data) {
-		const { match, history } = this.props;
-		console.log(data);
-		console.log(match.path);
 		// history.push(
 		// 	`${match.path.slice(0, match.path.lastIndexOf("/"))}/${data.selected + 1}`
 		// );
@@ -132,10 +109,8 @@ class SubForum extends Component {
 			threadList,
 			newThreadName,
 			newThreadContent,
-			isModalOpen,
-			initialPage
+			isModalOpen
 		} = this.state;
-		console.log(initialPage);
 		const customStyles = {
 			content: {
 				top: "50%",
@@ -212,7 +187,7 @@ class SubForum extends Component {
 		});
 		return (
 			<div>
-				<button onClick={this.createDummyThreads}>createDummyThreads</button>
+				{/*<button onClick={this.createDummyThreads}>createDummyThreads</button>*/}
 				{newThreadModal}
 				<div className="navigator">
 					<Link to={"/"}>YAMEX</Link>
@@ -233,7 +208,7 @@ class SubForum extends Component {
 						</div>
 					) : null}
 					<ReactPaginate
-						initialPage={Number.parseInt(initialPage)}
+						initialPage={0}
 						disableInitialCallback={true}
 						previousLabel={"Previous"}
 						nextLabel={"Next"}
@@ -246,10 +221,6 @@ class SubForum extends Component {
 						containerClassName={"no_pages"}
 						activeClassName={"active"}
 					/>
-					<div>
-						Go to page: <input type="number" onChange={this.handlePageInput} />
-						<buttom onClick={this.gotoPage}>Go {this.state.gotoPage}</buttom>
-					</div>
 				</div>
 
 				<div className="subforum_bar">
