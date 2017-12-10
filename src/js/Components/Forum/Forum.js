@@ -55,7 +55,6 @@ class Forum extends Component {
 
 				Promise.all(
 					subforumListCopy.map(async subforum => {
-						//FIXME: fix get thread func page num, use getNewestThreadList
 						let threadList = await getNewestThreadList(subforum.id);
 						//create a new object which includes the subforum data plus
 						//threadList data for easy data display
@@ -94,7 +93,7 @@ class Forum extends Component {
 
 					{MiniThreadViews}
 					<div className="more">
-						<Link to={`/${forumData.path}/${subforum.path}/1`}>
+						<Link to={`/${forumData.path}/${subforum.path}`}>
 							Go to {subforum.name} subforum
 						</Link>
 					</div>
@@ -105,7 +104,7 @@ class Forum extends Component {
 		let listOfSubForumRoutes = subforums.map(subforum => (
 			<Route
 				key={subforum.id}
-				path={`${match.path}/${subforum.path}/:pageNum`}
+				path={`${match.path}/${subforum.path}`}
 				render={props => (
 					<SubForum
 						{...props}

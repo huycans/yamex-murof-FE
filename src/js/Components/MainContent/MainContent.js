@@ -20,7 +20,7 @@ const MiniSubForumView = props => {
 	return (
 		<div className="subforum">
 			<div className="subforum_info">
-				<Link to={`${forumPath}/${subforumData.path}/1`}>
+				<Link to={`${forumPath}/${subforumData.path}`}>
 					{subforumData.name}
 				</Link>
 				<p>{subforumData.description}</p>
