@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Link, Route } from "react-router-dom";
+import { Link, Route, Switch } from "react-router-dom";
 import SubForum from "../SubForum";
 import "../../../css/Forum.css";
 import {
@@ -133,13 +133,17 @@ class Forum extends Component {
 		return (
 			<div className="tab">
 				<Route exact path={`${match.path}`} render={() => ForumView} />
-				{listOfSubForumRoutes}
+				<Switch>
+					<Route
+						exact
+						path={"/:forumName/:subforumName/:threadId"}
+						render={props => <Thread authData={authData} {...props} />}
+					/>
+
+					{listOfSubForumRoutes}
+				</Switch>
+
 				{/*route for threads*/}
-				<Route
-					exact
-					path={"/:forumName/:subforumName/:threadId"}
-					render={props => <Thread authData={authData} {...props} />}
-				/>
 			</div>
 		);
 	}

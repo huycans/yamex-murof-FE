@@ -16,7 +16,6 @@ html {
 }
 /*Login */
 
-
 .wrap .search-input {
   width: 50%;
 
@@ -57,15 +56,14 @@ html {
   margin-right: 3%;
 }
 
-.login .login-section a{
+.login .login-section a {
   color: #ef7334;
   font-size: 0.8em;
   text-decoration: none;
   margin-right: 1em;
 }
-.login .login-section a:hover{
-  color:white;
-
+.login .login-section a:hover {
+  color: white;
 }
 
 input[type="text"],
@@ -96,7 +94,6 @@ input[type="password"]:focus {
   align-items: center;
   height: 2em;
   justify-content: space-between;
-  
 }
 
 .wrap .login .login-button {
@@ -312,7 +309,12 @@ input:focus::-webkit-input-placeholder {
   color: gray;
   box-shadow: 0.2em 0.2em 0.5em rgb(163, 163, 163);
 }
-
+.no_pages li {
+  list-style: none;
+}
+.no_pages li:hover {
+  cursor: pointer;
+}
 .current_page {
   background-color: yellow;
 }
