@@ -343,23 +343,24 @@ class App extends Component {
 					)}
 				/>
 				<footer>
-					<div className="container">
+					<div className="footer_container">
 						<div className="col1">
-							<img src={require("../img/logo_black.png")} alt="logo" />
+							<div className="logo"><img src={require("../img/logo.png")} alt="logo" /></div>
 							<div className="describe-us">
-								YAMEX RUMOF project is the project of team ... This forum help
-								people discuss about things and things about motorcycle.
+								<span>YAMEX RUMOF - Team 1's project</span><br/>This forum help
+								people discuss about things and things about motorcycle. 
 							</div>
 						</div>
 						<div className="col2">
 							<p>
-								<b>Group member:</b>
-								<br /> Nguyen Thanh Binh
-								<br /> Ngo Chinh Dung
-								<br /> Dao Thanh Duy
-								<br /> Vuong Thieu Huy
-								<br /> Diep Nhut Phuong
-								<br />
+								<b>Group member :</b>
+								<div className="member">
+									<br /> Nguyen Thanh Binh
+									<br /> Ngo Chinh Dung
+									<br /> Dao Thanh Duy
+									<br /> Vuong Thieu Huy
+									<br /> Diep Nhut Phuong
+								</div>
 							</p>
 						</div>
 						<div className="col3">
