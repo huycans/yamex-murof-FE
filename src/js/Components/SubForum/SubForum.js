@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Link, Route } from "react-router-dom";
+import { Link, Route, Redirect } from "react-router-dom";
 import { getThreadList } from "../API_Functions/index";
+import ReactPaginate from "react-paginate";
 import Modal from "react-modal";
 import { createThread } from "../API_Functions";
 const formatTime = time => {
@@ -12,6 +13,7 @@ class SubForum extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			//TODO: remove search text and search related stuff
 			searchText: "",
 			threadList: [],
 			newThreadName: "",
@@ -23,6 +25,24 @@ class SubForum extends Component {
 		this.handleInputChange = this.handleInputChange.bind(this);
 		this.openModal = this.openModal.bind(this);
 		this.closeModal = this.closeModal.bind(this);
+		this.handlePageClick = this.handlePageClick.bind(this);
+
+		this.createDummyThreads = this.createDummyThreads.bind(this);
+	}
+	createDummyThreads() {
+		const { subforumData, authData } = this.props;
+		for (let i = 0; i < 100; i++) {
+			createThread("thread " + i, subforumData.id, "content content", authData);
+		}
+	}
+	handlePageClick(data) {
+		const { match, history } = this.props;
+		console.log(data);
+		console.log(match.path);
+		history.push(
+			`${match.path.slice(0, match.path.lastIndexOf("/"))}/${data.selected + 1}`
+		);
+		window.location.reload();
 	}
 
 	handleSearchType(event) {
@@ -76,6 +96,7 @@ class SubForum extends Component {
 		//thread data are not passed to subforum, must be downloaded again
 		const { subforumData, match } = this.props;
 		const self = this;
+		console.log(match.params);
 		const pageNum = match.params.pageNum ? match.params.pageNum : 1;
 		getThreadList(subforumData.id, pageNum).then(
 			threadList => {
@@ -87,7 +108,8 @@ class SubForum extends Component {
 
 	render() {
 		const { match, forumData, authData, subforumData } = this.props;
-
+		//the maximum page number of a subforum
+		const maxPageNumber = subforumData.pageNumber;
 		const {
 			threadList,
 			newThreadName,
@@ -139,7 +161,9 @@ class SubForum extends Component {
 				<div className="thread_container" key={thread.id}>
 					<div className="thread_info">
 						<div className="thread_name">
-							<Link to={`${match.path}/${thread.id}`}>{thread.name}</Link>
+							<Link to={`${match.path}/thread/${thread.id}`}>
+								{thread.name}
+							</Link>
 						</div>
 						<div className="thread_creator">
 							Thread by :{" "}
@@ -168,6 +192,7 @@ class SubForum extends Component {
 		});
 		return (
 			<div>
+				<button onClick={this.createDummyThreads}>createDummyThreads</button>
 				{newThreadModal}
 				<div className="navigator">
 					<Link to={"/"}>YAMEX</Link>
@@ -185,14 +210,26 @@ class SubForum extends Component {
 							<button onClick={this.openModal}>New Thread</button>
 						</div>
 					) : null}
-					<div className="no_pages">
+					{/*<div className="no_pages">
 						<a href="#">1</a>
 						<a href="#">2</a>
 						<a href="#">3</a>
 						<a href="#">11</a>
 						<a href="#">></a>
 						<a href="#">Last &gt;&gt;</a>
-					</div>
+				</div>*/}
+					<ReactPaginate
+						previousLabel={"Previous"}
+						nextLabel={"Next"}
+						breakLabel={<a href="">...</a>}
+						breakClassName={"break-me"}
+						pageCount={maxPageNumber}
+						marginPagesDisplayed={2}
+						pageRangeDisplayed={3}
+						onPageChange={this.handlePageClick}
+						containerClassName={"no_pages"}
+						activeClassName={"active"}
+					/>
 				</div>
 
 				<div className="subforum_bar">
@@ -232,6 +269,7 @@ SubForum.propTypes = {
 		isExact: PropTypes.bool,
 		params: PropTypes.object
 	},
+	history: PropTypes.object,
 	subforumData: {
 		id: PropTypes.string,
 		createdTime: PropTypes.string,

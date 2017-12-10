@@ -54,7 +54,6 @@ async function createThread(name, subForumId, content, authData) {
 			authData,
 			body
 		);
-		console.log(response);
 		let threadId = response.content;
 		await sendReply(authData, content, threadId);
 		return 1;

@@ -16,12 +16,12 @@ const MiniThreadView = props => {
 		<div className="MiniThreadView">
 			<div className="Date">{`${date.getDate()}/${date.getMonth()}`}</div>
 			<div className="MiniThreadView_name">
-				<Link to={`/${forumPath}/${subforumPath}/${threadData.id}`}>
+				<Link to={`/${forumPath}/${subforumPath}/thread/${threadData.id}`}>
 					{threadData.name}
 				</Link>
 			</div>
 			<div className="MiniThreadView_rep">{threadData.threadNumber}</div>
-			<div className="MiniThreadView_view">CHUA CO</div>
+			<div className="MiniThreadView_view">NA</div>
 		</div>
 	);
 };
@@ -94,7 +94,7 @@ class Forum extends Component {
 
 					{MiniThreadViews}
 					<div className="more">
-						<Link to={`/${forumData.path}/${subforum.path}`}>
+						<Link to={`/${forumData.path}/${subforum.path}/1`}>
 							Go to {subforum.name} subforum
 						</Link>
 					</div>
@@ -105,7 +105,7 @@ class Forum extends Component {
 		let listOfSubForumRoutes = subforums.map(subforum => (
 			<Route
 				key={subforum.id}
-				path={`${match.path}/${subforum.path}`}
+				path={`${match.path}/${subforum.path}/:pageNum`}
 				render={props => (
 					<SubForum
 						{...props}
@@ -136,7 +136,7 @@ class Forum extends Component {
 				<Switch>
 					<Route
 						exact
-						path={"/:forumName/:subforumName/:threadId"}
+						path={"/:forumName/:subforumName/thread/:threadId"}
 						render={props => <Thread authData={authData} {...props} />}
 					/>
 
