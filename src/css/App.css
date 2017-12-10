@@ -244,7 +244,8 @@ input:focus::-webkit-input-placeholder {
   height: 50px;
   align-items: center;
   margin-bottom: 10px;
-  background-color: #eaeaea;
+  background-color: white;
+  box-shadow: 0em 0.5em 0.5em rgb(190, 190, 190);
 }
 
 .navigator a {
@@ -252,6 +253,9 @@ input:focus::-webkit-input-placeholder {
   padding-right: 10px;
   color: black;
   text-decoration: underline;
+}
+.navigator a:hover{
+  color: #ef7334;
 }
 
 /*Intro */
@@ -555,7 +559,7 @@ input:focus::-webkit-input-placeholder {
   align-items: center;
   padding: 0 2em 0 0em;
   margin: 0 2em 0 2em;
-  background-color: rgb(241, 241, 241);
+  background-color: white;
   box-shadow: 0.5em 0.5em 2em grey;
 }
 .user img {
@@ -580,6 +584,7 @@ input:focus::-webkit-input-placeholder {
 .user_about {
   margin: 2em 2em 0 2em;
   padding: 4em;
+  background-color: white;
   box-shadow: 0.5em 0.5em 2em grey;
 }
 .user_about b {
@@ -629,35 +634,55 @@ input:focus::-webkit-input-placeholder {
 
 /*footer*/
 footer {
-  background-color: #ef7334;
+  background-color: #272e3a;
   margin-top: 10em;
   width: 100%;
   font-size: 0.9em;
 }
 
-footer .container {
+footer .footer_container {
   display: flex;
+  height: 18em;
 }
 
 .col1 {
-  width: 40%;
+  width: 50%;
   display: flex;
-  flex-direction: column;
+  
+}
+.col1 .logo{
+  margin: 2em;
 }
 .col1 img {
-  margin-top: 2em;
   width: 15em;
   height: auto;
 }
 .col1 .describe-us {
-  padding: 2em 10em 2em 0em;
+  padding: 2em 2em 2em 0em;
+  color: white;
+  margin: 5em;
+  width:40%;
+
+}
+.col1 span{
+  font-size: 1.3em;
 }
 
 .col2 {
-  width: 50%;
+  width: 30%;
   padding: 3em;
+  display: flex;
+  flex-direction: column;
 }
+.col2 b{
+  color: white;
 
+}
+.col2 .member{
+  color: white;
+  padding-left: 1em;
+
+}
 .col3 {
   display: flex;
   flex-direction: column;
