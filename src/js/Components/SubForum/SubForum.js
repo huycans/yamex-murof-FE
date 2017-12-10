@@ -204,9 +204,9 @@ class SubForum extends Component {
 							name="search"
 							onChange={this.handleSearchType}
 						/>
-						<button type="submit" onClick={this.handleSearch}>
-							<i className="fa fa-search" />
-						</button>
+
+						<img src= {require("../../../img/search.svg")}  onClick={this.handleSearch}/>
+
 					</div>
 				</div>
 				{threads}
