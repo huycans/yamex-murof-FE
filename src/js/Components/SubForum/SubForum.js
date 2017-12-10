@@ -13,14 +13,10 @@ class SubForum extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			//TODO: remove search text and search related stuff
-			searchText: "",
 			threadList: [],
 			newThreadName: "",
 			newThreadContent: ""
 		};
-		this.handleSearchType = this.handleSearchType.bind(this);
-		this.handleSearch = this.handleSearch.bind(this);
 		this.createNewThread = this.createNewThread.bind(this);
 		this.handleInputChange = this.handleInputChange.bind(this);
 		this.openModal = this.openModal.bind(this);
@@ -31,7 +27,7 @@ class SubForum extends Component {
 	}
 	createDummyThreads() {
 		const { subforumData, authData } = this.props;
-		for (let i = 0; i < 100; i++) {
+		for (let i = 100; i < 200; i++) {
 			createThread("thread " + i, subforumData.id, "content content", authData);
 		}
 	}
@@ -43,14 +39,6 @@ class SubForum extends Component {
 			`${match.path.slice(0, match.path.lastIndexOf("/"))}/${data.selected + 1}`
 		);
 		window.location.reload();
-	}
-
-	handleSearchType(event) {
-		this.setState({ searchText: event.target.value });
-	}
-
-	handleSearch() {
-		console.log("click");
 	}
 
 	async createNewThread() {
@@ -199,7 +187,9 @@ class SubForum extends Component {
 					<span>-&gt;</span>
 					<Link to={`/${forumData.path}`}>{forumData.name}</Link>
 					<span>-&gt;</span>
-					<Link to={`/${match.path}`}>{subforumData.name}</Link>
+					<Link to={`/${forumData.path}/${subforumData.path}/1`}>
+						{subforumData.name}
+					</Link>
 				</div>
 
 				<div className="intro">{subforumData.description}</div>
@@ -234,17 +224,6 @@ class SubForum extends Component {
 
 				<div className="subforum_bar">
 					<div className="subforum_name">{subforumData.name}</div>
-					<div className="search_bar">
-						<input
-							type="text"
-							placeholder="Search.."
-							name="search"
-							onChange={this.handleSearchType}
-						/>
-
-						<img src= {require("../../../img/search.svg")}  onClick={this.handleSearch}/>
-
-					</div>
 				</div>
 				{threads}
 			</div>
