@@ -28,6 +28,7 @@ async function getReplyList(thrid, page) {
 			}
 		});
 		let responseJSON = await response.json();
+		console.log(responseJSON);
 		return responseJSON.content;
 	} catch (error) {
 		throw error;

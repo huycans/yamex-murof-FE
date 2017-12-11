@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import Forum from "./Components/Forum";
 import "../css/App.css";
 import MainContent from "./Components/MainContent";
 import { Route, Link } from "react-router-dom";
@@ -345,10 +344,13 @@ class App extends Component {
 				<footer>
 					<div className="footer_container">
 						<div className="col1">
-							<div className="logo"><img src={require("../img/logo.png")} alt="logo" /></div>
+							<div className="logo">
+								<img src={require("../img/logo.png")} alt="logo" />
+							</div>
 							<div className="describe-us">
-								<span>YAMEX RUMOF - Team 1's project</span><br/>This forum help
-								people discuss about things and things about motorcycle. 
+								<span>YAMEX RUMOF - Team 1&#39;s project</span>
+								<br />This forum help people discuss about things and things
+								about motorcycle.
 							</div>
 						</div>
 						<div className="col2">
@@ -362,12 +364,6 @@ class App extends Component {
 									<br /> Diep Nhut Phuong
 								</div>
 							</p>
-						</div>
-						<div className="col3">
-							<a href="">Links</a>
-							<a href="">Links</a>
-							<a href="">Links</a>
-							<a href="">Links</a>
 						</div>
 					</div>
 				</footer>

@@ -194,7 +194,7 @@ class SubForum extends Component {
 					<span>-&gt;</span>
 					<Link to={`/${forumData.path}`}>{forumData.name}</Link>
 					<span>-&gt;</span>
-					<Link to={`/${forumData.path}/${subforumData.path}/1`}>
+					<Link to={`/${forumData.path}/${subforumData.path}`}>
 						{subforumData.name}
 					</Link>
 				</div>

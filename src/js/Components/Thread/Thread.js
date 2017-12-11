@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Link, Route } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
 	getReplyList,
 	getThreadData,
@@ -8,10 +8,13 @@ import {
 	sendThank
 } from "../API_Functions";
 import Modal from "react-modal";
+import ReactPaginate from "react-paginate";
+
 const formatTime = time => {
 	return `${time.getDate()}/${time.getMonth() +
 		1}/${time.getFullYear()} ${time.getHours()}:${time.getMinutes()}`;
 };
+
 class Thread extends Component {
 	constructor(props) {
 		super(props);
@@ -28,7 +31,18 @@ class Thread extends Component {
 		this.handleType = this.handleType.bind(this);
 		this.thank = this.thank.bind(this);
 		this.reply = this.reply.bind(this);
+		this.loadRepliesFromPageNum = this.loadRepliesFromPageNum.bind(this);
+		this.handlePageClick = this.handlePageClick.bind(this);
+		// this.createDummyThreads = this.createDummyThreads.bind(this);
 	}
+
+	// createDummyThreads() {
+	// 	const { authData } = this.props;
+	// 	const { thread } = this.state;
+	// 	for (let index = 0; index < 200; index++) {
+	// 		sendReply(authData, "content", thread.id);
+	// 	}
+	// }
 
 	handleType(event) {
 		this.setState({ newReplyContent: event.target.value });
@@ -76,21 +90,18 @@ class Thread extends Component {
 		}
 	}
 
-	componentDidMount() {
+	handlePageClick(data) {
+		this.loadRepliesFromPageNum(data.selected + 1);
+	}
+
+	async loadRepliesFromPageNum(pageNum) {
 		try {
-			console.log("Getting replies");
 			//loading thread is just loading replies in that thread
 			this.setState({ isLoading: true });
 			const { match } = this.props;
-			const pageNum = match.params.pageNum ? match.params.pageNum : 1;
+			console.log(match.params, pageNum);
 			getReplyList(match.params.threadId, pageNum).then(replies => {
-				console.log(replies);
 				this.setState({ replies: replies });
-			});
-
-			getThreadData(match.params.threadId).then(thread => {
-				console.log(thread);
-				this.setState({ thread: thread });
 			});
 		} catch (error) {
 			console.log(error);
@@ -98,6 +109,15 @@ class Thread extends Component {
 		} finally {
 			this.setState({ isLoading: false });
 		}
+	}
+
+	componentDidMount() {
+		const { match } = this.props;
+		getThreadData(match.params.threadId).then(thread => {
+			console.log(thread);
+			this.setState({ thread: thread });
+		});
+		this.loadRepliesFromPageNum(1);
 	}
 
 	render() {
@@ -112,6 +132,10 @@ class Thread extends Component {
 		} = this.state;
 
 		if (!replies || !thread) return null;
+		//the maximum number of page to display in the paginator
+		const maxPageNumber = thread.pageNumber;
+		console.log(replies);
+		console.log(thread);
 		//tool bar to thank and reply to posts
 		const RepToolBar = props => {
 			if (props.reply)
@@ -252,6 +276,9 @@ class Thread extends Component {
 		else
 			return (
 				<div>
+					{/*<button onClick={this.createDummyThreads}>
+						create dummy replies
+			</button>*/}
 					{newReplyModal}
 					{NavBar}
 					{ThreadHeader}
@@ -272,14 +299,20 @@ class Thread extends Component {
 								onClick={() => {}}
 							/>
 						</div>
-						<div className="no_pages search_no">
-							<a href="#">1</a>
-							<a href="#">2</a>
-							<a href="#">3</a>
-							<a href="#">11</a>
-							<a href="#">&gt;</a>
-							<a href="#">Last &gt;&gt;</a>
-						</div>
+						<ReactPaginate
+							initialPage={0}
+							disableInitialCallback={true}
+							previousLabel={"Previous"}
+							nextLabel={"Next"}
+							breakLabel={"..."}
+							breakClassName={"break-me"}
+							pageCount={maxPageNumber}
+							marginPagesDisplayed={2}
+							pageRangeDisplayed={3}
+							onPageChange={this.handlePageClick}
+							containerClassName={"no_pages"}
+							activeClassName={"active"}
+						/>
 					</div>
 
 					{repliesListView}
