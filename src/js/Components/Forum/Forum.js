@@ -3,11 +3,7 @@ import PropTypes from "prop-types";
 import { Link, Route, Switch } from "react-router-dom";
 import SubForum from "../SubForum";
 import "../../../css/Forum.css";
-import {
-	getSubForumList,
-	getThreadList,
-	getNewestThreadList
-} from "../API_Functions";
+import { getSubForumList, getNewestThreadList } from "../API_Functions";
 import { Thread } from "../Thread";
 const MiniThreadView = props => {
 	let { forumPath, subforumPath, threadData } = props;
@@ -72,8 +68,12 @@ class Forum extends Component {
 	render() {
 		let { match, forumData, authData } = this.props;
 		let subforums = this.state.subforumList;
-		//create a list of subforum in the forum
+		console.log(subforums);
+		// if (!subforums || !subforums.threadList) return null;
+		//create a list of subforum in the forum, each subforum has a list of threads
 		let SubforumList = subforums.map(subforum => {
+			//if there is no threads, return nothing
+			if (!subforum.threadList) return;
 			let MiniThreadViews = subforum.threadList.map(thread => (
 				<MiniThreadView
 					forumPath={forumData.path}
@@ -82,7 +82,6 @@ class Forum extends Component {
 					threadData={thread}
 				/>
 			));
-
 			return (
 				<div key={subforum.id}>
 					<div className="title">
@@ -101,6 +100,7 @@ class Forum extends Component {
 				</div>
 			);
 		});
+
 		let listOfSubForumRoutes = subforums.map(subforum => (
 			<Route
 				key={subforum.id}
@@ -115,6 +115,7 @@ class Forum extends Component {
 				)}
 			/>
 		));
+
 		let ForumView = (
 			<div>
 				<div className="navigator">
@@ -141,8 +142,6 @@ class Forum extends Component {
 
 					{listOfSubForumRoutes}
 				</Switch>
-
-				{/*route for threads*/}
 			</div>
 		);
 	}

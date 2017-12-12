@@ -5,6 +5,8 @@ import { getThreadList } from "../API_Functions/index";
 import ReactPaginate from "react-paginate";
 import Modal from "react-modal";
 import { createThread } from "../API_Functions";
+import EditorConvertToHTML from "../Editor";
+
 const formatTime = time => {
 	return `${time.getDate()}/${time.getMonth() +
 		1}/${time.getFullYear()} ${time.getHours()}:${time.getMinutes()}`;
@@ -14,8 +16,7 @@ class SubForum extends Component {
 		super(props);
 		this.state = {
 			threadList: [],
-			newThreadName: "",
-			newThreadContent: ""
+			newThreadName: ""
 		};
 		this.createNewThread = this.createNewThread.bind(this);
 		this.handleInputChange = this.handleInputChange.bind(this);
@@ -23,16 +24,21 @@ class SubForum extends Component {
 		this.closeModal = this.closeModal.bind(this);
 		this.handlePageClick = this.handlePageClick.bind(this);
 		this.loadThreadsFromPageNum = this.loadThreadsFromPageNum.bind(this);
-		// this.createDummyThreads = this.createDummyThreads.bind(this);
+		this.submit = this.submit.bind(this);
+		this.createDummyThreads = this.createDummyThreads.bind(this);
 	}
 
-	// createDummyThreads() {
-	// 	TODO: remove this
-	// 	const { subforumData, authData } = this.props;
-	// 	for (let i = 100; i < 200; i++) {
-	// 		createThread("thread " + i, subforumData.id, "content content", authData);
-	// 	}
-	// }
+	createDummyThreads() {
+		const { subforumData, authData } = this.props;
+		for (let i = 100; i < 200; i++) {
+			createThread("thread " + i, subforumData.id, "content content", authData);
+		}
+	}
+
+	submit(htmlString) {
+		console.log(htmlString);
+		this.createNewThread(htmlString);
+	}
 
 	handlePageClick(data) {
 		// history.push(
@@ -42,14 +48,14 @@ class SubForum extends Component {
 		this.loadThreadsFromPageNum(data.selected + 1);
 	}
 
-	async createNewThread() {
+	async createNewThread(threadContent) {
 		try {
-			const { newThreadName, newThreadContent } = this.state;
+			const { newThreadName } = this.state;
 			const { subforumData, authData } = this.props;
 			let response = await createThread(
 				newThreadName,
 				subforumData.id,
-				newThreadContent,
+				threadContent,
 				authData
 			);
 			window.location.reload();
@@ -90,6 +96,8 @@ class SubForum extends Component {
 		getThreadList(subforumData.id, pageNum).then(
 			threadList => {
 				console.log(threadList);
+				//if there is no threads, return nothing
+				if (!threadList) return;
 				self.setState({ threadList: threadList });
 			},
 			error => console.log(error)
@@ -105,12 +113,8 @@ class SubForum extends Component {
 		const { match, forumData, authData, subforumData } = this.props;
 		//the maximum page number of a subforum
 		const maxPageNumber = subforumData.pageNumber;
-		const {
-			threadList,
-			newThreadName,
-			newThreadContent,
-			isModalOpen
-		} = this.state;
+		const { threadList, newThreadName, isModalOpen } = this.state;
+		if (!threadList) return <p>Loading</p>;
 		const customStyles = {
 			content: {
 				top: "50%",
@@ -127,8 +131,9 @@ class SubForum extends Component {
 				isOpen={isModalOpen}
 				contentLabel="newThreadModal"
 			>
-				<div style={{ flex: 1, flexDirection: "column" }}>
+				<div>
 					<h2>Enter information</h2>
+
 					<input
 						style={{ border: "1px black solid", color: "black" }}
 						name="newThreadName"
@@ -137,14 +142,7 @@ class SubForum extends Component {
 						value={newThreadName}
 						onChange={this.handleInputChange}
 					/>
-					<textarea
-						name="newThreadContent"
-						type="text"
-						placeholder="Content"
-						value={newThreadContent}
-						onChange={this.handleInputChange}
-					/>
-					<button onClick={this.createNewThread}>Submit</button>
+					<EditorConvertToHTML submit={this.submit} />
 					<button onClick={this.closeModal}>Close</button>
 				</div>
 			</Modal>
@@ -187,7 +185,7 @@ class SubForum extends Component {
 		});
 		return (
 			<div>
-				{/*<button onClick={this.createDummyThreads}>createDummyThreads</button>*/}
+				{<button onClick={this.createDummyThreads}>createDummyThreads</button>}
 				{newThreadModal}
 				<div className="navigator">
 					<Link to={"/"}>YAMEX</Link>

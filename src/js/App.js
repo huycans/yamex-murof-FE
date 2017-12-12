@@ -7,6 +7,7 @@ import { verifyToken, getUserInfo } from "./Components/API_Functions";
 import Modal from "react-modal";
 import LoadingIcon from "./Components/LoadingIcon";
 import UserInfo from "./Components/User";
+
 class App extends Component {
 	constructor(props) {
 		super(props);
@@ -371,5 +372,4 @@ class App extends Component {
 		);
 	}
 }
-//<Route path="/honda-future" render={() => <Forum />} />
 export default App;

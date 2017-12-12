@@ -9,6 +9,7 @@ import {
 } from "../API_Functions";
 import Modal from "react-modal";
 import ReactPaginate from "react-paginate";
+import EditorConvertToHTML from "../Editor";
 
 const formatTime = time => {
 	return `${time.getDate()}/${time.getMonth() +
@@ -23,7 +24,6 @@ class Thread extends Component {
 			thread: null,
 			replies: [],
 			errorMessage: "",
-			newReplyContent: "",
 			isModalOpen: false
 		};
 		this.openModal = this.openModal.bind(this);
@@ -33,16 +33,21 @@ class Thread extends Component {
 		this.reply = this.reply.bind(this);
 		this.loadRepliesFromPageNum = this.loadRepliesFromPageNum.bind(this);
 		this.handlePageClick = this.handlePageClick.bind(this);
-		// this.createDummyThreads = this.createDummyThreads.bind(this);
+		this.createDummyThreads = this.createDummyThreads.bind(this);
+		this.submit = this.submit.bind(this);
 	}
 
-	// createDummyThreads() {
-	// 	const { authData } = this.props;
-	// 	const { thread } = this.state;
-	// 	for (let index = 0; index < 200; index++) {
-	// 		sendReply(authData, "content", thread.id);
-	// 	}
-	// }
+	submit(htmlString) {
+		this.reply(htmlString);
+	}
+
+	createDummyThreads() {
+		const { authData } = this.props;
+		const { thread } = this.state;
+		for (let index = 0; index < 200; index++) {
+			sendReply(authData, "content", thread.id);
+		}
+	}
 
 	handleType(event) {
 		this.setState({ newReplyContent: event.target.value });
@@ -64,10 +69,10 @@ class Thread extends Component {
 		});
 	}
 
-	async reply() {
+	async reply(newReplyContent) {
 		try {
 			const { authData } = this.props;
-			const { newReplyContent, thread } = this.state;
+			const { thread } = this.state;
 			await sendReply(authData, newReplyContent, thread.id);
 			this.setState({ isModalOpen: false });
 			window.location.reload();
@@ -127,8 +132,7 @@ class Thread extends Component {
 			errorMessage,
 			isLoading,
 			thread,
-			isModalOpen,
-			newReplyContent
+			isModalOpen
 		} = this.state;
 
 		if (!replies || !thread) return null;
@@ -190,12 +194,16 @@ class Thread extends Component {
 		);
 
 		const repliesListView = replies.map((reply, index) => {
+			function createMarkup() {
+				return { __html: reply.content };
+			}
+			console.log(reply.content);
 			if (index === 0) {
 				//display for the first reply, which is created by thread creator
 				return (
 					<div key={reply.id}>
 						<div className="thread_content">
-							<p>{reply.content}</p>
+							<div dangerouslySetInnerHTML={createMarkup()} />
 						</div>
 						<RepToolBar reply={reply} />
 					</div>
@@ -222,7 +230,9 @@ class Thread extends Component {
 									<div className="user_title">Role: {reply.author.role}</div>
 								</div>
 								<div className="post_rep_content">
-									<p>{reply.content}</p>
+									<div
+										dangerouslySetInnerHTML={() => ({ _html: createMarkup() })}
+									/>
 								</div>
 							</div>
 						</div>
@@ -259,14 +269,8 @@ class Thread extends Component {
 			>
 				<div style={{ flex: 1, flexDirection: "column" }}>
 					<h2>Enter information</h2>
-					<textarea
-						name="newThreadContent"
-						type="text"
-						placeholder="Content"
-						value={newReplyContent}
-						onChange={this.handleType}
-					/>
-					<button onClick={this.reply}>Submit</button>
+					<EditorConvertToHTML submit={this.submit} />
+
 					<button onClick={this.closeModal}>Close</button>
 				</div>
 			</Modal>
@@ -276,9 +280,10 @@ class Thread extends Component {
 		else
 			return (
 				<div>
-					{/*<button onClick={this.createDummyThreads}>
+					<button onClick={this.createDummyThreads}>
 						create dummy replies
-			</button>*/}
+					</button>
+
 					{newReplyModal}
 					{NavBar}
 					{ThreadHeader}
