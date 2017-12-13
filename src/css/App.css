@@ -446,6 +446,7 @@ button:hover{
   display: flex;
   flex-direction: column;
   width: 80%;
+  background-color: white;
   justify-content: center;
 }
 .thread_header .thread_header_info .thread_name {
@@ -464,7 +465,7 @@ button:hover{
 .thread_bar .rep {
   width: 20em;
   height: 3em;
-  background-color: #eaeaea;
+  background-color: white;
 }
 .thread_bar .search_bar {
   width: 70%;
@@ -487,7 +488,8 @@ button:hover{
   margin: 2em 2em 0 2em;
   width: 80%;
   height: auto;
-  background-color: #eaeaee;
+  display: flex;
+  background-color: white;
   box-shadow: 0px 5px 5px grey;
 }
 
