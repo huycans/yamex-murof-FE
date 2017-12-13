@@ -160,6 +160,7 @@ class MainContent extends Component {
 			};
 
 			await createForum(newForumName, coverUrl, bikeInfo);
+			window.location.reload();
 		} catch (error) {
 			this.setState({ isError: true });
 			console.log(error);
@@ -171,7 +172,11 @@ class MainContent extends Component {
 	handleInputChange(event) {
 		//this function runs when user type in input box
 		const name = event.target.name;
-		const value = event.target.value;
+		let value = event.target.value;
+		if (name === "stillProducing") value = value === "true" ? true : false;
+
+		console.log(name, value, typeof value);
+
 		this.setState({
 			[name]: value
 		});
@@ -254,7 +259,11 @@ class MainContent extends Component {
 					<label>
 						Forum Name
 						<input
-							style={{ border: "1px black solid", color: "black" }}
+							style={{
+								paddingLeft: "4",
+								border: "1px black solid",
+								color: "black"
+							}}
 							name="newForumName"
 							type="text"
 							placeholder="Forum Name"
@@ -331,7 +340,7 @@ class MainContent extends Component {
 						type="radio"
 						value={true}
 						onChange={this.handleInputChange}
-						checked={stillProducing === true}
+						checked={stillProducing == true}
 					/>
 					Yes
 					<br />
@@ -340,7 +349,7 @@ class MainContent extends Component {
 						type="radio"
 						value={false}
 						onChange={this.handleInputChange}
-						checked={stillProducing === false}
+						checked={stillProducing == false}
 					/>
 					No
 					<br />
@@ -374,7 +383,7 @@ class MainContent extends Component {
 		return (
 			<div>
 				{newForumModal}
-				{userFromServer ? (
+				{userFromServer && userFromServer.role === "ADMIN" ? (
 					<button onClick={this.openModal}>Create new Forum</button>
 				) : null}
 				<Switch>

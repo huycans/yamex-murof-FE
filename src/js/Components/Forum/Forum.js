@@ -75,7 +75,6 @@ class Forum extends Component {
 	}
 
 	openModal() {
-		console.log("opening");
 		this.setState({ isModalOpen: true });
 	}
 
@@ -221,7 +220,7 @@ class Forum extends Component {
 
 				{newThreadModal}
 				<div className="forum_view">
-					{userFromServer ? (
+					{userFromServer && userFromServer.role === "ADMIN" ? (
 						<button onClick={this.openModal}>Create new subforum</button>
 					) : null}
 					<h1>{forumData.name}</h1>
