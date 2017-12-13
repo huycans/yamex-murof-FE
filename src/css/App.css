@@ -462,6 +462,7 @@ button:hover{
   align-items: center;
 }
 .thread_bar .rep {
+  width: 20em;
   height: 3em;
   background-color: #eaeaea;
 }
