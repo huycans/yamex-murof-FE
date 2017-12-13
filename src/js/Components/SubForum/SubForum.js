@@ -122,7 +122,9 @@ class SubForum extends Component {
 				right: "auto",
 				bottom: "auto",
 				marginRight: "-50%",
-				transform: "translate(-50%, -50%)"
+				transform: "translate(-50%, -50%)",
+				overflow: "scroll",
+				height: "500px"
 			}
 		};
 		const newThreadModal = (

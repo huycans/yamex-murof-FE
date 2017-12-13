@@ -33,7 +33,7 @@ class Thread extends Component {
 		this.reply = this.reply.bind(this);
 		this.loadRepliesFromPageNum = this.loadRepliesFromPageNum.bind(this);
 		this.handlePageClick = this.handlePageClick.bind(this);
-		this.createDummyThreads = this.createDummyThreads.bind(this);
+		// this.createDummyThreads = this.createDummyThreads.bind(this);
 		this.submit = this.submit.bind(this);
 	}
 
@@ -41,13 +41,13 @@ class Thread extends Component {
 		this.reply(htmlString);
 	}
 
-	createDummyThreads() {
-		const { authData } = this.props;
-		const { thread } = this.state;
-		for (let index = 0; index < 200; index++) {
-			sendReply(authData, "content", thread.id);
-		}
-	}
+	// createDummyThreads() {
+	// 	const { authData } = this.props;
+	// 	const { thread } = this.state;
+	// 	for (let index = 0; index < 200; index++) {
+	// 		sendReply(authData, "content", thread.id);
+	// 	}
+	// }
 
 	handleType(event) {
 		this.setState({ newReplyContent: event.target.value });
@@ -255,7 +255,9 @@ class Thread extends Component {
 				right: "auto",
 				bottom: "auto",
 				marginRight: "-50%",
-				transform: "translate(-50%, -50%)"
+				transform: "translate(-50%, -50%)",
+				overflow: "scroll",
+				height: "500px"
 			}
 		};
 
@@ -278,9 +280,9 @@ class Thread extends Component {
 		else
 			return (
 				<div>
-					<button onClick={this.createDummyThreads}>
+					{/*<button onClick={this.createDummyThreads}>
 						create dummy replies
-					</button>
+					</button>*/}
 
 					{newReplyModal}
 					{NavBar}
@@ -293,15 +295,6 @@ class Thread extends Component {
 							</button>
 						) : null}
 
-						<div className="search_bar">
-							<input type="text" placeholder="Search thread.." name="search" />
-							<input
-								type="image"
-								alt="search_icon"
-								src={require("../../../img/search.png")}
-								onClick={() => {}}
-							/>
-						</div>
 						<ReactPaginate
 							initialPage={0}
 							disableInitialCallback={true}
