@@ -140,7 +140,7 @@ class Forum extends Component {
 					<h2>Enter information</h2>
 
 					<input
-						style={{ border: "1px black solid", color: "black" }}
+						style={{ border: "1px black solid", color: "black"}}
 						name="newSubforumName"
 						type="text"
 						placeholder="Subforum Name"
@@ -148,15 +148,15 @@ class Forum extends Component {
 						onChange={this.handleInputChange}
 					/>
 					<input
-						style={{ border: "1px black solid", color: "black" }}
+						style={{ border: "1px black solid", color: "black" ,margin:"1em"}}
 						name="newSubforumDiscription"
 						type="text"
 						placeholder="Subforum Discription"
 						value={newSubforumDiscription}
 						onChange={this.handleInputChange}
 					/>
-					<button onClick={this.createNewSubforum}>Submit</button>
-					<button onClick={this.closeModal}>Close</button>
+					<button onClick={this.createNewSubforum } >Submit</button>
+					<button onClick={this.closeModal} >Close</button>
 				</div>
 			</Modal>
 		);

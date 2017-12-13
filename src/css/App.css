@@ -67,7 +67,8 @@ html {
 }
 
 input[type="text"],
-input[type="password"] {
+input[type="password"],
+input[type="number"] {
   width: 13em;
   height: 2em;
   margin-top: 0.3em;
@@ -124,9 +125,7 @@ input[type="password"]:focus {
   color: #ef7334;
 }
 
-::-webkit-input-placeholder {
-  color: white;
-}
+
 input:focus::-webkit-input-placeholder {
   color: transparent;
 }
@@ -151,6 +150,19 @@ input:focus::-webkit-input-placeholder {
   margin: 1%;
 }
 
+button{
+  padding: 0.5em 1em 0.5em 1em;
+  border-radius: 2em;
+  background-color: white;
+  border: solid 1px #ef7334;
+  color: #ef7334;
+}
+button:hover{
+  cursor: pointer;
+  border-color: grey;
+  color: grey;
+  box-shadow: 0.2em 0.2em 0.5em rgb(163, 163, 163);
+}
 /*forum */
 .tab {
   margin: 0;
@@ -159,8 +171,8 @@ input:focus::-webkit-input-placeholder {
 
 /*Collapsible is the wrapper class of the forum collapse*/
 .Collapsible {
-  margin-top: 10px;
   width: 80%;
+  margin-top: 10px;
 }
 .Collapsible__trigger {
   display: block;
@@ -457,7 +469,7 @@ input:focus::-webkit-input-placeholder {
   width: 70%;
   text-align: right;
 }
-.thread_bar .search_bar input[type="text"] {
+.thread_bar .search_bar input {
   height: 3em;
   border-color: grey;
 }

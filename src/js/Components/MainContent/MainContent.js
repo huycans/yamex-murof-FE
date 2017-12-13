@@ -260,7 +260,7 @@ class MainContent extends Component {
 						Forum Name
 						<input
 							style={{
-								paddingLeft: "4",
+								marginLeft: "5em",
 								border: "1px black solid",
 								color: "black"
 							}}
@@ -275,7 +275,7 @@ class MainContent extends Component {
 					<label>
 						URL for cover picture
 						<input
-							style={{ border: "1px black solid", color: "black" }}
+							style={{ border: "1px black solid", color: "black",marginLeft:"1em" }}
 							name="coverUrl"
 							type="text"
 							placeholder="URL for cover picture"
@@ -289,7 +289,7 @@ class MainContent extends Component {
 					<label>
 						Bike brand
 						<input
-							style={{ border: "1px black solid", color: "black" }}
+							style={{ border: "1px black solid", color: "black",marginLeft:"6em" }}
 							name="brand"
 							type="text"
 							placeholder="Brand"
@@ -301,7 +301,7 @@ class MainContent extends Component {
 					<label>
 						Bike name
 						<input
-							style={{ border: "1px black solid", color: "black" }}
+							style={{ border: "1px black solid", color: "black",marginLeft:"6em" }}
 							name="name"
 							type="text"
 							placeholder="Name"
@@ -313,7 +313,7 @@ class MainContent extends Component {
 					<label>
 						Bike description
 						<input
-							style={{ border: "1px black solid", color: "black" }}
+							style={{ border: "1px black solid", color: "black",marginLeft:"3em" }}
 							name="description"
 							type="text"
 							placeholder="description"
@@ -325,7 +325,7 @@ class MainContent extends Component {
 					<label>
 						Bike power
 						<input
-							style={{ border: "1px black solid", color: "black" }}
+							style={{ border: "1px black solid", color: "black" ,marginLeft:"6em"}}
 							name="power"
 							type="number"
 							placeholder="Power"
@@ -341,6 +341,7 @@ class MainContent extends Component {
 						value={true}
 						onChange={this.handleInputChange}
 						checked={stillProducing == true}
+						style={{margin:"0.5em"}}
 					/>
 					Yes
 					<br />
@@ -350,6 +351,7 @@ class MainContent extends Component {
 						value={false}
 						onChange={this.handleInputChange}
 						checked={stillProducing == false}
+						style={{margin:"0.5em"}}
 					/>
 					No
 					<br />
@@ -384,7 +386,7 @@ class MainContent extends Component {
 			<div>
 				{newForumModal}
 				{userFromServer && userFromServer.role === "ADMIN" ? (
-					<button onClick={this.openModal}>Create new Forum</button>
+					<button onClick={this.openModal} style={{width:"80%", margin:"1em"}}>Create new Forum</button>
 				) : null}
 				<Switch>
 					<Route exact path="/" render={() => listOfForum} />
