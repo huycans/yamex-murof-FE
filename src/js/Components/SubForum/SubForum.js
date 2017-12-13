@@ -25,15 +25,15 @@ class SubForum extends Component {
 		this.handlePageClick = this.handlePageClick.bind(this);
 		this.loadThreadsFromPageNum = this.loadThreadsFromPageNum.bind(this);
 		this.submit = this.submit.bind(this);
-		this.createDummyThreads = this.createDummyThreads.bind(this);
+		// this.createDummyThreads = this.createDummyThreads.bind(this);
 	}
 
-	createDummyThreads() {
-		const { subforumData, authData } = this.props;
-		for (let i = 100; i < 200; i++) {
-			createThread("thread " + i, subforumData.id, "content content", authData);
-		}
-	}
+	// createDummyThreads() {
+	// 	const { subforumData, authData } = this.props;
+	// 	for (let i = 100; i < 200; i++) {
+	// 		createThread("thread " + i, subforumData.id, "content content", authData);
+	// 	}
+	// }
 
 	submit(htmlString) {
 		console.log(htmlString);
@@ -187,7 +187,7 @@ class SubForum extends Component {
 		});
 		return (
 			<div>
-				{<button onClick={this.createDummyThreads}>createDummyThreads</button>}
+				{/*<button onClick={this.createDummyThreads}>createDummyThreads</button>*/}
 				{newThreadModal}
 				<div className="navigator">
 					<Link to={"/"}>YAMEX</Link>

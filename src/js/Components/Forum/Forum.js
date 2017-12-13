@@ -22,8 +22,8 @@ const MiniThreadView = props => {
 					{threadData.name}
 				</Link>
 			</div>
-			<div className="MiniThreadView_rep">{threadData.threadNumber}</div>
-			<div className="MiniThreadView_view">NA</div>
+			<div className="MiniThreadView_rep">{threadData.replyNumber}</div>
+			<div className="MiniThreadView_view">10</div>
 		</div>
 	);
 };
