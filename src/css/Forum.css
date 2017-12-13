@@ -60,6 +60,11 @@
 
   text-align: right;
 }
+.MiniThreadView .MiniThreadView_view {
+  width: 15%;
+
+  text-align: right;
+}
 .MiniThreadView .subforum_view {
   width: 15%;
   text-align: center;
