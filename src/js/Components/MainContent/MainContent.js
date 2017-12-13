@@ -4,7 +4,8 @@ import Collapsible from "react-collapsible";
 import { Link, Route, Switch } from "react-router-dom";
 import Forum from "../Forum";
 import LoadingIcon from "../LoadingIcon";
-import { getSubForumList, getForumList } from "../API_Functions";
+import { getSubForumList, getForumList, createForum } from "../API_Functions";
+import Modal from "react-modal";
 // subforumData
 // "id": "5a2405a1799a83547a3cb970",
 // "createdTime": "2017-12-03T14:09:37.308Z",
@@ -121,8 +122,72 @@ class MainContent extends Component {
 		this.state = {
 			isError: null,
 			forumList: [],
-			isLoading: true
+			isLoading: true,
+			isModalOpen: false,
+			newForumName: "",
+			coverUrl: "",
+			//bike info
+			brand: "",
+			description: "",
+			name: "",
+			power: 0,
+			stillProducing: true
 		};
+		this.openModal = this.openModal.bind(this);
+		this.closeModal = this.closeModal.bind(this);
+		this.createNewForum = this.createNewForum.bind(this);
+		this.handleInputChange = this.handleInputChange.bind(this);
+	}
+
+	async createNewForum() {
+		try {
+			const {
+				brand,
+				description,
+				name,
+				newForumName,
+				power,
+				stillProducing,
+				coverUrl
+			} = this.state;
+
+			const bikeInfo = {
+				brand: brand,
+				description: description,
+				name: name,
+				power: power,
+				stillProducing: stillProducing
+			};
+
+			await createForum(newForumName, coverUrl, bikeInfo);
+		} catch (error) {
+			this.setState({ isError: true });
+			console.log(error);
+		} finally {
+			this.setState({ isModalOpen: false });
+		}
+	}
+
+	handleInputChange(event) {
+		//this function runs when user type in input box
+		const name = event.target.name;
+		const value = event.target.value;
+		this.setState({
+			[name]: value
+		});
+	}
+
+	openModal() {
+		console.log("opening");
+		this.setState({ isModalOpen: true });
+	}
+
+	closeModal() {
+		this.setState({
+			isModalOpen: false,
+			newForumName: "",
+			newForumdescription: ""
+		});
 	}
 
 	componentDidMount() {
@@ -137,8 +202,20 @@ class MainContent extends Component {
 		);
 	}
 	render() {
-		let { forumList, isError, isLoading } = this.state;
-		let { match } = this.props;
+		const {
+			forumList,
+			isError,
+			isLoading,
+			coverUrl,
+			isModalOpen,
+			brand,
+			description,
+			name,
+			newForumName,
+			power,
+			stillProducing
+		} = this.state;
+		const { match, userFromServer } = this.props;
 
 		//if the component is loading display LoadingIcon component
 		if (isLoading)
@@ -155,7 +232,123 @@ class MainContent extends Component {
 				</div>
 			);
 		}
-
+		const customStyles = {
+			content: {
+				top: "50%",
+				left: "50%",
+				right: "auto",
+				bottom: "auto",
+				marginRight: "-50%",
+				transform: "translate(-50%, -50%)"
+			}
+		};
+		const newForumModal = (
+			<Modal
+				style={customStyles}
+				isOpen={isModalOpen}
+				contentLabel="newThreadModal"
+			>
+				<div>
+					<h2>Enter information</h2>
+					<br />
+					<label>
+						Forum Name
+						<input
+							style={{ border: "1px black solid", color: "black" }}
+							name="newForumName"
+							type="text"
+							placeholder="Forum Name"
+							value={newForumName}
+							onChange={this.handleInputChange}
+						/>
+					</label>
+					<br />
+					<label>
+						URL for cover picture
+						<input
+							style={{ border: "1px black solid", color: "black" }}
+							name="coverUrl"
+							type="text"
+							placeholder="URL for cover picture"
+							value={coverUrl}
+							onChange={this.handleInputChange}
+						/>
+					</label>
+					<br />
+					<h3>Enter bike info</h3>
+					<br />
+					<label>
+						Bike brand
+						<input
+							style={{ border: "1px black solid", color: "black" }}
+							name="brand"
+							type="text"
+							placeholder="Brand"
+							value={brand}
+							onChange={this.handleInputChange}
+						/>
+					</label>
+					<br />
+					<label>
+						Bike name
+						<input
+							style={{ border: "1px black solid", color: "black" }}
+							name="name"
+							type="text"
+							placeholder="Name"
+							value={name}
+							onChange={this.handleInputChange}
+						/>
+					</label>
+					<br />
+					<label>
+						Bike description
+						<input
+							style={{ border: "1px black solid", color: "black" }}
+							name="description"
+							type="text"
+							placeholder="description"
+							value={description}
+							onChange={this.handleInputChange}
+						/>
+					</label>
+					<br />
+					<label>
+						Bike power
+						<input
+							style={{ border: "1px black solid", color: "black" }}
+							name="power"
+							type="number"
+							placeholder="Power"
+							value={power}
+							onChange={this.handleInputChange}
+						/>
+					</label>
+					<br />
+					<h4>Is this bike still in production?</h4>
+					<input
+						name="stillProducing"
+						type="radio"
+						value={true}
+						onChange={this.handleInputChange}
+						checked={stillProducing === true}
+					/>
+					Yes
+					<br />
+					<input
+						name="stillProducing"
+						type="radio"
+						value={false}
+						onChange={this.handleInputChange}
+						checked={stillProducing === false}
+					/>
+					No
+					<br />
+					<button onClick={this.createNewForum}>Submit</button>
+					<button onClick={this.closeModal}>Close</button>
+				</div>
+			</Modal>
+		);
 		let listOfForum = null;
 		let listOfForumRoute = null;
 		//create a list of mini (small) peak of the forums in the site
@@ -168,14 +361,22 @@ class MainContent extends Component {
 				path={`${match.path}${forum.path}`}
 				key={forum.id}
 				render={props => (
-					<Forum {...props} forumData={forum} authData={this.props.authData} />
+					<Forum
+						{...props}
+						userFromServer={userFromServer}
+						forumData={forum}
+						authData={this.props.authData}
+					/>
 				)}
-				// component={Forum}
 			/>
 		));
 
 		return (
 			<div>
+				{newForumModal}
+				{userFromServer ? (
+					<button onClick={this.openModal}>Create new Forum</button>
+				) : null}
 				<Switch>
 					<Route exact path="/" render={() => listOfForum} />
 					{listOfForumRoute}
@@ -194,7 +395,8 @@ MainContent.propTypes = {
 	},
 	forumList: PropTypes.array,
 	listOfForumRoute: PropTypes.array,
-	authData: PropTypes.object
+	authData: PropTypes.object,
+	userFromServer: PropTypes.object
 };
 
 // bikeInfo: null

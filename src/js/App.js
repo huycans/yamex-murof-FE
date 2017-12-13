@@ -329,6 +329,7 @@ class App extends Component {
 					render={props => (
 						<MainContent
 							{...props}
+							userFromServer = {userFromServer}
 							authData={{ sessionToken: sessionToken, userId: userId }}
 						/>
 					)}

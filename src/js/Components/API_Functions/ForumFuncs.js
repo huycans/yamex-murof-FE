@@ -16,4 +16,30 @@ async function getForumList() {
 	}
 }
 
-export { getForumList };
+async function createForum(name, coverUrl = "", bikeInfo = {}) {
+	try {
+		console.log(name, coverUrl, bikeInfo);
+		let link = URL + SERVER_API.forum;
+		let response = await fetch(link, {
+			method: "PUT",
+			headers: {
+				Accept: "application/json",
+				"Content-Type": "application/json",
+				"Access-Control-Allow-Origin": "*"
+			},
+			body: JSON.stringify({
+				bikeInfo: bikeInfo,
+				coverUrl: coverUrl,
+				name: name
+			})
+		});
+		console.log(response);
+		let responseJSON = await response.json();
+		console.log(responseJSON);
+		return responseJSON.content;
+	} catch (error) {
+		throw error;
+	}
+}
+
+export { getForumList, createForum };

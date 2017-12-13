@@ -3,8 +3,14 @@ import PropTypes from "prop-types";
 import { Link, Route, Switch } from "react-router-dom";
 import SubForum from "../SubForum";
 import "../../../css/Forum.css";
-import { getSubForumList, getNewestThreadList } from "../API_Functions";
+import {
+	getSubForumList,
+	getNewestThreadList,
+	createSubforum
+} from "../API_Functions";
 import { Thread } from "../Thread";
+import Modal from "react-modal";
+
 const MiniThreadView = props => {
 	let { forumPath, subforumPath, threadData } = props;
 	let date = new Date(threadData.lastModifiedTime);
@@ -31,8 +37,54 @@ class Forum extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			subforumList: []
+			subforumList: [],
+			isModalOpen: false,
+			newSubforumName: "",
+			newSubforumDiscription: ""
 		};
+		this.createNewSubforum = this.createNewSubforum.bind(this);
+		this.openModal = this.openModal.bind(this);
+		this.closeModal = this.closeModal.bind(this);
+		this.handleInputChange = this.handleInputChange.bind(this);
+	}
+
+	async createNewSubforum() {
+		try {
+			const { forumData } = this.props;
+			const { newSubforumName, newSubforumDiscription } = this.state;
+			await createSubforum(
+				forumData.id,
+				newSubforumDiscription,
+				newSubforumName
+			);
+			window.location.reload();
+		} catch (error) {
+			console.log(error);
+		} finally {
+			this.closeModal();
+		}
+	}
+
+	handleInputChange(event) {
+		//this function runs when user input new subforum name and discription
+		const name = event.target.name;
+		const value = event.target.value;
+		this.setState({
+			[name]: value
+		});
+	}
+
+	openModal() {
+		console.log("opening");
+		this.setState({ isModalOpen: true });
+	}
+
+	closeModal() {
+		this.setState({
+			isModalOpen: false,
+			newSubforumName: "",
+			newSubforumDiscription: ""
+		});
 	}
 	componentDidMount() {
 		const { forumData } = this.props;
@@ -66,8 +118,51 @@ class Forum extends Component {
 			});
 	}
 	render() {
-		let { match, forumData, authData } = this.props;
-		let subforums = this.state.subforumList;
+		const { match, forumData, authData, userFromServer } = this.props;
+		const { isModalOpen, newSubforumName, newSubforumDiscription } = this.state;
+
+		const customStyles = {
+			content: {
+				top: "50%",
+				left: "50%",
+				right: "auto",
+				bottom: "auto",
+				marginRight: "-50%",
+				transform: "translate(-50%, -50%)"
+			}
+		};
+		const newThreadModal = (
+			<Modal
+				style={customStyles}
+				isOpen={isModalOpen}
+				contentLabel="newThreadModal"
+			>
+				<div>
+					<h2>Enter information</h2>
+
+					<input
+						style={{ border: "1px black solid", color: "black" }}
+						name="newSubforumName"
+						type="text"
+						placeholder="Subforum Name"
+						value={newSubforumName}
+						onChange={this.handleInputChange}
+					/>
+					<input
+						style={{ border: "1px black solid", color: "black" }}
+						name="newSubforumDiscription"
+						type="text"
+						placeholder="Subforum Discription"
+						value={newSubforumDiscription}
+						onChange={this.handleInputChange}
+					/>
+					<button onClick={this.createNewSubforum}>Submit</button>
+					<button onClick={this.closeModal}>Close</button>
+				</div>
+			</Modal>
+		);
+
+		const subforums = this.state.subforumList;
 		console.log(subforums);
 		// if (!subforums || !subforums.threadList) return null;
 		//create a list of subforum in the forum, each subforum has a list of threads
@@ -123,7 +218,12 @@ class Forum extends Component {
 					-&gt;
 					<Link to={`/${forumData.path}`}>{forumData.name}</Link>
 				</div>
+
+				{newThreadModal}
 				<div className="forum_view">
+					{userFromServer ? (
+						<button onClick={this.openModal}>Create new subforum</button>
+					) : null}
 					<h1>{forumData.name}</h1>
 					{SubforumList}{" "}
 				</div>
@@ -164,6 +264,7 @@ Forum.propTypes = {
 		name: PropTypes.string,
 		path: PropTypes.string
 	},
-	authData: PropTypes.object
+	authData: PropTypes.object,
+	userFromServer: PropTypes.object
 };
 export default Forum;

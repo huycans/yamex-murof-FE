@@ -230,9 +230,7 @@ class Thread extends Component {
 									<div className="user_title">Role: {reply.author.role}</div>
 								</div>
 								<div className="post_rep_content">
-									<div
-										dangerouslySetInnerHTML={() => ({ _html: createMarkup() })}
-									/>
+									<div dangerouslySetInnerHTML={createMarkup()} />
 								</div>
 							</div>
 						</div>

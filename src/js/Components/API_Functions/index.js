@@ -1,5 +1,5 @@
-import { getSubForumList } from "./SubforumFuncs";
-import { getForumList } from "./ForumFuncs";
+import { getSubForumList, createSubforum } from "./SubforumFuncs";
+import { getForumList, createForum } from "./ForumFuncs";
 import { verifyToken } from "./VerifyToken";
 import {
 	getThreadList,
@@ -22,5 +22,7 @@ export {
 	sendThank,
 	getUserInfo,
 	updateUserInfo,
-	getNewestThreadList
+	getNewestThreadList,
+	createSubforum,
+	createForum
 };
