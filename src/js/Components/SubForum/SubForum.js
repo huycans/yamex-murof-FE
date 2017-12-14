@@ -145,7 +145,7 @@ class SubForum extends Component {
 						onChange={this.handleInputChange}
 					/>
 					<EditorConvertToHTML submit={this.submit} />
-					<button onClick={this.closeModal}>Close</button>
+					<button onClick={this.closeModal} style={{marginTop: "1em"}}>Close</button>
 				</div>
 			</Modal>
 		);

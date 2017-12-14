@@ -323,6 +323,7 @@ button:hover{
   color: gray;
   box-shadow: 0.2em 0.2em 0.5em rgb(163, 163, 163);
 }
+
 .no_pages li {
   list-style: none;
 }
@@ -334,7 +335,7 @@ button:hover{
   background-color: yellow;
 }
 .active a {
-  border-color: black;
+  border-color: rgb(138, 138, 138);
 }
 /*end of pagination bar*/
 
@@ -439,6 +440,7 @@ button:hover{
 .thread_header .user_avatar {
   padding: 1em;
   border: solid 1px;
+  background-color: white;
 }
 .thread_header .thread_header_info {
   padding: 1em;
@@ -484,7 +486,7 @@ button:hover{
 }
 
 .thread_content {
-  padding: 2em 0 2em 0;
+  padding: 2em;
   margin: 2em 2em 0 2em;
   width: 80%;
   height: auto;
@@ -525,6 +527,7 @@ button:hover{
   margin: 2em 0 0 2em;
   width: 80%;
 }
+
 .post_reply .user_post_rep {
   display: flex;
 }
@@ -540,7 +543,7 @@ button:hover{
 .post_reply .user_post_rep .post_user,
 .post_reply .user_post_rep .post_info {
   border: solid 1px;
-  background-color: #eaeaea;
+  background-color: white;
 }
 
 .post_content {
@@ -550,19 +553,22 @@ button:hover{
   width: 15%;
   padding: 1em;
   text-align: center;
+  
 }
 .post_content .post_user_content img {
   margin: 2em;
-  width: 8em;
-  height: 8em;
+  padding: 1em;
+  width: 6em;
+  height: 6em;
 }
 .post_content .post_rep_content {
-  width: 85%;
-  padding: 1em;
+  width: 80%;
+  padding: 2em;
 }
 .post_content .post_user_content,
 .post_content .post_rep_content {
   border: solid 1px;
+  background-color: white;
 }
 
 /*user info*/
