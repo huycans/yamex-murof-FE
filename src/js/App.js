@@ -13,7 +13,6 @@ class App extends Component {
 		super(props);
 		this.state = {
 			isLoading: true,
-			//isSignedIn: false,
 			email: "ditmehuy@gahuy.com",
 			password: "123456789",
 			errorMessage: "",

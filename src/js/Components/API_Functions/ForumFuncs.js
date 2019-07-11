@@ -10,7 +10,8 @@ async function getForumList() {
 			}
 		});
 		let responseJSON = await response.json();
-		return responseJSON.content;
+		console.log("responseJSON", responseJSON);
+		return responseJSON ;
 	} catch (error) {
 		throw error;
 	}
@@ -36,7 +37,7 @@ async function createForum(name, coverUrl = "", bikeInfo = {}) {
 		console.log(response);
 		let responseJSON = await response.json();
 		console.log(responseJSON);
-		return responseJSON.content;
+		return responseJSON ;
 	} catch (error) {
 		throw error;
 	}

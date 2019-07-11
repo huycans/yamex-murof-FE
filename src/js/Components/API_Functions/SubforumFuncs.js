@@ -10,7 +10,7 @@ async function getSubForumList(fid) {
 			}
 		});
 		let responseJSON = await response.json();
-		return responseJSON.content;
+		return responseJSON ;
 	} catch (error) {
 		throw error;
 	}
@@ -34,7 +34,7 @@ async function createSubforum(forumId, description, name) {
 			})
 		});
 		let responseJSON = await response.json();
-		return responseJSON.content;
+		return responseJSON ;
 	} catch (error) {
 		throw error;
 	}

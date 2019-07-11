@@ -11,7 +11,7 @@ async function getUserInfo(userId) {
 			}
 		});
 		let responseJSON = await response.json();
-		return responseJSON.content;
+		return responseJSON ;
 	} catch (error) {
 		throw error;
 	}

@@ -20,7 +20,7 @@ async function verifyToken(clientIdToken, FCMkey = null) {
 
 		if (responseJSON.status.httpStatus === 200) {
 			//make sure there is content inside the response before return it to signin function
-			return responseJSON.content;
+			return responseJSON ;
 		} else {
 			console.log(responseJSON.message);
 			throw "Verification process unsuccessful: " + responseJSON.message;

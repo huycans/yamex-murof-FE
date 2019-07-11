@@ -13,7 +13,7 @@ async function getThreadList(sfid, page) {
 			}
 		});
 		let responseJSON = await response.json();
-		return responseJSON.content;
+		return responseJSON ;
 	} catch (error) {
 		throw error;
 	}
@@ -30,7 +30,7 @@ async function getThreadData(threadId) {
 			}
 		});
 		let responseJSON = await response.json();
-		return responseJSON.content;
+		return responseJSON ;
 	} catch (error) {
 		throw error;
 	}
@@ -54,7 +54,7 @@ async function createThread(name, subForumId, content, authData) {
 			authData,
 			body
 		);
-		let threadId = response.content;
+		let threadId = response ;
 		await sendReply(authData, content, threadId);
 		return 1;
 	} catch (error) {
@@ -73,7 +73,7 @@ async function getNewestThreadList(sfid) {
 			}
 		});
 		let responseJSON = await response.json();
-		return responseJSON.content;
+		return responseJSON ;
 	} catch (error) {
 		throw error;
 	}
