@@ -1,14 +1,9 @@
 import { getSubForumList, createSubforum } from "./SubforumFuncs";
 import { getForumList, createForum } from "./ForumFuncs";
 import { verifyToken } from "./VerifyToken";
-import {
-	getThreadList,
-	createThread,
-	getThreadData,
-	getNewestThreadList
-} from "./ThreadFuncs";
+import { getThreadList, createThread, getThreadData, getNewestThreadList } from "./ThreadFuncs";
 import { getReplyList, sendReply, sendThank } from "./ReplyFuncs";
-import { getUserInfo, updateUserInfo } from "./UserFunc";
+import { getUserInfo, updateUserInfo, loginWithEmail } from "./UserFunc";
 
 export {
 	getSubForumList,
@@ -24,5 +19,6 @@ export {
 	updateUserInfo,
 	getNewestThreadList,
 	createSubforum,
-	createForum
+	createForum,
+	loginWithEmail
 };

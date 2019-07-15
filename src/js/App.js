@@ -3,7 +3,7 @@ import "../css/App.css";
 import MainContent from "./Components/MainContent";
 import { Route, Link } from "react-router-dom";
 import firebase from "./Components/Firebase/Firebase.js";
-import { verifyToken, getUserInfo } from "./Components/API_Functions";
+import { verifyToken, getUserInfo, loginWithEmail } from "./Components/API_Functions";
 import Modal from "react-modal";
 import LoadingIcon from "./Components/LoadingIcon";
 import UserInfo from "./Components/User";
@@ -13,8 +13,8 @@ class App extends Component {
 		super(props);
 		this.state = {
 			isLoading: true,
-			email: "ditmehuy@gahuy.com",
-			password: "123456789",
+			email: "huy2@user.com",
+			password: "password",
 			errorMessage: "",
 			//user from firebase
 			user: null,
@@ -108,25 +108,45 @@ class App extends Component {
 		}
 	}
 
+	// async login(method) {
+	// 	console.log("Logging in");
+	// 	console.log(method);
+	// 	this.setState({ isLoading: true });
+	// 	try {
+	// 		let user = await this.loginMethod(method);
+	// 		let clientIdToken = await user.getIdToken();
+	// 		console.log("clientIdToken", clientIdToken);
+	// 		//verify token
+	// 		let serverResponse = await verifyToken(clientIdToken, null);
+	// 		console.log(serverResponse);
+	// 		//save user, sessionToken, userId to state
+	// 		let userObj = await getUserInfo(serverResponse.userId);
+	// 		//save user, sessionToken, userId to state
+	// 		this.setState({
+	// 			userFromServer: userObj,
+	// 			user: user,
+	// 			sessionToken: serverResponse.sessionToken,
+	// 			userId: serverResponse.userId
+	// 		});
+	// 	} catch (error) {
+	// 		this.setState({ errorMessage: error.message });
+	// 		console.log(error);
+	// 	} finally {
+	// 		this.setState({ isLoading: false });
+	// 	}
+	// }
+
 	async login(method) {
 		console.log("Logging in");
 		console.log(method);
 		this.setState({ isLoading: true });
 		try {
-			let user = await this.loginMethod(method);
-			let clientIdToken = await user.getIdToken();
-			console.log("clientIdToken", clientIdToken);
-			//verify token
-			let serverResponse = await verifyToken(clientIdToken, null);
-			console.log(serverResponse);
-			//save user, sessionToken, userId to state
-			let userObj = await getUserInfo(serverResponse.userId);
-			//save user, sessionToken, userId to state
+			let userObj = await loginWithEmail(this.state.email, this.state.password);
 			this.setState({
-				userFromServer: userObj,
-				user: user,
-				sessionToken: serverResponse.sessionToken,
-				userId: serverResponse.userId
+				userFromServer: userObj.user,
+				user: userObj.user,
+				sessionToken: userObj.token,
+				userId: userObj.user.id
 			});
 		} catch (error) {
 			this.setState({ errorMessage: error.message });
@@ -236,9 +256,7 @@ class App extends Component {
 		} = this.state;
 		//display a error message
 		let errorDisplay = (
-			<div
-				style={{ backgroundColor: "red", fontSize: 20, textAlign: "center" }}
-			>
+			<div style={{ backgroundColor: "red", fontSize: 20, textAlign: "center" }}>
 				{errorMessage}
 			</div>
 		);
@@ -328,7 +346,7 @@ class App extends Component {
 					render={props => (
 						<MainContent
 							{...props}
-							userFromServer = {userFromServer}
+							userFromServer={userFromServer}
 							authData={{ sessionToken: sessionToken, userId: userId }}
 						/>
 					)}
@@ -336,10 +354,7 @@ class App extends Component {
 				<Route
 					path={"/user/:userId"}
 					render={props => (
-						<UserInfo
-							authData={{ sessionToken: sessionToken, userId: userId }}
-							{...props}
-						/>
+						<UserInfo authData={{ sessionToken: sessionToken, userId: userId }} {...props} />
 					)}
 				/>
 				<footer>
@@ -350,8 +365,7 @@ class App extends Component {
 							</div>
 							<div className="describe-us">
 								<span>YAMEX RUMOF - Team 1&#39;s project</span>
-								<br />This forum help people discuss about things and things
-								about motorcycle.
+								<br />This forum help people discuss about things and things about motorcycle.
 							</div>
 						</div>
 						<div className="col2">

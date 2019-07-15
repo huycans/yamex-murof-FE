@@ -13,7 +13,9 @@ const SERVER_API = {
 	thread: "/thread",
 	threadNewest: "/thread/latest",
 	reply: "/reply",
-	user: "/user/info"
+  user: "/user/info",
+  userlogin: '/user/login',
+  usersignup: "/user/signup"
 };
 let URL = PROTOCOL + SERVER_IP;
 
