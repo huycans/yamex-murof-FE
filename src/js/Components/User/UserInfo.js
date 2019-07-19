@@ -82,9 +82,7 @@ class UserInfo extends Component {
 		} = this.state;
 		const { authData, match } = this.props;
 		const errorDisplay = (
-			<div
-				style={{ backgroundColor: "red", fontSize: 20, textAlign: "center" }}
-			>
+			<div style={{ backgroundColor: "red", fontSize: 20, textAlign: "center" }}>
 				{errorMessage}
 			</div>
 		);
@@ -104,9 +102,7 @@ class UserInfo extends Component {
 						<div className="user_info">
 							<div className="user_name">{userInfo.username}</div>
 							<div className="user_title">Role: {userInfo.role}</div>
-							<div className="status">
-								Last online: {formatTime(new Date(userInfo.lastLogin))}
-							</div>
+							<div className="status">Last online: {formatTime(new Date(userInfo.lastLogin))}</div>
 						</div>
 					</div>
 					<div className="user_about">

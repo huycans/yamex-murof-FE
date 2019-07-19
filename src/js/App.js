@@ -3,25 +3,32 @@ import "../css/App.css";
 import MainContent from "./Components/MainContent";
 import { Route, Link } from "react-router-dom";
 import firebase from "./Components/Firebase/Firebase.js";
-import { verifyToken, getUserInfo, loginWithEmail } from "./Components/API_Functions";
+import {
+	verifyToken,
+	getUserInfo,
+	loginWithEmail,
+	signupWithEmail
+} from "./Components/API_Functions";
 import Modal from "react-modal";
 import LoadingIcon from "./Components/LoadingIcon";
 import UserInfo from "./Components/User";
 
+const blankAppState = {
+	isLoading: true,
+	email: "huy2@user.com",
+	password: "password",
+	errorMessage: "",
+	//user from firebase
+	user: null,
+	userFromServer: null,
+	sessionToken: "",
+	userId: ""
+};
+
 class App extends Component {
 	constructor(props) {
 		super(props);
-		this.state = {
-			isLoading: true,
-			email: "huy2@user.com",
-			password: "password",
-			errorMessage: "",
-			//user from firebase
-			user: null,
-			userFromServer: null,
-			sessionToken: "",
-			userId: ""
-		};
+		this.state = blankAppState;
 		this.handleInputEmail = this.handleInputEmail.bind(this);
 		this.handleInputPassword = this.handleInputPassword.bind(this);
 		this.signup = this.signup.bind(this);
@@ -108,38 +115,10 @@ class App extends Component {
 		}
 	}
 
-	// async login(method) {
-	// 	console.log("Logging in");
-	// 	console.log(method);
-	// 	this.setState({ isLoading: true });
-	// 	try {
-	// 		let user = await this.loginMethod(method);
-	// 		let clientIdToken = await user.getIdToken();
-	// 		console.log("clientIdToken", clientIdToken);
-	// 		//verify token
-	// 		let serverResponse = await verifyToken(clientIdToken, null);
-	// 		console.log(serverResponse);
-	// 		//save user, sessionToken, userId to state
-	// 		let userObj = await getUserInfo(serverResponse.userId);
-	// 		//save user, sessionToken, userId to state
-	// 		this.setState({
-	// 			userFromServer: userObj,
-	// 			user: user,
-	// 			sessionToken: serverResponse.sessionToken,
-	// 			userId: serverResponse.userId
-	// 		});
-	// 	} catch (error) {
-	// 		this.setState({ errorMessage: error.message });
-	// 		console.log(error);
-	// 	} finally {
-	// 		this.setState({ isLoading: false });
-	// 	}
-	// }
-
 	async login(method) {
 		console.log("Logging in");
 		console.log(method);
-		this.setState({ isLoading: true });
+		this.setState({ isLoading: true, errorMessage: "" });
 		try {
 			let userObj = await loginWithEmail(this.state.email, this.state.password);
 			this.setState({
@@ -158,59 +137,42 @@ class App extends Component {
 
 	async signup() {
 		const { email, password } = this.state;
-		const self = this;
-		this.setState({ isLoading: true });
-		await firebase
-			.auth()
-			.createUserWithEmailAndPassword(email, password)
-			.catch(function(error) {
-				// Handle Errors here.
-				let errorMessage = error.message;
-				self.setState({ errorMessage: errorMessage, isLoading: false });
+		this.setState({ isLoading: true, errorMessage: "" });
+		try {
+			let userObj = await signupWithEmail(email, password);
+			this.setState({
+				userFromServer: userObj.user,
+				user: userObj.user,
+				sessionToken: userObj.token,
+				userId: userObj.user.id
 			});
-		await firebase.auth().onAuthStateChanged(async function(user) {
-			if (user) {
-				//Signed in user
-				console.log(user);
-				let clientIdToken = await user.getIdToken();
-				let serverResponse = await verifyToken(clientIdToken, null);
-				console.log(serverResponse);
-				//save user, sessionToken, userId to state
-				let userObj = await getUserInfo(serverResponse.userId);
-				//save user, sessionToken, userId to state
-				self.setState({
-					userFromServer: userObj,
-					user: user,
-					sessionToken: serverResponse.sessionToken,
-					userId: serverResponse.userId
-				});
-			} else {
-				console.log("No user is logged in");
-			}
-		});
+		} catch (error) {
+			this.setState({ errorMessage: error.message });
+			console.log(error);
+		} finally {
+			this.setState({ isLoading: false });
+		}
+
 		this.setState({ isLoading: false });
 	}
-
 	signout() {
-		this.setState({ isLoading: true });
-		let self = this;
-		firebase
-			.auth()
-			.signOut()
-			.then(function() {
-				self.setState({ isLoading: false, user: null });
-				// Sign-out successful.
-				console.log("Sign-out successful.");
+		try {
+			this.setState({ isLoading: true, errorMessage: "" });
+			// Sign-out successful.
+			console.log("Sign-out successful.");
+			this.setState({ ...this.state, blankAppState }, () => {
 				window.location.reload();
-			})
-			.catch(function(error) {
-				// An error happened.
-				console.log("Error while signout: ", error);
-				self.setState({
-					isLoading: false,
-					errorMessage: error.message
-				});
 			});
+		} catch (error) {
+			console.log("Error while signout: ", error);
+			this.setState({
+				errorMessage: error.message
+			});
+		} finally {
+			this.setState({
+				isLoading: false
+			});
+		}
 	}
 
 	componentDidMount() {

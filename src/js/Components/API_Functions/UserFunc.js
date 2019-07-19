@@ -7,7 +7,8 @@ async function getUserInfo(userId) {
 			method: "GET",
 			headers: {
 				Accept: "application/json",
-				"Access-Control-Allow-Origin": "*"
+        "Access-Control-Allow-Origin": "*"
+        // "Authorization": "Bearer <token here>"
 			}
 		});
 		let responseJSON = await response.json();
@@ -40,12 +41,39 @@ async function loginWithEmail(username, password) {
 			})
 		});
 		let responseJSON = await response.json();
-		console.log(responseJSON);
-		if (responseJSON) {
+		if (response.status != 200 && response.ok == false) {
+			throw new Error(responseJSON.err.message);
+		} else {
 			return responseJSON;
-		} else return null;
+		}
 	} catch (error) {
 		throw error;
 	}
 }
-export { getUserInfo, updateUserInfo, loginWithEmail };
+
+async function signupWithEmail(username, password) {
+	try {
+		let response = await fetch(URL + SERVER_API.usersignup, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+				Accept: "application/json",
+				"Access-Control-Allow-Origin": "*"
+			},
+			body: JSON.stringify({
+				username: username,
+				password: password
+			})
+		});
+		let responseJSON = await response.json();
+		if (response.status != 200 && response.ok == false) {
+			throw new Error(responseJSON.err.message);
+		} else {
+			return responseJSON;
+		}
+	} catch (error) {
+		throw error;
+	}
+}
+
+export { getUserInfo, updateUserInfo, loginWithEmail, signupWithEmail };
