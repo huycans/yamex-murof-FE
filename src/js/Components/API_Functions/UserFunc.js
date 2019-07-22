@@ -1,14 +1,16 @@
 import { URL, SERVER_API } from "../../Constants/API";
 import { sendDataWithAuth } from "./SecureConnect";
-async function getUserInfo(userId) {
+async function getUserInfo(userId, token) {
 	try {
-		let link = URL + SERVER_API.user + "/" + userId;
+    let link = URL + SERVER_API.user + "/" + userId;
+    let bearer = "Bearer " + token;
 		let response = await fetch(link, {
-			method: "GET",
+      method: "GET",
+      withCredentials: true,
 			headers: {
 				Accept: "application/json",
-        "Access-Control-Allow-Origin": "*"
-        // "Authorization": "Bearer <token here>"
+        "Access-Control-Allow-Origin": "*",
+        "Authorization": bearer
 			}
 		});
 		let responseJSON = await response.json();

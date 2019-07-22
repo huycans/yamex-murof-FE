@@ -2,11 +2,12 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { getUserInfo } from "../API_Functions";
 import { updateUserInfo } from "../API_Functions";
+import { ContextConsumer } from "../../context";
 const formatTime = time => {
 	return `${time.getDate()}/${time.getMonth() +
 		1}/${time.getFullYear()} ${time.getHours()}:${time.getMinutes()}`;
 };
-class UserInfo extends Component {
+class UserInfoComponent extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -29,8 +30,8 @@ class UserInfo extends Component {
 
 	componentDidMount() {
 		console.log("Loading user data");
-		const { match } = this.props;
-		getUserInfo(match.params.userId).then(
+		const { match, sessionToken } = this.props;
+		getUserInfo(match.params.userId, sessionToken).then(
 			user => {
 				this.setState({
 					userInfo: user,
@@ -161,8 +162,15 @@ class UserInfo extends Component {
 			);
 	}
 }
-UserInfo.propTypes = {
+UserInfoComponent.propTypes = {
 	match: PropTypes.object,
-	authData: PropTypes.object
+  authData: PropTypes.object,
+  sessionToken: PropTypes.string
 };
+
+const UserInfo = React.forwardRef((props, ref) => (
+  <ContextConsumer>
+    {value => <UserInfoComponent {...props} {...value} ref={ref} />}
+  </ContextConsumer>
+))
 export { UserInfo };
