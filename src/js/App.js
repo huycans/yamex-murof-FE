@@ -12,6 +12,7 @@ import {
 import Modal from "react-modal";
 import LoadingIcon from "./Components/LoadingIcon";
 import UserInfo from "./Components/User";
+import { ContextProvider } from "./context";
 
 const blankAppState = {
 	isLoading: true,
@@ -24,6 +25,8 @@ const blankAppState = {
 	sessionToken: "",
 	userId: ""
 };
+// initializing context
+const AppContext = React.createContext();
 
 class App extends Component {
 	constructor(props) {
@@ -176,6 +179,7 @@ class App extends Component {
 	}
 
 	componentDidMount() {
+    // TODO: fix this
 		this.setState({ isLoading: true });
 		let self = this;
 		console.log("Checking if user is signed in or not");
@@ -285,66 +289,71 @@ class App extends Component {
 					/>
 				</div>
 			</div>
-		);
+    );
+
 		//sessionToken and userId is passed as a prop called authData to all other children components
 		//to determined if user is signed in or not
 		return (
-			<div>
-				{LoadingModal}
-				<div className="wrap">
-					<Link to="/">
-						<img src={require("../img/logo.png")} alt="Logo" />
-					</Link>
+      <ContextProvider value={this.state}>
+        <div>
+          {LoadingModal}
+          <div className="wrap">
+            <Link to="/">
+              <img src={require("../img/logo.png")} alt="Logo" />
+            </Link>
 
-					<div className="search-input">
-						<input type="text" name="search" placeholder="Search.." />
-					</div>
-					{authSection}
-				</div>
+            <div className="search-input">
+              <input type="text" name="search" placeholder="Search.." />
+            </div>
+            {authSection}
+          </div>
 
-				{errorDisplay}
-				<Route
-					path="/"
-					render={props => (
-						<MainContent
-							{...props}
-							userFromServer={userFromServer}
-							authData={{ sessionToken: sessionToken, userId: userId }}
-						/>
-					)}
-				/>
-				<Route
-					path={"/user/:userId"}
-					render={props => (
-						<UserInfo authData={{ sessionToken: sessionToken, userId: userId }} {...props} />
-					)}
-				/>
-				<footer>
-					<div className="footer_container">
-						<div className="col1">
-							<div className="logo">
-								<img src={require("../img/logo.png")} alt="logo" />
-							</div>
-							<div className="describe-us">
-								<span>YAMEX RUMOF - Team 1&#39;s project</span>
-								<br />This forum help people discuss about things and things about motorcycle.
-							</div>
-						</div>
-						<div className="col2">
-							<p>
-								<b>Group member :</b>
-								<div className="member">
-									<br /> Nguyen Thanh Binh
-									<br /> Ngo Chinh Dung
-									<br /> Dao Thanh Duy
-									<br /> Vuong Thieu Huy
-									<br /> Diep Nhut Phuong
-								</div>
-							</p>
-						</div>
-					</div>
-				</footer>
-			</div>
+          {errorDisplay}
+          <Route
+            path="/"
+            render={props => (
+              <MainContent
+                {...props}
+                userFromServer={userFromServer}
+                authData={{ sessionToken: sessionToken, userId: userId }}
+              />
+            )}
+          />
+          <Route
+            path={"/user/:userId"}
+            render={props => (
+              <UserInfo authData={{ sessionToken: sessionToken, userId: userId }} {...props} />
+            )}
+          />
+          <footer>
+            <div className="footer_container">
+              <div className="col1">
+                <div className="logo">
+                  <img src={require("../img/logo.png")} alt="logo" />
+                </div>
+                <div className="describe-us">
+                  <span>YAMEX RUMOF - Team 1&#39;s project</span>
+                  <br />This forum help people discuss about things and things about motorcycle.
+                </div>
+              </div>
+              <div className="col2">
+                <p>
+                  <b>Group member :</b>
+                  <div className="member">
+                    <br /> Nguyen Thanh Binh
+                    <br /> Ngo Chinh Dung
+                    <br /> Dao Thanh Duy
+                    <br /> Vuong Thieu Huy
+                    <br /> Diep Nhut Phuong
+                  </div>
+                </p>
+              </div>
+            </div>
+          </footer>
+        </div>
+      </ContextProvider>
+        
+			
 		);
 	}
 }
