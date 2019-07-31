@@ -7,7 +7,8 @@ import {
 	verifyToken,
 	getUserInfo,
 	loginWithEmail,
-	signupWithEmail
+  signupWithEmail,
+  checkSession
 } from "./Components/API_Functions";
 import Modal from "react-modal";
 import LoadingIcon from "./Components/LoadingIcon";
@@ -25,8 +26,6 @@ const blankAppState = {
 	sessionToken: "",
 	userId: ""
 };
-// initializing context
-const AppContext = React.createContext();
 
 class App extends Component {
 	constructor(props) {
@@ -129,7 +128,7 @@ class App extends Component {
 				user: userObj.user,
 				sessionToken: userObj.token,
 				userId: userObj.user.id
-			});
+			}, () => localStorage.setItem("yamexState", JSON.stringify(this.state)));
 		} catch (error) {
 			this.setState({ errorMessage: error.message });
 			console.log(error);
@@ -148,7 +147,8 @@ class App extends Component {
 				user: userObj.user,
 				sessionToken: userObj.token,
 				userId: userObj.user.id
-			});
+      }, () => localStorage.setItem("yamexState", JSON.stringify(this.state)));
+      
 		} catch (error) {
 			this.setState({ errorMessage: error.message });
 			console.log(error);
@@ -177,38 +177,30 @@ class App extends Component {
 			});
 		}
 	}
-
-	componentDidMount() {
+	async componentDidMount() {
     // TODO: fix this
 		this.setState({ isLoading: true });
-		let self = this;
 		console.log("Checking if user is signed in or not");
-		firebase.auth().onAuthStateChanged(async function(user) {
-			try {
-				if (user) {
-					//Signed in user
-					console.log(user);
-					let clientIdToken = await user.getIdToken();
-					let serverResponse = await verifyToken(clientIdToken, null);
-					console.log(serverResponse);
-					let userObj = await getUserInfo(serverResponse.userId);
-					//save user, sessionToken, userId to state
-					self.setState({
-						userFromServer: userObj,
-						user: user,
-						sessionToken: serverResponse.sessionToken,
-						userId: serverResponse.userId
-					});
-				} else {
-					console.log("No user is logged in");
-				}
-			} catch (error) {
-				self.setState({ errorMessage: error.message });
-			} finally {
-				self.setState({ isLoading: false });
-			}
-		});
-	}
+    let localState =  JSON.parse(localStorage.getItem("yamexState"));
+    if (localState == null){
+      // user not signed in
+      console.log("No user is logged in");
+    }
+    else {
+      // there are local state
+      if (localState.sessionToken){
+        let isSessionValid = await checkSession(localState.sessionToken);
+        if (isSessionValid == false){
+          console.log("No user is logged in");
+        }
+        else {
+          // session is still valid
+          // let newState = Object.assign.localState, {isLoading: false} }
+          this.setState(Object.assign({}, localState, {isLoading: false}) );
+        }
+      }
+    }
+  }
 
 	render() {
 		let {

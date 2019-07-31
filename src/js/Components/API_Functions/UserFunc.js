@@ -78,4 +78,25 @@ async function signupWithEmail(username, password) {
 	}
 }
 
-export { getUserInfo, updateUserInfo, loginWithEmail, signupWithEmail };
+async function checkSession(sessionToken) {
+  try {
+		let response = await fetch(URL + SERVER_API.userTokenCheck, {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+				Accept: "application/json",
+        "Access-Control-Allow-Origin": "*",
+        Authorization: "Bearer " + sessionToken
+			}
+		});
+		let responseJSON = await response.json();
+		if (responseJSON.success == false && responseJSON.status == "JWT invalid") {
+			return false;
+		} else {
+			return true;
+		}
+	} catch (error) {
+		throw error;
+	}
+}
+export { getUserInfo, updateUserInfo, loginWithEmail, signupWithEmail, checkSession };

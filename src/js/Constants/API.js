@@ -15,7 +15,8 @@ const SERVER_API = {
 	reply: "/reply",
 	user: "/user",
 	userlogin: "/user/login",
-	usersignup: "/user/signup"
+  usersignup: "/user/signup",
+  userTokenCheck: "/user/checkJWTToken"
 };
 let URL = PROTOCOL + SERVER_IP;
 
