@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "../css/App.css";
 import MainContent from "./Components/MainContent";
-import { Route, Link } from "react-router-dom";
+import { Route, Link, Switch } from "react-router-dom";
 import firebase from "./Components/Firebase/Firebase.js";
 import {
 	verifyToken,
@@ -192,6 +192,8 @@ class App extends Component {
         let isSessionValid = await checkSession(localState.sessionToken);
         if (isSessionValid == false){
           console.log("No user is logged in");
+          this.setState({isLoading: false});
+
         }
         else {
           // session is still valid
@@ -282,7 +284,11 @@ class App extends Component {
 				</div>
 			</div>
     );
-
+    const NotFound = ({ location }) => (
+      <div>
+        <h3>404 error: {location.pathname} does not exist</h3>
+      </div>
+    )
 		//sessionToken and userId is passed as a prop called authData to all other children components
 		//to determined if user is signed in or not
 		return (
@@ -301,8 +307,10 @@ class App extends Component {
           </div>
 
           {errorDisplay}
-          <Route
+          <Switch>
+            <Route
             path="/"
+            exact
             render={props => (
               <MainContent
                 {...props}
@@ -310,13 +318,16 @@ class App extends Component {
                 authData={{ sessionToken: sessionToken, userId: userId }}
               />
             )}
-          />
-          <Route
-            path={"/user/:userId"}
-            render={props => (
-              <UserInfo authData={{ sessionToken: sessionToken, userId: userId }} {...props} />
-            )}
-          />
+            />
+            <Route
+              path={"/user/:userId"}
+              render={props => (
+                <UserInfo authData={{ sessionToken: sessionToken, userId: userId }} {...props} />
+              )}
+            />
+            <Route component={NotFound} />
+          </Switch>
+          
           <footer>
             <div className="footer_container">
               <div className="col1">
