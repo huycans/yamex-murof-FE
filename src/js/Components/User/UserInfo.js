@@ -12,7 +12,8 @@ class UserInfoComponent extends Component {
 		super(props);
 		this.state = {
 			userInfo: null,
-			avatarUrl: "",
+      avatarUrl: "",
+      avatarUpload: null,
 			favoriteBike: "",
 			username: "",
 			errorMessage: "",
@@ -20,14 +21,56 @@ class UserInfoComponent extends Component {
 			isUpdating: false
 		};
 		this.handleChangeValue = this.handleChangeValue.bind(this);
-		this.updateUser = this.updateUser.bind(this);
+    this.updateUser = this.updateUser.bind(this);
+    this.fileInput = React.createRef();
 	}
 
 	handleChangeValue(event) {
-		let targetName = event.target.name;
-		this.setState({ [targetName]: event.target.value });
+    let targetName = event.target.name;
+    if (targetName == "avatarUpload"){
+      this.setState({ [targetName]: event.target.files[0] });
+      console.log(event.target.files[0])
+    }
+    else this.setState({ [targetName]: event.target.value });
 	}
 
+	async updateUser() {
+		let { authData } = this.props;
+		try {
+			this.setState({ isUpdating: true });
+			let { avatarUrl, favoriteBike, username, avatarUpload } = this.state;
+			if (avatarUrl === "" && favoriteBike === "" && username === "" && avatarUpload == null) return;
+			else {
+        let body = new FormData();
+        if (avatarUpload != null){
+          body.append("avatarUpload", avatarUpload);
+        }
+        body.append("avatarUrl", avatarUrl);
+        body.append("favoriteBike", favoriteBike);
+        body.append("username", username);
+        {
+					avatarUrl: avatarUrl,
+					favoriteBike: favoriteBike,
+          username: username
+        };
+        // let body = {
+        //   avatarUrl: avatarUrl,
+				// 	favoriteBike: favoriteBike,
+        //   username: username
+        // }
+				await updateUserInfo(authData, body);
+				this.setState({
+					isUpdateSuccess: true
+				});
+				// window.location.reload();
+			}
+		} catch (error) {
+			this.setState({ errorMessage: error });
+		} finally {
+			this.setState({ isUpdating: false });
+		}
+  }
+  
 	componentDidMount() {
 		console.log("Loading user data");
 		const { match, sessionToken } = this.props;
@@ -44,31 +87,6 @@ class UserInfoComponent extends Component {
 				console.log(error);
 			}
 		);
-	}
-
-	async updateUser() {
-		let { authData } = this.props;
-		try {
-			this.setState({ isUpdating: true });
-			let { avatarUrl, favoriteBike, username } = this.state;
-			if (avatarUrl === "" && favoriteBike === "" && username === "") return;
-			else {
-				let body = {
-					avatarUrl: avatarUrl,
-					favoriteBike: favoriteBike,
-					username: username
-				};
-				await updateUserInfo(authData, body);
-				this.setState({
-					isUpdateSuccess: true
-				});
-				window.location.reload();
-			}
-		} catch (error) {
-			this.setState({ errorMessage: error });
-		} finally {
-			this.setState({ isUpdating: false });
-		}
 	}
 
 	render() {
@@ -126,7 +144,9 @@ class UserInfoComponent extends Component {
 						</div>
 					</div>
 					{authData.userId === match.params.userId ? (
-						<div className="change_info">
+            <div className="change_info">
+            <form method="post" encType="multipart/form-data" action="">
+            
 							<h4>Change your info</h4>
 							<label htmlFor="avatarUrl">Avatar url: </label>
 							<input
@@ -134,7 +154,9 @@ class UserInfoComponent extends Component {
 								value={avatarUrl}
 								name="avatarUrl"
 								onChange={this.handleChangeValue}
-							/>
+              />
+              <label htmlFor="avatarUpload">Upload Avatar: </label>
+              <input type="file" name="avatarUpload" onChange={this.handleChangeValue} />
 							<br />
 							<label htmlFor="favoriteBike">Favorite Bike: </label>
 							<input
@@ -155,7 +177,8 @@ class UserInfoComponent extends Component {
 							<button disabled={isUpdating} onClick={this.updateUser}>
 								Submit
 							</button>
-							{succesDisplay}
+              {succesDisplay}
+              </form>              
 						</div>
 					) : null}
 				</div>

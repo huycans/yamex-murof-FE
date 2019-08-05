@@ -21,11 +21,26 @@ async function getUserInfo(userId, token) {
 }
 
 async function updateUserInfo(authData, body) {
-	try {
-		await sendDataWithAuth("POST", SERVER_API.user + "/" + authData.userId, authData, body);
+  try {
+		let response = await fetch(SERVER_API.user + "/" + authData.userId, {
+			method: "POST",
+			headers: {
+        "Access-Control-Allow-Origin": "*",
+				"Content-Type": "application/json",
+				Accept: "application/json",
+        "Content-Type": ""
+			},
+      body: body
+		});
+		let responseJSON = await response.json();
+		if (response.status != 200 && response.ok == false) {
+			throw new Error(responseJSON.err.message);
+		} else {
+			return responseJSON;
+		}
 	} catch (error) {
 		throw error;
-	}
+}
 }
 
 async function loginWithEmail(username, password) {
