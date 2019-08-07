@@ -284,11 +284,11 @@ class App extends Component {
 				</div>
 			</div>
     );
-    const NotFound = ({ location }) => (
-      <div>
-        <h3>404 error: {location.pathname} does not exist</h3>
-      </div>
-    )
+    // const NotFound = ({ location }) => (
+    //   <div>
+    //     <h3>404 error: {location.pathname} does not exist</h3>
+    //   </div>
+    // )
 		//sessionToken and userId is passed as a prop called authData to all other children components
 		//to determined if user is signed in or not
 		return (
@@ -307,26 +307,23 @@ class App extends Component {
           </div>
 
           {errorDisplay}
-          <Switch>
-            <Route
-            path="/"
-            exact
+          
+          <Route
+          path="/"
+          render={props => (
+            <MainContent
+              {...props}
+              userFromServer={userFromServer}
+              authData={{ sessionToken: sessionToken, userId: userId }}
+            />
+          )}
+          />
+          <Route
+            path={"/user/:userId"}
             render={props => (
-              <MainContent
-                {...props}
-                userFromServer={userFromServer}
-                authData={{ sessionToken: sessionToken, userId: userId }}
-              />
+              <UserInfo authData={{ sessionToken: sessionToken, userId: userId }} {...props} />
             )}
-            />
-            <Route
-              path={"/user/:userId"}
-              render={props => (
-                <UserInfo authData={{ sessionToken: sessionToken, userId: userId }} {...props} />
-              )}
-            />
-            <Route component={NotFound} />
-          </Switch>
+          />
           
           <footer>
             <div className="footer_container">

@@ -37,6 +37,7 @@ class UserInfoComponent extends Component {
 	async updateUser() {
 		let { authData } = this.props;
 		try {
+      // TODO: fix this
 			this.setState({ isUpdating: true });
 			let { avatarUrl, favoriteBike, username, avatarUpload } = this.state;
 			if (avatarUrl === "" && favoriteBike === "" && username === "" && avatarUpload == null) return;
@@ -48,11 +49,6 @@ class UserInfoComponent extends Component {
         body.append("avatarUrl", avatarUrl);
         body.append("favoriteBike", favoriteBike);
         body.append("username", username);
-        {
-					avatarUrl: avatarUrl,
-					favoriteBike: favoriteBike,
-          username: username
-        };
         // let body = {
         //   avatarUrl: avatarUrl,
 				// 	favoriteBike: favoriteBike,

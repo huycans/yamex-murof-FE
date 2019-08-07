@@ -337,6 +337,11 @@ button:hover{
 .active a {
   border-color: rgb(138, 138, 138);
 }
+
+button.active.pagination{
+  border-color: rgb(138, 138, 138);
+  color: rgb(138, 138, 138);
+}
 /*end of pagination bar*/
 
 /*subforum bar */
