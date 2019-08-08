@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { getThreadList } from "../API_Functions/index";
-import ReactPaginate from "react-paginate";
+import Pagination from "../Pagination";
 import Modal from "react-modal";
 import { createThread } from "../API_Functions";
 import EditorConvertToHTML from "../Editor";
@@ -16,36 +16,21 @@ class SubForum extends Component {
 		super(props);
 		this.state = {
 			threadList: [],
-			newThreadName: ""
+      newThreadName: "",
+      current: null,
+      pages: null
 		};
 		this.createNewThread = this.createNewThread.bind(this);
 		this.handleInputChange = this.handleInputChange.bind(this);
 		this.openModal = this.openModal.bind(this);
 		this.closeModal = this.closeModal.bind(this);
-		this.handlePageClick = this.handlePageClick.bind(this);
 		this.loadThreadsFromPageNum = this.loadThreadsFromPageNum.bind(this);
 		this.submit = this.submit.bind(this);
-		// this.createDummyThreads = this.createDummyThreads.bind(this);
 	}
-
-	// createDummyThreads() {
-	// 	const { subforumData, authData } = this.props;
-	// 	for (let i = 100; i < 200; i++) {
-	// 		createThread("thread " + i, subforumData.id, "content content", authData);
-	// 	}
-	// }
 
 	submit(htmlString) {
 		console.log(htmlString);
 		this.createNewThread(htmlString);
-	}
-
-	handlePageClick(data) {
-		// history.push(
-		// 	`${match.path.slice(0, match.path.lastIndexOf("/"))}/${data.selected + 1}`
-		// );
-		//window.location.reload();
-		this.loadThreadsFromPageNum(data.selected + 1);
 	}
 
 	async createNewThread(threadContent) {
@@ -94,11 +79,11 @@ class SubForum extends Component {
 		const self = this;
 
 		getThreadList(subforumData.id, pageNum).then(
-			threadList => {
-				console.log(threadList);
+			result => {
+				console.log(result);
 				//if there is no threads, return nothing
-				if (!threadList) return;
-				self.setState({ threadList: threadList });
+				if (!result) return;
+				self.setState({ threadList: result.threads, current: result.current, pages: result.pages });
 			},
 			error => console.log(error)
 		);
@@ -110,10 +95,10 @@ class SubForum extends Component {
 	}
 
 	render() {
-		const { match, forumData, authData, subforumData } = this.props;
+		const { match, forumData, authData, subforumData  } = this.props;
 		//the maximum page number of a subforum
 		const maxPageNumber = subforumData.pageNumber;
-		const { threadList, newThreadName, isModalOpen } = this.state;
+		const { threadList, newThreadName, isModalOpen, current, pages } = this.state;
 		if (!threadList) return <p>Loading</p>;
 		const customStyles = {
 			content: {
@@ -184,10 +169,10 @@ class SubForum extends Component {
 					</div>
 				</div>
 			);
-		});
+    });
+    
 		return (
 			<div>
-				{/*<button onClick={this.createDummyThreads}>createDummyThreads</button>*/}
 				{newThreadModal}
 				<div className="navigator">
 					<Link to={"/"}>YAMEX</Link>
@@ -207,20 +192,8 @@ class SubForum extends Component {
 							<button onClick={this.openModal}>New Thread</button>
 						</div>
 					) : null}
-					<ReactPaginate
-						initialPage={0}
-						disableInitialCallback={true}
-						previousLabel={"Previous"}
-						nextLabel={"Next"}
-						breakLabel={"..."}
-						breakClassName={"break-me"}
-						pageCount={maxPageNumber}
-						marginPagesDisplayed={2}
-						pageRangeDisplayed={3}
-						onPageChange={this.handlePageClick}
-						containerClassName={"no_pages"}
-						activeClassName={"active"}
-					/>
+
+          <Pagination current={current} loadOnClick={this.loadThreadsFromPageNum} pages={pages} />
 				</div>
 
 				<div className="subforum_bar">
@@ -231,17 +204,7 @@ class SubForum extends Component {
 		);
 	}
 }
-// subforumData
-// "id": "5a2405a1799a83547a3cb970",
-// "createdTime": "2017-12-03T14:09:37.308Z",
-// "lastModifiedTime": "2017-12-03T14:09:37.308Z",
-// "name": "FAQ",
-// "description": "Question",
-// "forumId": "5a1ecb2b799a833ca2c7657a",
-// "latestThread": null,
-// "threadNumber": 0,
-// "replyNumber": 0
-//added by forum "threadList" : []
+
 SubForum.propTypes = {
 	match: {
 		url: PropTypes.string,

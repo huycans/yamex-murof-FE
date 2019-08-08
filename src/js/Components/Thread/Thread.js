@@ -3,7 +3,6 @@ import PropTypes from "prop-types"
 import { Link } from "react-router-dom"
 import { getReplyList, getThreadData, sendReply, sendThank } from "../API_Functions"
 import Modal from "react-modal"
-import ReactPaginate from "react-paginate"
 import EditorConvertToHTML from "../Editor"
 const formatTime = time => {
   return `${time.getDate()}/${time.getMonth() +
@@ -28,22 +27,12 @@ class Thread extends Component {
     this.thank = this.thank.bind(this)
     this.reply = this.reply.bind(this)
     this.loadRepliesFromPageNum = this.loadRepliesFromPageNum.bind(this)
-    this.handlePageClick = this.handlePageClick.bind(this)
-    // this.createDummyThreads = this.createDummyThreads.bind(this);
     this.submit = this.submit.bind(this)
   }
 
   submit(htmlString) {
     this.reply(htmlString)
   }
-
-  // createDummyThreads() {
-  // 	const { authData } = this.props;
-  // 	const { thread } = this.state;
-  // 	for (let index = 0; index < 200; index++) {
-  // 		sendReply(authData, "content", thread.id);
-  // 	}
-  // }
 
   handleType(event) {
     this.setState({ newReplyContent: event.target.value })
@@ -91,10 +80,6 @@ class Thread extends Component {
     }
   }
 
-  handlePageClick(data) {
-    this.loadRepliesFromPageNum(data.selected + 1)
-  }
-
   async loadRepliesFromPageNum(pageNum) {
     try {
       //loading thread is just loading replies in that thread
@@ -128,8 +113,8 @@ class Thread extends Component {
     if (!replies || !thread) return null
     //the maximum number of page to display in the paginator
     const maxPageNumber = thread.pageNumber
-    console.log(replies)
-    console.log(thread)
+    // console.log(replies)
+    // console.log(thread)
     //tool bar to thank and reply to posts
     const RepToolBar = props => {
       if (props.reply)
@@ -181,43 +166,43 @@ class Thread extends Component {
       function createMarkup() {
         return { __html: reply.content }
       }
-      console.log(reply.content)
-      if (index === 0) {
-        //display for the first reply, which is created by thread creator
-        return (
-          <div key={reply.id}>
-            <div className="thread_content">
-              <div dangerouslySetInnerHTML={createMarkup()} />
-            </div>
-            <RepToolBar reply={reply} />
-          </div>
-        )
-        //display for all other replies
-      } else {
-        return (
-          <div key={reply.id}>
-            <div className="post_reply">
-              <div className="user_post_rep">
-                <div className="post_user">
-                  <Link to={`/user/${reply.author.id}`}>{reply.author.username}</Link>
-                </div>
-                <div className="post_info">{formatTime(new Date(reply.createdTime))}</div>
+      // console.log(reply.content)
+      // if (index === 0) {
+      //   //display for the first reply, which is created by thread creator
+      //   return (
+      //     <div key={reply.id}>
+      //       <div className="thread_content">
+      //         <div dangerouslySetInnerHTML={createMarkup()} />
+      //       </div>
+      //       <RepToolBar reply={reply} />
+      //     </div>
+      //   )
+      //   //display for all other replies
+      // } else {
+      return (
+        <div key={reply.id}>
+          <div className="post_reply">
+            <div className="user_post_rep">
+              <div className="post_user">
+                <Link to={`/user/${reply.author.id}`}>{reply.author.username}</Link>
               </div>
-              <div className="post_content">
-                <div className="post_user_content">
-                  <img src={reply.author.avatarUrl} alt="user_avatar" />
+              <div className="post_info">{formatTime(new Date(reply.createdTime))}</div>
+            </div>
+            <div className="post_content">
+              <div className="post_user_content">
+                <img src={reply.author.avatarUrl} alt="user_avatar" />
 
-                  <div className="user_title">Role: {reply.author.role}</div>
-                </div>
-                <div className="post_rep_content">
-                  <div dangerouslySetInnerHTML={createMarkup()} />
-                </div>
+                <div className="user_title">Role: {reply.author.role}</div>
+              </div>
+              <div className="post_rep_content">
+                <div dangerouslySetInnerHTML={createMarkup()} />
               </div>
             </div>
-            <RepToolBar reply={reply} />
           </div>
-        )
-      }
+          <RepToolBar reply={reply} />
+        </div>
+      )
+      // }
     })
 
     let errorDisplay = (
@@ -249,13 +234,13 @@ class Thread extends Component {
         </div>
       </Modal>
     )
-    let Pagination = () => {
+    let Pagination = ({current, pages, loadOnClick }) => {
       // https://evdokimovm.github.io/javascript/nodejs/mongodb/pagination/expressjs/ejs/bootstrap/2017/08/20/create-pagination-with-nodejs-mongodb-express-and-ejs-step-by-step-from-scratch.html
       let paginationNumbers = []
       
       current == 1 
       ? paginationNumbers.push(<li className="disabled"><button disabled>First</button></li>) 
-      : paginationNumbers.push(<li><button onClick={() => {this.loadRepliesFromPageNum(1)}}>First</button></li>)
+      : paginationNumbers.push(<li><button onClick={() => {loadOnClick(1)}}>First</button></li>)
       
       var i = Number(current) > 5 ? Number(current) - 4 : 1
       
@@ -274,7 +259,7 @@ class Thread extends Component {
           paginationNumbers.push(
             <li>
               <button onClick={() => {
-                this.loadRepliesFromPageNum(ii)
+                loadOnClick(ii)
               }} >{i}</button>
             </li>
           )
@@ -298,7 +283,7 @@ class Thread extends Component {
         paginationNumbers.push(
         <li>
           <button onClick={() => {
-            this.loadRepliesFromPageNum(pages)
+            loadOnClick(pages)
           }}>Last</button>
         </li>
       )}
@@ -331,21 +316,7 @@ class Thread extends Component {
               </button>
             ) : null}
 
-            {/*<ReactPaginate
-							initialPage={0}
-							disableInitialCallback={true}
-							previousLabel={"Previous"}
-							nextLabel={"Next"}
-							breakLabel={"..."}
-							breakClassName={"break-me"}
-							pageCount={maxPageNumber}
-							marginPagesDisplayed={2}
-							pageRangeDisplayed={3}
-							onPageChange={this.handlePageClick}
-							containerClassName={"no_pages"}
-							activeClassName={"active"}
-            />*/}
-            <Pagination />
+            <Pagination current={current} loadOnClick={this.loadRepliesFromPageNum} pages={pages} />
             <div className="container"></div>
           </div>
 
