@@ -23,16 +23,16 @@ async function sendDataWithAuth(method, api, authData, body) {
 			},
 			body: JSON.stringify(body)
 		});
-
-		let responseJSON = await serverResponse.json();
-		console.log(responseJSON);
-		if (responseJSON.status.httpStatus === 200) {
 			//make sure there is content inside the response before return it
+		if (serverResponse.status === 200) {
+			let responseJSON = await serverResponse.json();
+			console.log(responseJSON);
 			return responseJSON;
 		} else {
-			console.log(responseJSON.message);
-			throw responseJSON.message;
+			console.log(serverResponse);
+			throw serverResponse;
 		}
+		
 	} catch (error) {
 		throw error;
 	}

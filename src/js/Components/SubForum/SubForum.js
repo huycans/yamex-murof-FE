@@ -43,8 +43,11 @@ class SubForum extends Component {
 				threadContent,
 				authData
 			);
+			console.log("new thread response ", response);
+			if (response == null) throw Error("Error while creating thread");
+
+			//refresh the page to display the new thread
 			window.location.reload();
-			if (response !== 1) throw Error("Error while creating thread");
 		} catch (error) {
 			console.log("Error while creating thread: ", error);
 		} finally {

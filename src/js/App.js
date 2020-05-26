@@ -29,7 +29,7 @@ const blankAppState = {
 
 class App extends Component {
 	constructor(props) {
-		super(props);
+		super(props); 
 		this.state = blankAppState;
 		this.handleInputEmail = this.handleInputEmail.bind(this);
 		this.handleInputPassword = this.handleInputPassword.bind(this);
@@ -184,7 +184,9 @@ class App extends Component {
     let localState =  JSON.parse(localStorage.getItem("yamexState"));
     if (localState == null){
       // user not signed in
-      console.log("No user is logged in");
+			console.log("No user is logged in");
+			this.setState({isLoading: false});
+			
     }
     else {
       // there are local state

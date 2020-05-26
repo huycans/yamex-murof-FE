@@ -54,9 +54,10 @@ async function createThread(name, subForumId, content, authData) {
 			authData,
 			body
 		);
-		let threadId = response ;
-		await sendReply(authData, content, threadId);
-		return 1;
+		// let threadId = response.id ;
+		//a new thread has the thread's content as the first reply, therefore a new thread is created
+		// await sendReply(authData, content, threadId);
+		return response ;
 	} catch (error) {
 		throw error;
 	}
