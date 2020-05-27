@@ -2,9 +2,9 @@ import { URL, SERVER_API } from "../../Constants/API";
 import { sendReply } from "./ReplyFuncs";
 import { sendDataWithAuth } from "./SecureConnect";
 
-async function getThreadList(sfid, page) {
+async function getThreadList(sfid, currentPage) {
 	try {
-		let link = URL + SERVER_API.thread + "?sfid=" + sfid + "&page=" + page;
+		let link = URL + SERVER_API.thread + "?sfid=" + sfid + "&page=" + currentPage;
 		let response = await fetch(link, {
 			method: "GET",
 			headers: {
