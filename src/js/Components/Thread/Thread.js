@@ -243,9 +243,9 @@ class Thread extends Component {
           {NavBar}
           {ThreadHeader}
           {errorDisplay}
-          <div className="thread_bar">
+          <div className="paginate_bar">
             {authData.sessionToken ? (
-              <button className="rep" onClick={this.openModal}>
+              <button className="postnew" onClick={this.openModal}>
                 Post Reply
               </button>
             ) : null}

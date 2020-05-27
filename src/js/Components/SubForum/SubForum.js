@@ -189,14 +189,16 @@ class SubForum extends Component {
 
 				<div className="intro">{subforumData.description}</div>
 
-				<div className="tools">
+				<div className="paginate_bar" style={{marginLeft: "50px"}}>
 					{authData.sessionToken ? (
-						<div className="new_thread">
+						<div className="postnew">
 							<button onClick={this.openModal}>New Thread</button>
 						</div>
 					) : null}
 
-          <Pagination current={current} loadOnClick={this.loadThreadsFromPageNum} pages={pages} />
+					<div>
+          	<Pagination current={current} loadOnClick={this.loadThreadsFromPageNum} pages={pages} />
+					</div>
 				</div>
 
 				<div className="subforum_bar">

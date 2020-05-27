@@ -281,7 +281,7 @@ button:hover{
 }
 
 /*tools */
-.tools {
+/* .tools {
   display: flex;
   margin-left: 50px;
   margin-top: 50px;
@@ -302,7 +302,7 @@ button:hover{
   border-color: grey;
   color: grey;
   box-shadow: 0.2em 0.2em 0.5em rgb(163, 163, 163);
-}
+} */
 
 /*start of pagination bar*/
 /* .no_pages {
@@ -461,7 +461,7 @@ button.active.pagination{
   font-weight: bold;
 }
 
-.thread_bar {
+.paginate_bar {
   display: flex;
   margin: 2em;
   width: 90%;
@@ -469,25 +469,25 @@ button.active.pagination{
   justify-content: space-between;
   align-items: center;
 }
-.thread_bar .rep {
+.paginate_bar .postnew {
   max-width: 200px;
   width: 10rem;
   height: 3em;
   background-color: white;
 }
-.thread_bar .search_bar {
+.paginate_bar .search_bar {
   width: 70%;
   text-align: right;
 }
-.thread_bar .search_bar input {
+.paginate_bar .search_bar input {
   height: 3em;
   border-color: grey;
 }
-.thread_bar .search_no {
+.paginate_bar .search_no {
   margin-left: 5em;
   width: 30%;
 }
-.thread_bar .search_no a {
+.paginate_bar .search_no a {
   height: 1.5em;
 }
 
