@@ -1,7 +1,6 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
 import ReactPaginate  from 'react-paginate'
-import 'bootstrap/dist/css/bootstrap.css';
 
 const Pagination = ({current, pages, loadOnClick }) => {
   
@@ -13,7 +12,7 @@ const Pagination = ({current, pages, loadOnClick }) => {
     containerClassName="pagination"
     pageClassName="page-item"
     pageLinkClassName="page-link"
-    activeClassName="active"
+    activeClassName="active zeroIndex"
     previousLabel="<"
     nextLabel=">"
     breakLabel="..."

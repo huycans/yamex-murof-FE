@@ -280,70 +280,6 @@ button:hover{
   box-shadow: 1em 1em 2em rgb(218, 218, 218);
 }
 
-/*tools */
-/* .tools {
-  display: flex;
-  margin-left: 50px;
-  margin-top: 50px;
-  align-items: center;
-  width: 80%;
-}
-
-.tools .new_thread button {
-  padding: 0.5em 1em 0.5em 1em;
-  border-radius: 2em;
-  background-color: white;
-  border: solid 1px #ef7334;
-  color: #ef7334;
-}
-
-.tools .new_thread button:hover {
-  cursor: pointer;
-  border-color: grey;
-  color: grey;
-  box-shadow: 0.2em 0.2em 0.5em rgb(163, 163, 163);
-} */
-
-/*start of pagination bar*/
-/* .no_pages {
-  display: flex;
-  justify-content: flex-end;
-  width: 90%;
-}
-.no_pages a {
-  padding: 0.5em 1em 0.5em 1em;
-  border-radius: 3em;
-  margin: 0 0.5em 0 0.5em;
-  border: solid 1px #ef7334;
-  color: #ef7334;
-  background-color: white;
-}
-.no_pages a:hover {
-  border-color: gray;
-  color: gray;
-  box-shadow: 0.2em 0.2em 0.5em rgb(163, 163, 163);
-}
-
-.no_pages li {
-  list-style: none;
-}
-.no_pages li:hover {
-  cursor: pointer;
-}
-
-.current_page {
-  background-color: yellow;
-}
-.active a {
-  border-color: rgb(138, 138, 138);
-}
-
-button.active.pagination{
-  border-color: rgb(138, 138, 138);
-  color: rgb(138, 138, 138);
-} */
-/*end of pagination bar*/
-
 /*subforum bar */
 .subforum_bar {
   display: flex;
@@ -475,20 +411,8 @@ button.active.pagination{
   height: 3em;
   background-color: white;
 }
-.paginate_bar .search_bar {
-  width: 70%;
-  text-align: right;
-}
-.paginate_bar .search_bar input {
-  height: 3em;
-  border-color: grey;
-}
-.paginate_bar .search_no {
-  margin-left: 5em;
-  width: 30%;
-}
-.paginate_bar .search_no a {
-  height: 1.5em;
+.zeroIndex {
+  z-index: 0;
 }
 
 .thread_content {

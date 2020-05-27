@@ -15,6 +15,8 @@ import LoadingIcon from "./Components/LoadingIcon";
 import UserInfo from "./Components/User";
 import { ContextProvider } from "./context";
 
+import 'bootstrap/dist/css/bootstrap.css';
+
 const blankAppState = {
 	isLoading: true,
 	email: "huy2@user.com",
