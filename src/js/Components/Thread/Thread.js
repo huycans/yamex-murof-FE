@@ -1,9 +1,12 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
 import { Link } from "react-router-dom"
-import { getReplyList, getThreadData, sendReply, sendThank } from "../API_Functions"
 import Modal from "react-modal"
+
+import { getReplyList, getThreadData, sendReply, sendThank } from "../API_Functions"
 import EditorConvertToHTML from "../Editor"
+import Pagination from '../Pagination'
+
 const formatTime = time => {
   return `${time.getDate()}/${time.getMonth() +
     1}/${time.getFullYear()} ${time.getHours()}:${time.getMinutes()}`
@@ -111,10 +114,7 @@ class Thread extends Component {
     const { replies, errorMessage, isLoading, thread, isModalOpen, current, pages } = this.state
 
     if (!replies || !thread) return null
-    //the maximum number of page to display in the paginator
-    const maxPageNumber = thread.pageNumber
-    // console.log(replies)
-    // console.log(thread)
+
     //tool bar to thank and reply to posts
     const RepToolBar = props => {
       if (props.reply)
@@ -234,72 +234,6 @@ class Thread extends Component {
         </div>
       </Modal>
     )
-    let Pagination = ({current, pages, loadOnClick }) => {
-      // https://evdokimovm.github.io/javascript/nodejs/mongodb/pagination/expressjs/ejs/bootstrap/2017/08/20/create-pagination-with-nodejs-mongodb-express-and-ejs-step-by-step-from-scratch.html
-      let paginationNumbers = []
-      
-      current == 1 
-      ? paginationNumbers.push(<li className="disabled"><button disabled>First</button></li>) 
-      : paginationNumbers.push(<li><button onClick={() => {loadOnClick(1)}}>First</button></li>)
-      
-      var i = Number(current) > 5 ? Number(current) - 4 : 1
-      
-      if(i !== 1) paginationNumbers.push(<li className="disabled"> <button disabled>...</button></li>)
-      
-      for (; i <= Number(current) + 4 && i <= pages; i++) {
-        // trick to make sure ii has the value of i per run, not the final value of i
-        let ii = i;
-        if (i == current) {
-          paginationNumbers.push(
-            <li className="active">
-              <button className="pagination active">{ii}</button>
-            </li>
-          )
-        } else {
-          paginationNumbers.push(
-            <li>
-              <button onClick={() => {
-                loadOnClick(ii)
-              }} >{i}</button>
-            </li>
-          )
-        }
-        if (i == Number(current) + 4 && i < pages) {
-          paginationNumbers.push(
-            <li className="disabled">
-              <button disabled>...</button>
-            </li>
-          )
-        }
-      }
-      
-      if (current == pages)  {
-        paginationNumbers.push(
-        <li className="disabled">
-          <button disabled >Last</button>
-        </li>
-      )} 
-      else {
-        paginationNumbers.push(
-        <li>
-          <button onClick={() => {
-            loadOnClick(pages)
-          }}>Last</button>
-        </li>
-      )}
-      
-      // if there are more than one page, we show pagination
-      if (pages > 0) {
-        return (
-          <ul className="no_pages">
-              {
-                paginationNumbers
-              }
-          </ul>
-        )
-      }
-      else return null;
-    }
 
     if (isLoading) return <div />
     else
@@ -315,9 +249,9 @@ class Thread extends Component {
                 Post Reply
               </button>
             ) : null}
-
-            <Pagination current={current} loadOnClick={this.loadRepliesFromPageNum} pages={pages} />
-            <div className="container"></div>
+            <div>
+              <Pagination current={current} loadOnClick={this.loadRepliesFromPageNum} pages={pages} />
+            </div>
           </div>
 
           {repliesListView}

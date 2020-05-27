@@ -305,7 +305,7 @@ button:hover{
 }
 
 /*start of pagination bar*/
-.no_pages {
+/* .no_pages {
   display: flex;
   justify-content: flex-end;
   width: 90%;
@@ -341,7 +341,7 @@ button:hover{
 button.active.pagination{
   border-color: rgb(138, 138, 138);
   color: rgb(138, 138, 138);
-}
+} */
 /*end of pagination bar*/
 
 /*subforum bar */
@@ -464,13 +464,14 @@ button.active.pagination{
 .thread_bar {
   display: flex;
   margin: 2em;
-  width: 85%;
+  width: 90%;
   height: 3em;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
 }
 .thread_bar .rep {
-  width: 20em;
+  max-width: 200px;
+  width: 10rem;
   height: 3em;
   background-color: white;
 }
