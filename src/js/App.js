@@ -16,6 +16,7 @@ import UserInfo from "./Components/User";
 import { ContextProvider } from "./context";
 
 import 'bootstrap/dist/css/bootstrap.css';
+import { logout } from "./Components/API_Functions/UserFunc";
 
 const blankAppState = {
 	isLoading: true,
@@ -37,7 +38,7 @@ class App extends Component {
 		this.handleInputPassword = this.handleInputPassword.bind(this);
 		this.signup = this.signup.bind(this);
 		this.login = this.login.bind(this);
-		this.signout = this.signout.bind(this);
+		this.logout = this.logout.bind(this);
 		this.loginMethod = this.loginMethod.bind(this);
 	}
 	handleInputEmail(event) {
@@ -160,19 +161,20 @@ class App extends Component {
 
 		this.setState({ isLoading: false });
 	}
-	signout() {
+	logout() {
 		try {
 			this.setState({ isLoading: true, errorMessage: "" });
-			// Sign-out successful.
-			console.log("Sign-out successful.");
+			
 			//remove local state storage
 			localStorage.setItem("yamexState", null);
-
+			//call server logout function
+			logout();
+			console.log("Sign-out successful.");
 			this.setState({ ...this.state, blankAppState }, () => {
 				window.location.reload();
 			});
 		} catch (error) {
-			console.log("Error while signout: ", error);
+			console.log("Error while logout: ", error);
 			this.setState({
 				errorMessage: error.message
 			});
@@ -183,12 +185,12 @@ class App extends Component {
 		}
 	}
 	async componentDidMount() {
-    // TODO: fix this
 		this.setState({ isLoading: true });
 		console.log("Checking if user is signed in or not");
+		//look through local state
     let localState =  JSON.parse(localStorage.getItem("yamexState"));
     if (localState == null){
-      // user not signed in
+      // no local state is found, user not signed in
 			console.log("No user is logged in");
 			this.setState({isLoading: false});
 			
@@ -228,7 +230,7 @@ class App extends Component {
 			</div>
 		);
 
-		//display a modal in the foreground while user is login, signup or signout
+		//display a modal in the foreground while user is login, signup or logout
 		let LoadingModal = (
 			<Modal isOpen={isLoading} contentLabel="LoadingModal">
 				<div>
@@ -237,12 +239,12 @@ class App extends Component {
 				</div>
 			</Modal>
 		);
-		//if state.user exist display the signout button and link to user info page, if not display the login buttons
+		//if state.user exist display the logout button and link to user info page, if not display the login buttons
 		const authSection = userId ? (
 			<div className="login">
 				<div className="login-section">
 					<Link to={`/user/${userId}`}>{userFromServer.username}</Link>
-					<button className="button-signout" onClick={() => this.signout()}>
+					<button className="button-signout" onClick={() => this.logout()}>
 						Signout
 					</button>
 				</div>

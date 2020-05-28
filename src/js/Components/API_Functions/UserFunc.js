@@ -114,4 +114,21 @@ async function checkSession(sessionToken) {
 		throw error;
 	}
 }
-export { getUserInfo, updateUserInfo, loginWithEmail, signupWithEmail, checkSession };
+
+async function logout(){
+  try {
+		let response = await fetch(URL + SERVER_API.logout, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+				Accept: "application/json",
+        "Access-Control-Allow-Origin": "*"
+			}
+		});
+		let responseJSON = await response.json();
+		console.log(responseJSON);
+	} catch (error) {
+		throw error;
+	}
+}
+export { getUserInfo, updateUserInfo, loginWithEmail, signupWithEmail, checkSession, logout };
