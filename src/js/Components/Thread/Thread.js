@@ -6,11 +6,9 @@ import Modal from "react-modal"
 import { getReplyList, getThreadData, sendReply, sendThank } from "../API_Functions"
 import EditorConvertToHTML from "../Editor"
 import Pagination from '../Pagination'
+import {formatTime} from '../../services/time'
 
-const formatTime = time => {
-  return `${time.getDate()}/${time.getMonth() +
-    1}/${time.getFullYear()} ${time.getHours()}:${time.getMinutes()}`
-}
+
 
 class Thread extends Component {
   constructor(props) {

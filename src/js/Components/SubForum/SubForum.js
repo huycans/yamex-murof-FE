@@ -1,16 +1,14 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
+import Modal from "react-modal";
+
 import { getThreadList } from "../API_Functions/index";
 import Pagination from "../Pagination";
-import Modal from "react-modal";
 import { createThread } from "../API_Functions";
 import EditorConvertToHTML from "../Editor";
+import {formatTime} from '../../services/time'
 
-const formatTime = time => {
-	return `${time.getDate()}/${time.getMonth() +
-		1}/${time.getFullYear()} ${time.getHours()}:${time.getMinutes()}`;
-};
 class SubForum extends Component {
 	constructor(props) {
 		super(props);

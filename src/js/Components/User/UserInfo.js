@@ -1,12 +1,11 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+
 import { getUserInfo } from "../API_Functions";
 import { updateUserInfo } from "../API_Functions";
 import { ContextConsumer } from "../../context";
-const formatTime = time => {
-	return `${time.getDate()}/${time.getMonth() +
-		1}/${time.getFullYear()} ${time.getHours()}:${time.getMinutes()}`;
-};
+import {formatTime} from '../../services/time'
+
 class UserInfoComponent extends Component {
 	constructor(props) {
 		super(props);
