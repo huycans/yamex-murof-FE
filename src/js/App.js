@@ -19,7 +19,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 
 const blankAppState = {
 	isLoading: true,
-	email: "huy2@user.com",
+	email: "huy3@user.com",
 	password: "password",
 	errorMessage: "",
 	//user from firebase
@@ -117,7 +117,7 @@ class App extends Component {
 		} catch (error) {
 			throw error;
 		}
-	}
+	}  
 
 	async login(method) {
 		console.log("Logging in");
@@ -165,6 +165,9 @@ class App extends Component {
 			this.setState({ isLoading: true, errorMessage: "" });
 			// Sign-out successful.
 			console.log("Sign-out successful.");
+			//remove local state storage
+			localStorage.setItem("yamexState", null);
+
 			this.setState({ ...this.state, blankAppState }, () => {
 				window.location.reload();
 			});

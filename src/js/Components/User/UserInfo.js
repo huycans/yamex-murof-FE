@@ -112,7 +112,7 @@ class UserInfoComponent extends Component {
 			return (
 				<div className="container">
 					<div className="user">
-						<img src={userInfo.avatarUrl} alt="avatar" />
+						<img src={userInfo.avatarUrl} alt="avatar" className="avatar" />
 						<div className="user_info">
 							<div className="user_name">{userInfo.username}</div>
 							<div className="user_title">Role: {userInfo.role}</div>
