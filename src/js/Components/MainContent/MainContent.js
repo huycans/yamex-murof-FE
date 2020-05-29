@@ -6,6 +6,7 @@ import Forum from "../Forum";
 import LoadingIcon from "../LoadingIcon";
 import { getSubForumList, getForumList, createForum } from "../API_Functions";
 import Modal from "react-modal";
+import { formatTime } from "../../services/time";
 // subforumData
 // "id": "5a2405a1799a83547a3cb970",
 // "createdTime": "2017-12-03T14:09:37.308Z",
@@ -27,9 +28,9 @@ const MiniSubForumView = props => {
 				<p>{subforumData.description}</p>
 			</div>
 			<div className="no_thread_post">
-				<span>Threads: </span> {subforumData.threadNumber}
+				<span>Threads: NaN</span> {subforumData.threadNumber}
 				<br />
-				<span>Posts: </span> {subforumData.replyNumber}
+				<span>Posts: NaN</span> {subforumData.replyNumber}
 			</div>
 			{subforumData.latestThread === null ? (
 				<div className="first_unread_post">
@@ -40,17 +41,14 @@ const MiniSubForumView = props => {
 					{"null"}
 				</div>
 			) : (
-				<div className="first_unread_post">
-					{subforumData.latestThread.name}
-					<br />
-					by{" "}
-					<Link to={`/user/${subforumData.latestThread.author.id}`}>
-						{subforumData.latestThread.author.username}
-					</Link>
-					<br />
-					{subforumData.latestThread.createdTime}
-				</div>
-			)}
+					<div className="first_unread_post">
+						Latest thread:  <Link to={`/user/${subforumData.latestThread.id}`}>
+							{subforumData.latestThread.name}
+						</Link>
+						<br />
+						{formatTime(new Date(subforumData.latestThread.createdTime))}
+					</div>
+				)}
 		</div>
 	);
 };
@@ -275,7 +273,7 @@ class MainContent extends Component {
 					<label>
 						URL for cover picture
 						<input
-							style={{ border: "1px black solid", color: "black",marginLeft:"1em" }}
+							style={{ border: "1px black solid", color: "black", marginLeft: "1em" }}
 							name="coverUrl"
 							type="text"
 							placeholder="URL for cover picture"
@@ -289,7 +287,7 @@ class MainContent extends Component {
 					<label>
 						Bike brand
 						<input
-							style={{ border: "1px black solid", color: "black",marginLeft:"6em" }}
+							style={{ border: "1px black solid", color: "black", marginLeft: "6em" }}
 							name="brand"
 							type="text"
 							placeholder="Brand"
@@ -301,7 +299,7 @@ class MainContent extends Component {
 					<label>
 						Bike name
 						<input
-							style={{ border: "1px black solid", color: "black",marginLeft:"6em" }}
+							style={{ border: "1px black solid", color: "black", marginLeft: "6em" }}
 							name="name"
 							type="text"
 							placeholder="Name"
@@ -313,7 +311,7 @@ class MainContent extends Component {
 					<label>
 						Bike description
 						<input
-							style={{ border: "1px black solid", color: "black",marginLeft:"3em" }}
+							style={{ border: "1px black solid", color: "black", marginLeft: "3em" }}
 							name="description"
 							type="text"
 							placeholder="description"
@@ -325,7 +323,7 @@ class MainContent extends Component {
 					<label>
 						Bike power
 						<input
-							style={{ border: "1px black solid", color: "black" ,marginLeft:"6em"}}
+							style={{ border: "1px black solid", color: "black", marginLeft: "6em" }}
 							name="power"
 							type="number"
 							placeholder="Power"
@@ -341,7 +339,7 @@ class MainContent extends Component {
 						value={true}
 						onChange={this.handleInputChange}
 						checked={stillProducing == true}
-						style={{margin:"0.5em"}}
+						style={{ margin: "0.5em" }}
 					/>
 					Yes
 					<br />
@@ -351,7 +349,7 @@ class MainContent extends Component {
 						value={false}
 						onChange={this.handleInputChange}
 						checked={stillProducing == false}
-						style={{margin:"0.5em"}}
+						style={{ margin: "0.5em" }}
 					/>
 					No
 					<br />
@@ -386,7 +384,7 @@ class MainContent extends Component {
 			<div>
 				{newForumModal}
 				{userFromServer && userFromServer.role === "ADMIN" ? (
-					<button onClick={this.openModal} style={{width:"80%", margin:"1em"}}>Create new Forum</button>
+					<button onClick={this.openModal} style={{ width: "80%", margin: "1em" }}>Create new Forum</button>
 				) : null}
 				<Switch>
 					<Route exact path="/" render={() => listOfForum} />
