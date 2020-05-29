@@ -46,7 +46,7 @@ const MiniSubForumView = props => {
 							{subforumData.latestThread.name}
 						</Link>
 						<br />
-						{formatTime(new Date(subforumData.latestThread.createdTime))}
+						on {formatTime(new Date(subforumData.latestThread.createdTime))}
 					</div>
 				)}
 		</div>

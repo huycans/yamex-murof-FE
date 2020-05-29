@@ -1,18 +1,16 @@
-import React, { Component } from "react"
-import PropTypes from "prop-types"
-import { Link } from "react-router-dom"
-import Modal from "react-modal"
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
+import Modal from "react-modal";
 
-import { getReplyList, getThreadData, sendReply, sendThank } from "../API_Functions"
-import EditorConvertToHTML from "../Editor"
-import Pagination from '../Pagination'
-import {formatTime} from '../../services/time'
-
-
+import { getReplyList, getThreadData, sendReply, sendThank } from "../API_Functions";
+import EditorConvertToHTML from "../Editor";
+import Pagination from '../Pagination';
+import { formatTime } from '../../services/time';
 
 class Thread extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       isLoading: true,
       thread: null,
@@ -21,97 +19,97 @@ class Thread extends Component {
       isModalOpen: false,
       current: null,
       pages: null
-    }
-    this.openModal = this.openModal.bind(this)
-    this.closeModal = this.closeModal.bind(this)
-    this.handleType = this.handleType.bind(this)
-    this.thank = this.thank.bind(this)
-    this.reply = this.reply.bind(this)
-    this.loadRepliesFromPageNum = this.loadRepliesFromPageNum.bind(this)
-    this.submit = this.submit.bind(this)
+    };
+    this.openModal = this.openModal.bind(this);
+    this.closeModal = this.closeModal.bind(this);
+    this.handleType = this.handleType.bind(this);
+    this.thank = this.thank.bind(this);
+    this.reply = this.reply.bind(this);
+    this.loadRepliesFromPageNum = this.loadRepliesFromPageNum.bind(this);
+    this.submit = this.submit.bind(this);
   }
 
   submit(htmlString) {
-    this.reply(htmlString)
+    this.reply(htmlString);
   }
 
   handleType(event) {
-    this.setState({ newReplyContent: event.target.value })
+    this.setState({ newReplyContent: event.target.value });
   }
 
   openModal() {
-    const { authData } = this.props
+    const { authData } = this.props;
     if (!authData.sessionToken) {
-      alert("You're not logging in")
-      return
+      alert("You're not logging in");
+      return;
     }
-    this.setState({ isModalOpen: true })
+    this.setState({ isModalOpen: true });
   }
 
   closeModal() {
     this.setState({
       isModalOpen: false,
       newReplyContent: ""
-    })
+    });
   }
 
   async reply(newReplyContent) {
     try {
-      const { authData } = this.props
-      const { thread } = this.state
-      await sendReply(authData, newReplyContent, thread.id)
-      this.setState({ isModalOpen: false })
-      window.location.reload()
+      const { authData } = this.props;
+      const { thread } = this.state;
+      await sendReply(authData, newReplyContent, thread.id);
+      this.setState({ isModalOpen: false });
+      window.location.reload();
     } catch (error) {
-      this.setState({ errorMessage: error })
+      this.setState({ errorMessage: error });
     }
   }
 
   async thank(rid) {
     try {
-      console.log(rid)
-      const { authData } = this.props
+      console.log(rid);
+      const { authData } = this.props;
       if (!authData.sessionToken) {
-        alert("You're not logging in")
-        return
+        alert("You're not logging in");
+        return;
       }
-      await sendThank(authData, rid)
+      await sendThank(authData, rid);
     } catch (error) {
-      this.setState({ errorMessage: error })
+      this.setState({ errorMessage: error });
     }
   }
 
   async loadRepliesFromPageNum(pageNum) {
     try {
       //loading thread is just loading replies in that thread
-      this.setState({ isLoading: true })
-      const { match } = this.props
-      console.log(match.params, pageNum)
-      getReplyList(match.params.threadId, pageNum).then(({replies, current, pages}) => {
-        this.setState({ replies, current, pages })
-      })
+      this.setState({ isLoading: true });
+      const { match } = this.props;
+      console.log(match.params, pageNum);
+      getReplyList(match.params.threadId, pageNum).then(({ replies, current, pages }) => {
+        this.setState({ replies, current, pages });
+      });
     } catch (error) {
-      console.log(error)
-      this.setState({ errorMessage: error })
+      console.log(error);
+      this.setState({ errorMessage: error });
     } finally {
-      this.setState({ isLoading: false })
+      this.setState({ isLoading: false });
     }
   }
 
   componentDidMount() {
-    const { match } = this.props
+    const { match } = this.props;
     getThreadData(match.params.threadId).then(thread => {
-      console.log(thread)
-      this.setState({ thread: thread })
-    })
-    this.loadRepliesFromPageNum(1)
+      console.log(thread);
+      this.setState({ thread: thread });
+    });
+    this.loadRepliesFromPageNum(1);
   }
 
   render() {
-    const { match, authData } = this.props
-    const { replies, errorMessage, isLoading, thread, isModalOpen, current, pages } = this.state
+    const { match, authData } = this.props;
+    const { replies, errorMessage, isLoading, thread, isModalOpen, current, pages } = this.state;
 
-    if (!replies || !thread) return null
+    if (!replies || !thread) return null;
 
     //tool bar to thank and reply to posts
     const RepToolBar = props => {
@@ -122,9 +120,9 @@ class Thread extends Component {
             <button onClick={this.openModal}>Reply</button>
             <button onClick={() => this.thank(props.reply.id)}>Thanks</button>
           </div>
-        )
-      else return
-    }
+        );
+      else return;
+    };
 
     //navbar that display the path to the thread
     const NavBar = (
@@ -143,7 +141,7 @@ class Thread extends Component {
           {thread.name}
         </Link>
       </div>
-    )
+    );
 
     const ThreadHeader = (
       <div className="thread_header">
@@ -158,11 +156,15 @@ class Thread extends Component {
           </div>
         </div>
       </div>
-    )
+    );
 
-    const repliesListView = replies.map((reply, index) => {
+    const repliesListView = replies.sort((reply1, reply2) => {
+      const d1 = new Date(reply1.createdTime);
+      const d2 = new Date(reply2.createdTime);
+      return d1.getTime() - d2.getTime();
+    }).map((reply, index) => {
       function createMarkup() {
-        return { __html: reply.content }
+        return { __html: reply.content };
       }
       // console.log(reply.content)
       // if (index === 0) {
@@ -199,15 +201,15 @@ class Thread extends Component {
           </div>
           <RepToolBar reply={reply} />
         </div>
-      )
+      );
       // }
-    })
+    });
 
     let errorDisplay = (
       <div style={{ backgroundColor: "red", fontSize: 20, textAlign: "center" }}>
         {errorMessage}
       </div>
-    )
+    );
 
     const customStyles = {
       content: {
@@ -220,7 +222,7 @@ class Thread extends Component {
         overflow: "scroll",
         height: "500px"
       }
-    }
+    };
 
     let newReplyModal = (
       <Modal style={customStyles} isOpen={isModalOpen} contentLabel="newThreadModal">
@@ -231,9 +233,9 @@ class Thread extends Component {
           <button onClick={this.closeModal}>Close</button>
         </div>
       </Modal>
-    )
+    );
 
-    if (isLoading) return <div />
+    if (isLoading) return <div />;
     else
       return (
         <div>
@@ -254,11 +256,11 @@ class Thread extends Component {
 
           {repliesListView}
         </div>
-      )
+      );
   }
 }
 Thread.propTypes = {
   match: PropTypes.object,
   authData: PropTypes.object
-}
-export default Thread
+};
+export default Thread;
