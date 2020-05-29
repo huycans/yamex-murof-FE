@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 
+import "./TopAuthcomp.css";
 export const TopAuthComp = ({ userId, userFromServer, logout,
 	handleInputEmail, handleInputPassword, login, signup, email, password }) => {
 	//if state.user exist display the logout button and link to user info page, if not display the login buttons
