@@ -17,6 +17,7 @@ import { ContextProvider } from "./context";
 
 import 'bootstrap/dist/css/bootstrap.css';
 import { logout } from "./Components/API_Functions/UserFunc";
+import { Footer } from "./Components/Footer/footer";
 
 const blankAppState = {
 	isLoading: true,
@@ -306,7 +307,7 @@ class App extends Component {
           {LoadingModal}
           <div className="wrap">
             <Link to="/">
-              <img src={require("../img/logo.png")} alt="Logo" />
+              <img className="logo" src={require("../img/logo.png")} alt="Logo"/>
             </Link>
 
             <div className="search-input">
@@ -333,32 +334,9 @@ class App extends Component {
               <UserInfo authData={{ sessionToken: sessionToken, userId: userId }} {...props} />
             )}
           />
+					
+					<Footer />
           
-          <footer>
-            <div className="footer_container">
-              <div className="col1">
-                <div className="logo">
-                  <img src={require("../img/logo.png")} alt="logo" />
-                </div>
-                <div className="describe-us">
-                  <span>YAMEX RUMOF - Team 1&#39;s project</span>
-                  <br />This forum help people discuss about things and things about motorcycle.
-                </div>
-              </div>
-              <div className="col2">
-                <p>
-                  <b>Group member :</b>
-                  <div className="member">
-                    <br /> Nguyen Thanh Binh
-                    <br /> Ngo Chinh Dung
-                    <br /> Dao Thanh Duy
-                    <br /> Vuong Thieu Huy
-                    <br /> Diep Nhut Phuong
-                  </div>
-                </p>
-              </div>
-            </div>
-          </footer>
         </div>
       </ContextProvider>
         

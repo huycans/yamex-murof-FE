@@ -17,11 +17,9 @@ html {
 /*Login */
 
 .wrap .search-input {
-  width: 50%;
-
+  width: 30%;
   margin-left: 20%;
 
-  /* When the input field gets focus, change its width to 100% */
 }
 
 .wrap .search-input input[type="text"] {
@@ -37,18 +35,15 @@ html {
   border-style: solid;
   border-width: 0.1em;
 }
+  /* When the input field gets focus, change its width to 100% */
+
 .wrap .search-input input[type="text"]:focus {
-  width: 50%;
+  width: 90%;
   border-color: #ef7334;
   outline: none;
   color: #ef7334;
 }
 
-.wrap img {
-  margin-left: 2%;
-  width: 13em;
-  height: auto;
-}
 
 .wrap .login {
   display: flex;
@@ -90,7 +85,7 @@ input[type="password"]:focus {
 }
 
 .wrap .login .login-section {
-  margin-top: 0.3em;
+  margin-top: 1rem;
   display: flex;
   align-items: center;
   height: 2em;
@@ -579,65 +574,14 @@ button:hover{
   border-color: #ef7334;
 }
 
-/*footer*/
-footer {
-  background-color: #272e3a;
-  margin-top: 10em;
-  width: 100%;
-  font-size: 0.9em;
-}
 
-footer .footer_container {
-  display: flex;
-  height: 18em;
-}
-
-.col1 {
-  width: 50%;
-  display: flex;
-}
-.col1 .logo {
-  margin: 2em;
-}
-.col1 img {
-  width: 15em;
-  height: auto;
-}
-.col1 .describe-us {
-  padding: 2em 2em 2em 0em;
-  color: white;
-  margin: 5em;
-  width: 40%;
-}
-.col1 span {
-  font-size: 1.3em;
-}
-
-.col2 {
-  width: 30%;
-  padding: 3em;
-  display: flex;
-  flex-direction: column;
-}
-.col2 b {
-  color: white;
-}
-.col2 .member {
-  color: white;
-  padding-left: 1em;
-}
-.col3 {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-.col3 a {
-  padding: 0.5em;
-  color: white;
-}
 
 .avatar {
   width: 170px;
   height: 170px;
+}
+
+.logo{
+  width: 160px;
 }
 /*# sourceMappingURL=app.css.map */
