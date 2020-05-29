@@ -1,23 +1,25 @@
 import React, { Component } from "react";
-import "../css/App.css";
 import MainContent from "./Components/MainContent";
 import { Route, Link, Switch } from "react-router-dom";
+import Modal from "react-modal";
+
 import firebase from "./Components/Firebase/Firebase.js";
 import {
 	verifyToken,
 	getUserInfo,
 	loginWithEmail,
-  signupWithEmail,
-  checkSession
+	signupWithEmail,
+	checkSession
 } from "./Components/API_Functions";
-import Modal from "react-modal";
 import LoadingIcon from "./Components/LoadingIcon";
 import UserInfo from "./Components/User";
 import { ContextProvider } from "./context";
-
-import 'bootstrap/dist/css/bootstrap.css';
 import { logout } from "./Components/API_Functions/UserFunc";
 import { Footer } from "./Components/Footer/footer";
+import { TopAuthComp } from './Components/TopAuthComp/TopAuthComp';
+
+import "../css/App.css";
+import 'bootstrap/dist/css/bootstrap.css';
 
 const blankAppState = {
 	isLoading: true,
@@ -33,7 +35,7 @@ const blankAppState = {
 
 class App extends Component {
 	constructor(props) {
-		super(props); 
+		super(props);
 		this.state = blankAppState;
 		this.handleInputEmail = this.handleInputEmail.bind(this);
 		this.handleInputPassword = this.handleInputPassword.bind(this);
@@ -59,67 +61,67 @@ class App extends Component {
 		try {
 			console.log("Switching");
 			switch (method) {
-			case "facebook": //if user log in using facebook
-				console.log("Logging in with facebook");
-				provider = new firebase.auth.FacebookAuthProvider();
-				await firebase.auth().signInWithRedirect(provider);
-				result = await firebase.auth().getRedirectResult();
-				// The signed-in user info.
-				user = result.user;
-				console.log("logged in");
-				console.log(user);
-				// clientIdToken = await user.getIdToken(true);
-				// console.log("clientIdToken", clientIdToken);
-				// return clientIdToken;
-				return user;
+				case "facebook": //if user log in using facebook
+					console.log("Logging in with facebook");
+					provider = new firebase.auth.FacebookAuthProvider();
+					await firebase.auth().signInWithRedirect(provider);
+					result = await firebase.auth().getRedirectResult();
+					// The signed-in user info.
+					user = result.user;
+					console.log("logged in");
+					console.log(user);
+					// clientIdToken = await user.getIdToken(true);
+					// console.log("clientIdToken", clientIdToken);
+					// return clientIdToken;
+					return user;
 				//break;
 
-			case "google": //if user log in using google
-				console.log("Logging in with google");
-				provider = new firebase.auth.GoogleAuthProvider();
-				await firebase.auth().signInWithRedirect(provider);
-				firebase.auth().languageCode = "en";
-				result = await firebase.auth().getRedirectResult();
+				case "google": //if user log in using google
+					console.log("Logging in with google");
+					provider = new firebase.auth.GoogleAuthProvider();
+					await firebase.auth().signInWithRedirect(provider);
+					firebase.auth().languageCode = "en";
+					result = await firebase.auth().getRedirectResult();
 
-				// The signed-in user info.
-				user = result.user;
-				console.log("logged in");
-				console.log(user);
-				// clientIdToken = await user.getIdToken();
-				// console.log("clientIdToken", clientIdToken);
-				// return clientIdToken;
-				return user;
-				//break;
-
-			case "email": //if user log in using email/password
-				if (email === "" || password === "") return;
-				console.log("Logging in with email");
-				await firebase.auth().signInWithEmailAndPassword(email, password);
-				await firebase.auth().onAuthStateChanged(function(userObj) {
-					if (userObj) {
-						//User is signed in
-						console.log(userObj);
-						user = userObj;
-					} else {
-						console.log("No user is logged in");
-					}
-				});
-				if (user !== null) {
+					// The signed-in user info.
+					user = result.user;
+					console.log("logged in");
+					console.log(user);
 					// clientIdToken = await user.getIdToken();
 					// console.log("clientIdToken", clientIdToken);
 					// return clientIdToken;
 					return user;
-				}
+				//break;
 
-				break;
-			default:
-				console.log("Not recognize login method");
-				break;
+				case "email": //if user log in using email/password
+					if (email === "" || password === "") return;
+					console.log("Logging in with email");
+					await firebase.auth().signInWithEmailAndPassword(email, password);
+					await firebase.auth().onAuthStateChanged(function (userObj) {
+						if (userObj) {
+							//User is signed in
+							console.log(userObj);
+							user = userObj;
+						} else {
+							console.log("No user is logged in");
+						}
+					});
+					if (user !== null) {
+						// clientIdToken = await user.getIdToken();
+						// console.log("clientIdToken", clientIdToken);
+						// return clientIdToken;
+						return user;
+					}
+
+					break;
+				default:
+					console.log("Not recognize login method");
+					break;
 			}
 		} catch (error) {
 			throw error;
 		}
-	}  
+	}
 
 	async login(method) {
 		console.log("Logging in");
@@ -151,8 +153,8 @@ class App extends Component {
 				user: userObj.user,
 				sessionToken: userObj.token,
 				userId: userObj.user.id
-      }, () => localStorage.setItem("yamexState", JSON.stringify(this.state)));
-      
+			}, () => localStorage.setItem("yamexState", JSON.stringify(this.state)));
+
 		} catch (error) {
 			this.setState({ errorMessage: error.message });
 			console.log(error);
@@ -165,7 +167,7 @@ class App extends Component {
 	logout() {
 		try {
 			this.setState({ isLoading: true, errorMessage: "" });
-			
+
 			//remove local state storage
 			localStorage.setItem("yamexState", null);
 			//call server logout function
@@ -189,30 +191,30 @@ class App extends Component {
 		this.setState({ isLoading: true });
 		console.log("Checking if user is signed in or not");
 		//look through local state
-    let localState =  JSON.parse(localStorage.getItem("yamexState"));
-    if (localState == null){
-      // no local state is found, user not signed in
+		let localState = JSON.parse(localStorage.getItem("yamexState"));
+		if (localState == null) {
+			// no local state is found, user not signed in
 			console.log("No user is logged in");
-			this.setState({isLoading: false});
-			
-    }
-    else {
-      // there are local state
-      if (localState.sessionToken){
-        let isSessionValid = await checkSession(localState.sessionToken);
-        if (isSessionValid == false){
-          console.log("No user is logged in");
-          this.setState({isLoading: false});
+			this.setState({ isLoading: false });
 
-        }
-        else {
-          // session is still valid
-          // let newState = Object.assign.localState, {isLoading: false} }
-          this.setState(Object.assign({}, localState, {isLoading: false}) );
-        }
-      }
-    }
-  }
+		}
+		else {
+			// there are local state
+			if (localState.sessionToken) {
+				let isSessionValid = await checkSession(localState.sessionToken);
+				if (isSessionValid == false) {
+					console.log("No user is logged in");
+					this.setState({ isLoading: false });
+
+				}
+				else {
+					// session is still valid
+					// let newState = Object.assign.localState, {isLoading: false} }
+					this.setState(Object.assign({}, localState, { isLoading: false }));
+				}
+			}
+		}
+	}
 
 	render() {
 		let {
@@ -240,107 +242,42 @@ class App extends Component {
 				</div>
 			</Modal>
 		);
-		//if state.user exist display the logout button and link to user info page, if not display the login buttons
-		const authSection = userId ? (
-			<div className="login">
-				<div className="login-section">
-					<Link to={`/user/${userId}`}>{userFromServer.username}</Link>
-					<button className="button-signout" onClick={() => this.logout()}>
-						Signout
-					</button>
-				</div>
-			</div>
-		) : (
-			<div className="login">
-				<input
-					type="text"
-					name="username"
-					placeholder="Username"
-					value={email}
-					onChange={this.handleInputEmail}
-				/>
 
-				<input
-					type="password"
-					name="pwd"
-					placeholder="Password"
-					value={password}
-					onChange={this.handleInputPassword}
-				/>
-				<div className="login-section">
-					<button className="button-login" onClick={() => this.login("email")}>
-						Login
-					</button>
-
-					<button className="button-signup" onClick={this.signup}>
-						Sign up
-					</button>
-					<input
-						className="login-button"
-						type="image"
-						src={require("../img/facebook.png")}
-						alt="fb logo"
-						onClick={() => this.login("facebook")}
-						onKeyPress={() => this.login("facebook")}
-					/>
-					<input
-						className="login-button"
-						type="image"
-						src={require("../img/google-plus.png")}
-						alt="google logo"
-						onClick={() => this.login("google")}
-						onKeyPress={() => this.login("google")}
-					/>
-				</div>
-			</div>
-    );
-    // const NotFound = ({ location }) => (
-    //   <div>
-    //     <h3>404 error: {location.pathname} does not exist</h3>
-    //   </div>
-    // )
-		//sessionToken and userId is passed as a prop called authData to all other children components
-		//to determined if user is signed in or not
 		return (
-      <ContextProvider value={this.state}>
-        <div>
-          {LoadingModal}
-          <div className="wrap">
-            <Link to="/">
-              <img className="logo" src={require("../img/logo.png")} alt="Logo"/>
-            </Link>
+			<ContextProvider value={this.state}>
+				<div>
+					{LoadingModal}
 
-            <div className="search-input">
-              <input type="text" name="search" placeholder="Search.." />
-            </div>
-            {authSection}
-          </div>
+					<TopAuthComp userId={userId} userFromServer={userFromServer} logout={this.logout}
+						handleInputEmail={this.handleInputEmail} handleInputPassword={this.handleInputPassword}
+						login={this.login} signup={this.signup}
+						email={email} password={password} />
 
-          {errorDisplay}
-          
-          <Route
-          path="/"
-          render={props => (
-            <MainContent
-              {...props}
-              userFromServer={userFromServer}
-              authData={{ sessionToken: sessionToken, userId: userId }}
-            />
-          )}
-          />
-          <Route
-            path={"/user/:userId"}
-            render={props => (
-              <UserInfo authData={{ sessionToken: sessionToken, userId: userId }} {...props} />
-            )}
-          />
-					
+					{errorDisplay}
+
+					<Route
+						path="/"
+						render={props => (
+							<MainContent
+								{...props}
+								userFromServer={userFromServer}
+								authData={{ sessionToken: sessionToken, userId: userId }}
+							/>
+						)}
+					/>
+					<Route
+						path={"/user/:userId"}
+						render={props => (
+							<UserInfo authData={{ sessionToken: sessionToken, userId: userId }} {...props} />
+						)}
+					/>
+
 					<Footer />
-          
-        </div>
-      </ContextProvider>
-        
-			
+
+				</div>
+			</ContextProvider>
+
+
 		);
 	}
 }
