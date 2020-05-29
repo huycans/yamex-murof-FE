@@ -1,37 +1,19 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Link, Route, Switch } from "react-router-dom";
+import Modal from "react-modal";
+
+import { MiniThreadView } from './MiniThreadView';
 import SubForum from "../SubForum";
-import "../../../css/Forum.css";
+import "./Forum.css";
 import {
 	getSubForumList,
 	getNewestThreadList,
 	createSubforum
 } from "../API_Functions";
 import { Thread } from "../Thread";
-import Modal from "react-modal";
 
-const MiniThreadView = props => {
-	let { forumPath, subforumPath, threadData } = props;
-	let date = new Date(threadData.lastModifiedTime);
-	return (
-		<div className="MiniThreadView">
-			<div className="Date">{`${date.getDate()}/${date.getMonth()}`}</div>
-			<div className="MiniThreadView_name">
-				<Link to={`/${forumPath}/${subforumPath}/thread/${threadData.id}`}>
-					{threadData.name}
-				</Link>
-			</div>
-			<div className="MiniThreadView_rep">{threadData.replyNumber}</div>
-			<div className="MiniThreadView_view">10</div>
-		</div>
-	);
-};
-MiniThreadView.propTypes = {
-	forumPath: PropTypes.string,
-	subforumPath: PropTypes.string,
-	threadData: PropTypes.object
-};
+
 //full forum view
 class Forum extends Component {
 	constructor(props) {
@@ -174,16 +156,16 @@ class Forum extends Component {
 					subforumPath={subforum.path}
 					key={thread.id}
 					threadData={thread}
+					subforum={subforum}
 				/>
 			));
 			return (
 				<div key={subforum.id}>
-					<div className="title">
-						<div className="topic">{subforum.name} </div>
+					<div className="minithread minithread-header">
+						<div className="mini-date-and-tname">{subforum.name} </div>
 						<div className="rep">REPLIES</div>
 						<div className="views">VIEW</div>
 					</div>
-
 					{MiniThreadViews}
 					<div className="more">
 						<Link to={`/${forumData.path}/${subforum.path}`}>
