@@ -37,7 +37,7 @@ export const TopAuthComp = ({ userId, userFromServer, logout,
 					</button>
 
 					<button className="button-signup" onClick={signup}>
-						Sign up
+						Signup
 					</button>
 					<input
 						className="login-button"

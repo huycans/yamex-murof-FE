@@ -42,7 +42,7 @@ const MiniSubForumView = props => {
 				</div>
 			) : (
 					<div className="first_unread_post">
-						Latest thread:  <Link to={`/user/${subforumData.latestThread.id}`}>
+						Latest thread:  <Link to={`${forumPath}/${subforumData.path}/thread/${subforumData.latestThread.id}`}>
 							{subforumData.latestThread.name}
 						</Link>
 						<br />
