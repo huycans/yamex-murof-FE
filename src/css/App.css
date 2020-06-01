@@ -1,6 +1,14 @@
+:root{
+  --main-orange: #ef7334;
+  --main-grey: rgb(202, 202, 202);
+  --site-bg-grey:#e9e9e9;
+  --thread-subf-bg-grey: #eaeaea;
+}
+
+
 html {
   font-family: Roboto;
-  background-color: #e9e9e9;
+  background-color: var(--site-bg-grey);
 }
 
 /*header */
@@ -12,7 +20,7 @@ html {
   background-color: #272e3a;
   color: white;
   height: 10em;
-  box-shadow: 0.5em 0.5em 1em rgb(202, 202, 202);
+  box-shadow: 0.5em 0.5em 1em var(--main-grey);
 }
 
 /*body */
@@ -39,14 +47,14 @@ button{
   padding: 0.5em 1em 0.5em 1em;
   border-radius: 2em;
   background-color: white;
-  border: solid 1px #ef7334;
-  color: #ef7334;
+  border: solid 1px var(--main-orange);
+  color: var(--main-orange);
 }
 button:hover{
   cursor: pointer;
   border-color: grey;
   color: grey;
-  box-shadow: 0.2em 0.2em 0.5em rgb(163, 163, 163);
+  box-shadow: 0.2em 0.2em 0.5em var(--main-grey);
 }
 /*forum */
 .tab {
@@ -65,7 +73,7 @@ button:hover{
   padding: 1em;
   color: white;
   border-radius: 3em;
-  background-color: #ef7334;
+  background-color: var(--main-orange);
   text-align: left;
   font-size: 20px;
   font-weight: 400;
@@ -100,17 +108,17 @@ button:hover{
   justify-content: flex-start;
 }
 .subforum:hover {
-  background-color: #eaeaea;
+  background-color: var(--thread-subf-bg-grey);
 }
 
 .subforum a {
-  color: #ef7334;
+  color: var(--main-orange);
   text-decoration: none;
   font-weight: bold;
 }
 
 .subforum a:hover {
-  color: grey;
+  color: var(--main-grey);
   text-decoration: none;
 }
 
@@ -128,7 +136,7 @@ button:hover{
 .subforum .subforum_info,
 .subforum .first_unread_post,
 .subforum .no_thread_post {
-  border-left: solid 0.3em #ef7334;
+  border-left: solid 0.3em var(--main-orange);
   padding: 1em;
   margin-bottom: 0.1em;
   border-collapse: collapse;
@@ -142,7 +150,7 @@ button:hover{
   align-items: center;
   margin-bottom: 10px;
   background-color: white;
-  box-shadow: 0em 0.5em 0.5em rgb(190, 190, 190);
+  box-shadow: 0em 0.5em 0.5em var(--main-grey);
 }
 
 .navigator a {
@@ -152,7 +160,7 @@ button:hover{
   text-decoration: underline;
 }
 .navigator a:hover {
-  color: #ef7334;
+  color: var(--main-orange);
 }
 
 /*Intro */
@@ -161,8 +169,8 @@ button:hover{
   margin-top: 3em;
   margin-left: 3em;
   padding: 5%;
-  background-color: #ffffff;
-  box-shadow: 1em 1em 2em rgb(218, 218, 218);
+  background-color: white;
+  box-shadow: 1em 1em 2em var(--main-grey);
 }
 
 /*subforum bar */
@@ -197,13 +205,13 @@ button:hover{
 .subforum_bar .subforum_name {
   padding-left: 2em;
   font-weight: bold;
-  color: #ef7334;
+  color: var(--main-orange);
   font-size: 18px;
   width: 20%;
 }
 /*thread table */
 .thread_container {
-  background: #eaeaea;
+  background: var(--thread-subf-bg-grey);
   width: 80%;
   margin-left: 50px;
   display: flex;
@@ -213,7 +221,7 @@ button:hover{
 
 .thread_container a {
   text-decoration: none;
-  color: #ef7334;
+  color: var(--main-orange);
 }
 
 .thread_container .thread_info {
@@ -323,7 +331,7 @@ button:hover{
   box-shadow: 0px 2px 2px grey;
 }
 .rep_quickrep_tool .no_thank {
-  color: #ef7334;
+  color: var(--main-orange);
   width: 70%;
   padding-left: 2em;
 }
@@ -335,7 +343,7 @@ button:hover{
   box-shadow: 3px 3px 2px grey;
 }
 .rep_quickrep_tool button:hover {
-  color: #ef7334;
+  color: var(--main-orange);
 }
 
 .post_reply {
@@ -414,7 +422,7 @@ button:hover{
 }
 .user_name {
   font-size: 2em;
-  color: #ef7334;
+  color: var(--main-orange);
 }
 .user_title {
   font-style: italic;
@@ -427,7 +435,7 @@ button:hover{
   box-shadow: 0.5em 0.5em 2em grey;
 }
 .user_about b {
-  color: #ef7334;
+  color: var(--main-orange);
 }
 
 /*change userinfo*/
@@ -460,8 +468,8 @@ button:hover{
 }
 .change_info button:hover {
   cursor: pointer;
-  color: #ef7334;
-  border-color: #ef7334;
+  color: var(--main-orange);
+  border-color: var(--main-orange);
 }
 
 

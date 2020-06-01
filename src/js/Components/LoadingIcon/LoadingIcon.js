@@ -10,8 +10,8 @@ const LoadingIcon = () => (
 			justifyContent: "center",
 		}}
 	>
-		<ReactLoading type="balls" color="#ef7334" height={50} width={50}/>
-		<div style={{ fontWeight: "bold", fontSize: 24, color: "#ef7334" }}>Please wait...</div>
+		<ReactLoading type="balls" color="var(--main-orange)" height={50} width={50} />
+		<div style={{ fontWeight: "bold", fontSize: 24, color: "var(--main-orange)" }}>Please wait...</div>
 	</div>
 );
 export default LoadingIcon;

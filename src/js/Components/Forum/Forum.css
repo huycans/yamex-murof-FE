@@ -25,7 +25,7 @@
   display: flex;
 }
 .minithread .mini-date-and-tname a {
-  color: #ef7334;
+  color: var(--main-orange);
 }
 .minithread .mini-date-and-tname a:hover {
   text-decoration: none;
@@ -37,13 +37,13 @@
 .minithread .mini-date-and-tname .mini-date{
   font-weight: bold;
   width: 5%;
-  color: #ef7334;
+  color: var(--main-orange);
   margin-right: 4rem;
   font-size: 1.4rem;
 
 }
 .minithread .mini-date-and-tname .mini-tname{
-  color: #ef7334;
+  color: var(--main-orange);
   width: 65%;
   font-size: 1.4rem;
 
@@ -61,11 +61,8 @@
   padding: 0.5em;
 }
 
-
-
-
 .more a {
-  color: #ef7334;
+  color: var(--main-orange);
   font-size: 18px;
   font-weight: 300;
 }

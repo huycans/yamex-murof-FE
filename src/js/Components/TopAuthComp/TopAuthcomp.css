@@ -23,9 +23,9 @@
 
 .wrap .search-input input[type="text"]:focus {
   width: 90%;
-  border-color: #ef7334;
+  border-color: var(--main-orange);
   outline: none;
-  color: #ef7334;
+  color: var(--main-orange);
 }
 
 
@@ -36,7 +36,7 @@
 }
 
 .login .login-section a {
-  color: #ef7334;
+  color: var(--main-orange);
   font-size: 0.8em;
   text-decoration: none;
   margin-right: 1em;
@@ -64,8 +64,8 @@ input[type="number"] {
 input[type="text"]:focus,
 input[type="password"]:focus {
   outline: none;
-  border-color: #ef7334;
-  color: #ef7334;
+  border-color: var(--main-orange);
+  color: var(--main-orange);
 }
 
 .wrap .login .login-section {
@@ -100,8 +100,8 @@ input[type="password"]:focus {
 .button-signup:hover,
 .button-signout:hover {
   cursor: pointer;
-  border-color: #ef7334;
-  color: #ef7334;
+  border-color: var(--main-orange);
+  color: var(--main-orange);
 }
 
 
