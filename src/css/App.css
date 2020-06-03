@@ -458,18 +458,17 @@ button:hover{
   height: 2em;
 }
 
-.change_info button {
+.change_info_button {
   background-color: transparent;
   border-radius: 5em;
-  border-color: gray;
-  color: gray;
+  color: var(--main-orange);
+  border-color: var(--main-orange);
   border-style: solid;
   padding: 0.5em 2em 0.5em 2em;
 }
-.change_info button:hover {
+.change_info_button:hover {
   cursor: pointer;
-  color: var(--main-orange);
-  border-color: var(--main-orange);
+
 }
 
 

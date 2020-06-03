@@ -1,18 +1,18 @@
-import React, { Component } from "react";
+import React, { Component, useContext } from "react";
 import PropTypes from "prop-types";
 
 import { getUserInfo } from "../API_Functions";
 import { updateUserInfo } from "../API_Functions";
-import { ContextConsumer } from "../../context";
-import {formatTime} from '../../services/time'
+import { ContextConsumer, AppContext } from "../../context";
+import { formatTime } from '../../services/time';
 
 class UserInfoComponent extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			userInfo: null,
-      avatarUrl: "",
-      avatarUpload: null,
+			avatarUrl: "",
+			avatarUpload: null,
 			favoriteBike: "",
 			username: "",
 			errorMessage: "",
@@ -20,52 +20,51 @@ class UserInfoComponent extends Component {
 			isUpdating: false
 		};
 		this.handleChangeValue = this.handleChangeValue.bind(this);
-    this.updateUser = this.updateUser.bind(this);
-    this.fileInput = React.createRef();
+		this.updateUser = this.updateUser.bind(this);
+		// this.fileInput = React.createRef();
 	}
 
 	handleChangeValue(event) {
-    let targetName = event.target.name;
-    if (targetName == "avatarUpload"){
-      this.setState({ [targetName]: event.target.files[0] });
-      console.log(event.target.files[0])
-    }
-    else this.setState({ [targetName]: event.target.value });
+		let targetName = event.target.name;
+		if (targetName == "avatarUpload") {
+			this.setState({ [targetName]: event.target.files[0] });
+			console.log(event.target.files[0]);
+		}
+		else this.setState({ [targetName]: event.target.value });
 	}
 
-	async updateUser() {
+	async updateUser(event) {
+		event.preventDefault();
 		let { authData } = this.props;
 		try {
-      // TODO: fix this
 			this.setState({ isUpdating: true });
 			let { avatarUrl, favoriteBike, username, avatarUpload } = this.state;
-			if (avatarUrl === "" && favoriteBike === "" && username === "" && avatarUpload == null) return;
-			else {
-        let body = new FormData();
-        if (avatarUpload != null){
-          body.append("avatarUpload", avatarUpload);
-        }
-        body.append("avatarUrl", avatarUrl);
-        body.append("favoriteBike", favoriteBike);
-        body.append("username", username);
-        // let body = {
-        //   avatarUrl: avatarUrl,
-				// 	favoriteBike: favoriteBike,
-        //   username: username
-        // }
-				await updateUserInfo(authData, body);
-				this.setState({
-					isUpdateSuccess: true
-				});
-				// window.location.reload();
-			}
+			let body = {
+				avatarUrl: avatarUrl,
+				favoriteBike: favoriteBike,
+				username: username
+			};
+			let response = await updateUserInfo(authData, body);
+			// console.log("user update", response);
+			this.setState({
+				isUpdateSuccess: true
+			});
+
+			this.setState({
+				avatarUrl: response.avatarUrl,
+				favoriteBike: response.favoriteBike
+			});
+			//TODO: also update user object? maybe just refresh the page?
+
+			alert("Update successful");
+
 		} catch (error) {
-			this.setState({ errorMessage: error });
+			this.setState({ errorMessage: error.message });
 		} finally {
 			this.setState({ isUpdating: false });
 		}
-  }
-  
+	}
+
 	componentDidMount() {
 		console.log("Loading user data");
 		const { match, sessionToken } = this.props;
@@ -103,8 +102,8 @@ class UserInfoComponent extends Component {
 		const succesDisplay = isUpdateSuccess ? (
 			<div style={{ backgroundColor: "green" }}>Update success</div>
 		) : (
-			<div />
-		);
+				<div />
+			);
 
 		if (!userInfo) return null;
 		else if (errorMessage) return { errorDisplay };
@@ -139,41 +138,42 @@ class UserInfoComponent extends Component {
 						</div>
 					</div>
 					{authData.userId === match.params.userId ? (
-            <div className="change_info">
-            <form method="post" encType="multipart/form-data" action="">
-            
-							<h4>Change your info</h4>
-							<label htmlFor="avatarUrl">Avatar url: </label>
-							<input
-								id="avatarUrl"
-								value={avatarUrl}
-								name="avatarUrl"
-								onChange={this.handleChangeValue}
-              />
-              <label htmlFor="avatarUpload">Upload Avatar: </label>
-              <input type="file" name="avatarUpload" onChange={this.handleChangeValue} />
-							<br />
-							<label htmlFor="favoriteBike">Favorite Bike: </label>
-							<input
-								id="favoriteBike"
-								value={favoriteBike}
-								name="favoriteBike"
-								onChange={this.handleChangeValue}
-							/>
-							<br />
-							<label htmlFor="username">Username: </label>
-							<input
-								id="username"
-								value={username}
-								name="username"
-								onChange={this.handleChangeValue}
-							/>
-							<br />
-							<button disabled={isUpdating} onClick={this.updateUser}>
-								Submit
+						<div className="change_info">
+							<form>
+
+								<h4>Change your personal infomation</h4>
+								<label htmlFor="username">Username: </label>
+								<input
+									id="username"
+									value={username}
+									name="username"
+									disabled
+								/>
+								<br />
+								<label htmlFor="avatarUrl">Avatar url: </label>
+								<input
+									id="avatarUrl"
+									value={avatarUrl}
+									name="avatarUrl"
+									onChange={this.handleChangeValue}
+								/>
+								<label htmlFor="avatarUpload">Upload Avatar: </label>
+								<input type="file" name="avatarUpload" onChange={this.handleChangeValue} />
+								<br />
+								<label htmlFor="favoriteBike">Favorite Bike: </label>
+								<input
+									id="favoriteBike"
+									value={favoriteBike}
+									name="favoriteBike"
+									onChange={this.handleChangeValue}
+								/>
+								<br />
+
+								<button className="change_info_button" disabled={isUpdating} onClick={this.updateUser}>
+									Submit
 							</button>
-              {succesDisplay}
-              </form>              
+								{succesDisplay}
+							</form>
 						</div>
 					) : null}
 				</div>
@@ -182,13 +182,18 @@ class UserInfoComponent extends Component {
 }
 UserInfoComponent.propTypes = {
 	match: PropTypes.object,
-  authData: PropTypes.object,
-  sessionToken: PropTypes.string
+	authData: PropTypes.object,
+	sessionToken: PropTypes.string
 };
 
-const UserInfo = React.forwardRef((props, ref) => (
-  <ContextConsumer>
-    {value => <UserInfoComponent {...props} {...value} ref={ref} />}
-  </ContextConsumer>
-))
-export { UserInfo };
+// const UserInfo = React.forwardRef((props, ref) => (
+// 	<ContextConsumer>
+// 		{value => <UserInfoComponent {...props} {...value} ref={ref} />}
+// 	</ContextConsumer>
+// ));
+
+// const UserInfo =
+// 	<ContextConsumer>
+// 		{value => <UserInfoComponent {...value} />}
+// 	</ContextConsumer>;
+export { UserInfoComponent as UserInfo };

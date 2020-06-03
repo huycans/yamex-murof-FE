@@ -4,35 +4,35 @@ import sha512 from "crypto-js/sha512";
 async function sendDataWithAuth(method, api, authData, body) {
 	try {
 		console.log("starting sending data");
-		let currentTime = new Date().toISOString();
-		let serverResponse = null;
+		// let currentTime = new Date().toISOString();
 		//calculate hash for enc field
-		let hashDigest = sha512(
-			`${method} ${api} ${currentTime} ${authData.userId}`
-		).toString();
+		// let hashDigest = sha512(
+		// 	`${method} ${api} ${currentTime} ${authData.userId}`
+		// ).toString();
 
-		let link = `${URL}${api}?emit=${currentTime}`;
-		serverResponse = await fetch(link, {
+		let link = `${URL}${api}`;
+		let serverResponse = await fetch(link, {
 			method: method,
 			headers: {
 				Accept: "application/json",
 				"Access-Control-Allow-Origin": "*",
 				"Content-Type": "application/json",
-				sessionToken: authData.sessionToken,
-				enc: hashDigest
+				// sessionToken: authData.sessionToken,
+				// enc: hashDigest,
+				"Authorization": "Bearer " + authData.sessionToken
 			},
 			body: JSON.stringify(body)
 		});
-			//make sure there is content inside the response before return it
+		//make sure there is content inside the response before return it
 		if (serverResponse.status === 200) {
 			let responseJSON = await serverResponse.json();
 			console.log(responseJSON);
 			return responseJSON;
 		} else {
-			console.log(serverResponse);
+			// console.log(serverResponse);
 			throw serverResponse;
 		}
-		
+
 	} catch (error) {
 		throw error;
 	}

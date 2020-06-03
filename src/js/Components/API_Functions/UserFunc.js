@@ -2,15 +2,15 @@ import { URL, SERVER_API } from "../../Constants/API";
 import { sendDataWithAuth } from "./SecureConnect";
 async function getUserInfo(userId, token) {
 	try {
-    let link = URL + SERVER_API.user + "/" + userId;
-    let bearer = "Bearer " + token;
+		let link = URL + SERVER_API.user + "/" + userId;
+		let bearer = "Bearer " + token;
 		let response = await fetch(link, {
-      method: "GET",
-      withCredentials: true,
+			method: "GET",
+			withCredentials: true,
 			headers: {
 				Accept: "application/json",
-        "Access-Control-Allow-Origin": "*",
-        "Authorization": bearer
+				"Access-Control-Allow-Origin": "*",
+				"Authorization": bearer
 			}
 		});
 		let responseJSON = await response.json();
@@ -21,26 +21,19 @@ async function getUserInfo(userId, token) {
 }
 
 async function updateUserInfo(authData, body) {
-  try {
-		let response = await fetch(SERVER_API.user + "/" + authData.userId, {
-			method: "POST",
-			headers: {
-        "Access-Control-Allow-Origin": "*",
-				"Content-Type": "application/json",
-				Accept: "application/json",
-        "Content-Type": ""
-			},
-      body: body
-		});
-		let responseJSON = await response.json();
-		if (response.status != 200 && response.ok == false) {
-			throw new Error(responseJSON.err.message);
-		} else {
-			return responseJSON;
-		}
+	try {
+
+		let response = await sendDataWithAuth(
+			"PUT",
+			SERVER_API.user + "/" + authData.userId,
+			authData,
+			body
+		);
+		//response is already json
+		return response;
 	} catch (error) {
 		throw error;
-}
+	}
 }
 
 async function loginWithEmail(username, password) {
@@ -94,14 +87,14 @@ async function signupWithEmail(username, password) {
 }
 
 async function checkSession(sessionToken) {
-  try {
+	try {
 		let response = await fetch(URL + SERVER_API.userTokenCheck, {
 			method: "GET",
 			headers: {
 				"Content-Type": "application/json",
 				Accept: "application/json",
-        "Access-Control-Allow-Origin": "*",
-        Authorization: "Bearer " + sessionToken
+				"Access-Control-Allow-Origin": "*",
+				Authorization: "Bearer " + sessionToken
 			}
 		});
 		let responseJSON = await response.json();
@@ -115,14 +108,14 @@ async function checkSession(sessionToken) {
 	}
 }
 
-async function logout(){
-  try {
+async function logout() {
+	try {
 		let response = await fetch(URL + SERVER_API.logout, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
 				Accept: "application/json",
-        "Access-Control-Allow-Origin": "*"
+				"Access-Control-Allow-Origin": "*"
 			}
 		});
 		let responseJSON = await response.json();
