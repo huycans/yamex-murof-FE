@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 
 import { getUserInfo } from "../API_Functions";
 import { updateUserInfo } from "../API_Functions";
-import { ContextConsumer, AppContext } from "../../context";
 import { formatTime } from '../../services/time';
 
 class UserInfoComponent extends Component {
@@ -54,9 +53,9 @@ class UserInfoComponent extends Component {
 				avatarUrl: response.avatarUrl,
 				favoriteBike: response.favoriteBike
 			});
-			//TODO: also update user object? maybe just refresh the page?
 
-			alert("Update successful");
+			let okay = alert("Update successful");
+			window.location.reload();
 
 		} catch (error) {
 			this.setState({ errorMessage: error.message });
@@ -99,11 +98,6 @@ class UserInfoComponent extends Component {
 				{errorMessage}
 			</div>
 		);
-		const succesDisplay = isUpdateSuccess ? (
-			<div style={{ backgroundColor: "green" }}>Update success</div>
-		) : (
-				<div />
-			);
 
 		if (!userInfo) return null;
 		else if (errorMessage) return { errorDisplay };
@@ -172,7 +166,6 @@ class UserInfoComponent extends Component {
 								<button className="change_info_button" disabled={isUpdating} onClick={this.updateUser}>
 									Submit
 							</button>
-								{succesDisplay}
 							</form>
 						</div>
 					) : null}
