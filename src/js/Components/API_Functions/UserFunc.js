@@ -1,5 +1,5 @@
 import { URL, SERVER_API } from "../../Constants/API";
-import { sendDataWithAuth } from "./SecureConnect";
+import { sendFormWithAuth } from "./SecureConnect";
 async function getUserInfo(userId, token) {
 	try {
 		let link = URL + SERVER_API.user + "/" + userId;
@@ -23,7 +23,7 @@ async function getUserInfo(userId, token) {
 async function updateUserInfo(authData, body) {
 	try {
 
-		let response = await sendDataWithAuth(
+		let response = await sendFormWithAuth(
 			"PUT",
 			SERVER_API.user + "/" + authData.userId,
 			authData,

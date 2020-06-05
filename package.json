@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "bootstrap": "^4.5.0",
+    "cloudinary-react": "^1.5.0",
     "crypto-js": "^3.1.9-1",
     "draft-js": "^0.11.0",
     "draftjs-to-html": "^0.8.4",

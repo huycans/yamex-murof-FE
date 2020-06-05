@@ -1,9 +1,11 @@
 import React, { Component, useContext } from "react";
 import PropTypes from "prop-types";
+import { Image, Transformation, CloudinaryContext } from 'cloudinary-react';
 
 import { getUserInfo } from "../API_Functions";
 import { updateUserInfo } from "../API_Functions";
 import { formatTime } from '../../services/time';
+import cloudinaryConfig from '../../Constants/Cloudinary';
 
 class UserInfoComponent extends Component {
 	constructor(props) {
@@ -35,15 +37,17 @@ class UserInfoComponent extends Component {
 	async updateUser(event) {
 		event.preventDefault();
 		let { authData } = this.props;
+		let { avatarUrl, favoriteBike, username, avatarUpload } = this.state;
+
+		let data = new FormData();
+		data.append("avatarFile", avatarUpload);
+		data.append("avatarUrl", avatarUrl);
+		data.append("favoriteBike", favoriteBike);
+
+		console.log("avatarFile ", data.get("avatarFile"));
 		try {
 			this.setState({ isUpdating: true });
-			let { avatarUrl, favoriteBike, username, avatarUpload } = this.state;
-			let body = {
-				avatarUrl: avatarUrl,
-				favoriteBike: favoriteBike,
-				username: username
-			};
-			let response = await updateUserInfo(authData, body);
+			let response = await updateUserInfo(authData, data);
 			// console.log("user update", response);
 			this.setState({
 				isUpdateSuccess: true
@@ -98,14 +102,16 @@ class UserInfoComponent extends Component {
 				{errorMessage}
 			</div>
 		);
-
 		if (!userInfo) return null;
 		else if (errorMessage) return { errorDisplay };
-		else
+		else {
+			const avatarId = cloudinaryConfig.pathToUserAvatar + userInfo.id;
 			return (
 				<div className="container">
 					<div className="user">
-						<img src={userInfo.avatarUrl} alt="avatar" className="avatar" />
+						<CloudinaryContext cloudName={cloudinaryConfig.cloud_name}>
+							<Image publicId={avatarId} width="170" height="170" />
+						</CloudinaryContext>
 						<div className="user_info">
 							<div className="user_name">{userInfo.username}</div>
 							<div className="user_title">Role: {userInfo.role}</div>
@@ -165,12 +171,14 @@ class UserInfoComponent extends Component {
 
 								<button className="change_info_button" disabled={isUpdating} onClick={this.updateUser}>
 									Submit
-							</button>
+						</button>
 							</form>
 						</div>
 					) : null}
 				</div>
 			);
+		}
+
 	}
 }
 UserInfoComponent.propTypes = {
