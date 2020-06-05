@@ -105,12 +105,11 @@ class UserInfoComponent extends Component {
 		if (!userInfo) return null;
 		else if (errorMessage) return { errorDisplay };
 		else {
-			const avatarId = cloudinaryConfig.pathToUserAvatar + userInfo.id;
 			return (
 				<div className="container">
 					<div className="user">
 						<CloudinaryContext cloudName={cloudinaryConfig.cloud_name}>
-							<Image publicId={avatarId} width="170" height="170" />
+							<Image publicId={userInfo.avatarUrl} width="170" height="170" />
 						</CloudinaryContext>
 						<div className="user_info">
 							<div className="user_name">{userInfo.username}</div>
@@ -150,15 +149,17 @@ class UserInfoComponent extends Component {
 									disabled
 								/>
 								<br />
-								<label htmlFor="avatarUrl">Avatar url: </label>
-								<input
-									id="avatarUrl"
-									value={avatarUrl}
-									name="avatarUrl"
-									onChange={this.handleChangeValue}
-								/>
+								{
+									// <label htmlFor="avatarUrl">Avatar url: </label>
+									// <input
+									// 	id="avatarUrl"
+									// 	value={avatarUrl}
+									// 	name="avatarUrl"
+									// 	onChange={this.handleChangeValue}
+									// />
+								}
 								<label htmlFor="avatarUpload">Upload Avatar: </label>
-								<input type="file" name="avatarUpload" onChange={this.handleChangeValue} />
+								<input type="file" accept="image/png, image/jpeg, image/jpg" name="avatarUpload" onChange={this.handleChangeValue} />
 								<br />
 								<label htmlFor="favoriteBike">Favorite Bike: </label>
 								<input
