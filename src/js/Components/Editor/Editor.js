@@ -32,6 +32,7 @@ class EditorConvertToHTML extends Component {
 				/>
 
 				<button
+					disabled={this.props.disabled}
 					onClick={() =>
 						this.props.submit(
 							draftToHtml(convertToRaw(editorState.getCurrentContent()))

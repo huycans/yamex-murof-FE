@@ -50,6 +50,15 @@ button{
   border: solid 1px var(--main-orange);
   color: var(--main-orange);
 }
+button:disabled{
+  background-color: white;
+  border: solid 1px var(--main-grey);
+  color: var(--main-grey);
+}
+button:disabled:hover{
+  cursor: default;
+  box-shadow: none;
+}
 button:hover{
   cursor: pointer;
   border-color: grey;

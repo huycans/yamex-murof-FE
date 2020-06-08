@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import Modal from "react-modal";
+import DOMPurify from 'dompurify';
 
 import { getThreadList } from "../API_Functions/index";
 import Pagination from "../Pagination";
@@ -29,7 +30,11 @@ class SubForum extends Component {
 
 	submit(htmlString) {
 		console.log(htmlString);
-		this.createNewThread(htmlString);
+		if (htmlString == "<p></p>\n" || this.newThreadName == "") {
+			alert("Thread name or thread content cannot be empty");
+			return;
+		}
+		this.createNewThread(DOMPurify.sanitize(htmlString));
 	}
 
 	async createNewThread(threadContent) {
