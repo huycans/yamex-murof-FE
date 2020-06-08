@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import Modal from "react-modal";
-import { Image, Transformation, CloudinaryContext } from 'cloudinary-react';
+import DOMPurify from 'dompurify';
+import { Image, CloudinaryContext } from 'cloudinary-react';
 
 import { getReplyList, getThreadData, sendReply, sendThank } from "../API_Functions";
 import EditorConvertToHTML from "../Editor";
@@ -169,21 +170,8 @@ class Thread extends Component {
       return d1.getTime() - d2.getTime();
     }).map((reply, index) => {
       function createMarkup() {
-        return { __html: reply.content };
+        return { __html: DOMPurify.sanitize(reply.content) };
       }
-      // console.log(reply.content)
-      // if (index === 0) {
-      //   //display for the first reply, which is created by thread creator
-      //   return (
-      //     <div key={reply.id}>
-      //       <div className="thread_content">
-      //         <div dangerouslySetInnerHTML={createMarkup()} />
-      //       </div>
-      //       <RepToolBar reply={reply} />
-      //     </div>
-      //   )
-      //   //display for all other replies
-      // } else {
       return (
         <div key={reply.id}>
           <div className="post_reply">
