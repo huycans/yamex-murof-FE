@@ -109,7 +109,7 @@ class UserInfoComponent extends Component {
 				<div className="container">
 					<div className="user">
 						<CloudinaryContext cloudName={cloudinaryConfig.cloud_name}>
-							<Image publicId={userInfo.avatarUrl} width="170" height="170" />
+							<Image publicId={userInfo.avatarUrl} className="avatar" />
 						</CloudinaryContext>
 						<div className="user_info">
 							<div className="user_name">{userInfo.username}</div>

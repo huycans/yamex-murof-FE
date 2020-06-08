@@ -2,11 +2,14 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import Modal from "react-modal";
+import { Image, Transformation, CloudinaryContext } from 'cloudinary-react';
 
 import { getReplyList, getThreadData, sendReply, sendThank } from "../API_Functions";
 import EditorConvertToHTML from "../Editor";
 import Pagination from '../Pagination';
 import { formatTime } from '../../services/time';
+import cloudinaryConfig from '../../Constants/Cloudinary';
+import "./thread.css";
 
 class Thread extends Component {
   constructor(props) {
@@ -146,7 +149,9 @@ class Thread extends Component {
     const ThreadHeader = (
       <div className="thread_header">
         <div className="user_avatar">
-          <img src={thread.author.avatarUrl} alt="user_avatar" />
+          <CloudinaryContext cloudName={cloudinaryConfig.cloud_name}>
+            <Image publicId={thread.author.avatarUrl} />
+          </CloudinaryContext>
         </div>
         <div className="thread_header_info">
           <div className="thread_name">{thread.name}</div>
@@ -190,7 +195,9 @@ class Thread extends Component {
             </div>
             <div className="post_content">
               <div className="post_user_content">
-                <img src={reply.author.avatarUrl} alt="user_avatar" />
+                <CloudinaryContext cloudName={cloudinaryConfig.cloud_name}>
+                  <Image publicId={reply.author.avatarUrl} alt="user-avatar" />
+                </CloudinaryContext>
 
                 <div className="user_title">Role: {reply.author.role}</div>
               </div>
