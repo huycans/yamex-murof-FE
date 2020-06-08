@@ -7,16 +7,17 @@ import { getThreadList } from "../API_Functions/index";
 import Pagination from "../Pagination";
 import { createThread } from "../API_Functions";
 import EditorConvertToHTML from "../Editor";
-import {formatTime} from '../../services/time'
+import { formatTime } from '../../services/time';
+import "./subforum.css";
 
 class SubForum extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			threadList: [],
-      newThreadName: "",
-      current: null,
-      pages: null
+			newThreadName: "",
+			current: null,
+			pages: null
 		};
 		this.createNewThread = this.createNewThread.bind(this);
 		this.handleInputChange = this.handleInputChange.bind(this);
@@ -96,7 +97,7 @@ class SubForum extends Component {
 	}
 
 	render() {
-		const { match, forumData, authData, subforumData  } = this.props;
+		const { match, forumData, authData, subforumData } = this.props;
 		//the maximum page number of a subforum
 		const maxPageNumber = subforumData.pageNumber;
 		const { threadList, newThreadName, isModalOpen, current, pages } = this.state;
@@ -131,7 +132,7 @@ class SubForum extends Component {
 						onChange={this.handleInputChange}
 					/>
 					<EditorConvertToHTML submit={this.submit} />
-					<button onClick={this.closeModal} style={{marginTop: "1em"}}>Close</button>
+					<button onClick={this.closeModal} style={{ marginTop: "1em" }}>Close</button>
 				</div>
 			</Modal>
 		);
@@ -153,7 +154,7 @@ class SubForum extends Component {
 							</Link>
 						</div>
 					</div>
-					<div className="lasted_post">
+					<div className="latest_post">
 						<div className="lasted_post_time">
 							<span>{formattedTime}</span>
 						</div>
@@ -165,13 +166,13 @@ class SubForum extends Component {
 						</div>
 					</div>
 					<div className="no_rep_view">
-						<span>Replies: {thread.replyNumber}</span>
-						<span>Views: {thread.viewNumber}</span>
+						<span>Replies: N/A{thread.replyNumber}</span>
+						<span>Views: N/A{thread.viewNumber}</span>
 					</div>
 				</div>
 			);
-    });
-    
+		});
+
 		return (
 			<div>
 				{newThreadModal}
@@ -185,9 +186,11 @@ class SubForum extends Component {
 					</Link>
 				</div>
 
-				<div className="intro">{subforumData.description}</div>
+				<div className="intro">
+					<h1>{subforumData.description}</h1>
+				</div>
 
-				<div className="paginate_bar" style={{marginLeft: "50px"}}>
+				<div className="paginate_bar" style={{ marginLeft: "50px" }}>
 					{authData.sessionToken ? (
 						<div className="postnew">
 							<button onClick={this.openModal}>New Thread</button>
@@ -195,7 +198,7 @@ class SubForum extends Component {
 					) : null}
 
 					<div>
-          	<Pagination current={current} loadOnClick={this.loadThreadsFromPageNum} pages={pages} />
+						<Pagination current={current} loadOnClick={this.loadThreadsFromPageNum} pages={pages} />
 					</div>
 				</div>
 

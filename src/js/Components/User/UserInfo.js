@@ -6,6 +6,7 @@ import { getUserInfo } from "../API_Functions";
 import { updateUserInfo } from "../API_Functions";
 import { formatTime } from '../../services/time';
 import cloudinaryConfig from '../../Constants/Cloudinary';
+import "./user.css";
 
 class UserInfoComponent extends Component {
 	constructor(props) {
@@ -109,7 +110,7 @@ class UserInfoComponent extends Component {
 				<div className="container">
 					<div className="user">
 						<CloudinaryContext cloudName={cloudinaryConfig.cloud_name}>
-							<Image publicId={userInfo.avatarUrl} className="avatar" />
+							<Image publicId={userInfo.avatarUrl} className="userinfo-avatar" />
 						</CloudinaryContext>
 						<div className="user_info">
 							<div className="user_name">{userInfo.username}</div>

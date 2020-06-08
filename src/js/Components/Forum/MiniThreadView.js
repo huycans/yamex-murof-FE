@@ -16,8 +16,8 @@ export const MiniThreadView = props => {
         </div>
       </div>
 
-      <div className="rep">10{threadData.replyNumber}</div>
-      <div className="views">10</div>
+      <div className="rep">N/A{threadData.replyNumber}</div>
+      <div className="views">N/A</div>
     </div>
   );
 };
