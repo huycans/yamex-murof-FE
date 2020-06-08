@@ -29,7 +29,7 @@ class SubForum extends Component {
 	}
 
 	submit(htmlString) {
-		console.log(htmlString);
+		// console.log(htmlString);
 		if (htmlString == "<p></p>\n" || this.newThreadName == "") {
 			alert("Thread name or thread content cannot be empty");
 			return;

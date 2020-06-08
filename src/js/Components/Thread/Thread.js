@@ -34,7 +34,11 @@ class Thread extends Component {
   }
 
   submit(htmlString) {
-    this.reply(htmlString);
+    if (htmlString == "<p></p>\n") {
+      alert("Reply cannot be empty");
+      return;
+    }
+    this.reply(DOMPurify.sanitize(htmlString));
   }
 
   handleType(event) {
