@@ -98,13 +98,13 @@ class UserInfoComponent extends Component {
 			isUpdating
 		} = this.state;
 		const { authData, match } = this.props;
-		const errorDisplay = (
+
+		if (!userInfo) return null;
+		else if (errorMessage) return (
 			<div style={{ backgroundColor: "red", fontSize: 20, textAlign: "center" }}>
 				{errorMessage}
 			</div>
 		);
-		if (!userInfo) return null;
-		else if (errorMessage) return { errorDisplay };
 		else {
 			return (
 				<div className="container">
