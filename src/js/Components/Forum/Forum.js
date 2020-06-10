@@ -228,13 +228,13 @@ class Forum extends Component {
 	}
 }
 Forum.propTypes = {
-	match: {
+	match: PropTypes.shape({
 		url: PropTypes.string,
 		path: PropTypes.string,
 		isExact: PropTypes.bool,
 		params: PropTypes.object
-	},
-	forumData: {
+	}),
+	forumData: PropTypes.shape({
 		bikeInfo: PropTypes.string,
 		coverUrl: PropTypes.string,
 		createdTime: PropTypes.string,
@@ -244,7 +244,7 @@ Forum.propTypes = {
 		moderators: PropTypes.arrayOf(PropTypes.string),
 		name: PropTypes.string,
 		path: PropTypes.string
-	},
+	}),
 	authData: PropTypes.object,
 	userFromServer: PropTypes.object
 };

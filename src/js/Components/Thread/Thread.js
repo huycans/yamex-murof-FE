@@ -250,9 +250,12 @@ class Thread extends Component {
                 Post Reply
               </button>
             ) : null}
-            <div>
-              <Pagination current={current} loadOnClick={this.loadRepliesFromPageNum} pages={pages} />
-            </div>
+            {pages
+              ? <div>
+                <Pagination current={current} loadOnClick={this.loadRepliesFromPageNum} pages={pages} />
+              </div> : null
+            }
+
           </div>
 
           {repliesListView}

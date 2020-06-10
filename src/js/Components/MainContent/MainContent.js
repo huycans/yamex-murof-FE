@@ -396,12 +396,12 @@ class MainContent extends Component {
 }
 
 MainContent.propTypes = {
-	match: {
+	match: PropTypes.shape({
 		url: PropTypes.string,
 		path: PropTypes.string,
 		isExact: PropTypes.bool,
 		params: PropTypes.object
-	},
+	}),
 	forumList: PropTypes.array,
 	listOfForumRoute: PropTypes.array,
 	authData: PropTypes.object,

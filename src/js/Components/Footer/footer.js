@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 
-import "./footer.css"
+import "./footer.css";
 export const Footer = () => {
-  return(
+  return (
     <footer>
       <div className="d-flex justify-content-around">
         <div className="p-2">
@@ -17,18 +17,17 @@ export const Footer = () => {
           </div>
         </div>
         <div className="p-2">
-          <p>
-            <b>Group member :</b>
-            <div className="member">
-              <br /> Nguyen Thanh Binh
+
+          <b>Group member :</b>
+          <div className="member">
+            <br /> Nguyen Thanh Binh
               <br /> Ngo Chinh Dung
               <br /> Dao Thanh Duy
               <br /> Vuong Thieu Huy
               <br /> Diep Nhut Phuong
             </div>
-          </p>
         </div>
       </div>
     </footer>
-  )
-}
+  );
+};
