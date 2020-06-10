@@ -41,7 +41,7 @@ class Forum extends Component {
 			);
 			window.location.reload();
 		} catch (error) {
-			console.log(error);
+			alert(error);
 		} finally {
 			this.closeModal();
 		}
@@ -74,7 +74,7 @@ class Forum extends Component {
 				subforumList => {
 					return subforumList;
 				},
-				error => console.log(error)
+				error => alert(error)
 			)
 			.then(subforumList => {
 				//create a copy of the subforumlist
@@ -144,7 +144,6 @@ class Forum extends Component {
 		);
 
 		const subforums = this.state.subforumList;
-		console.log(subforums);
 		// if (!subforums || !subforums.threadList) return null;
 		//create a list of subforum in the forum, each subforum has a list of threads
 		let SubforumList = subforums.map(subforum => {

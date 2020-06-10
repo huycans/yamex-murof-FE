@@ -29,7 +29,6 @@ class SubForum extends Component {
 	}
 
 	submit(htmlString) {
-		// console.log(htmlString);
 		if (htmlString == "<p></p>\n" || this.newThreadName == "") {
 			alert("Thread name or thread content cannot be empty");
 			return;
@@ -47,7 +46,6 @@ class SubForum extends Component {
 				threadContent,
 				authData
 			);
-			console.log("new thread response ", response);
 			if (response == null) throw Error("Error while creating thread");
 
 			//refresh the page to display the new thread
@@ -87,7 +85,6 @@ class SubForum extends Component {
 
 		getThreadList(subforumData.id, pageNum).then(
 			result => {
-				console.log(result);
 				//if there is no threads, return nothing
 				if (!result) return;
 				self.setState({ threadList: result.threads, current: result.current, pages: result.pages });

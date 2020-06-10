@@ -173,15 +173,12 @@ class MainContent extends Component {
 		let value = event.target.value;
 		if (name === "stillProducing") value = value === "true" ? true : false;
 
-		console.log(name, value, typeof value);
-
 		this.setState({
 			[name]: value
 		});
 	}
 
 	openModal() {
-		console.log("opening");
 		this.setState({ isModalOpen: true });
 	}
 

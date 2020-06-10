@@ -38,8 +38,6 @@ async function getThreadData(threadId) {
 
 async function createThread(name, subForumId, content, authData) {
 	try {
-		// console.log(name, subForumId, content, authData);
-		// console.log("Creating thread");
 		const body = {
 			author: {
 				id: authData.userId

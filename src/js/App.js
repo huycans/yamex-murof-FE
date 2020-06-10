@@ -59,7 +59,6 @@ class App extends Component {
 		let user = null;
 		let { email, password } = this.state;
 		try {
-			console.log("Switching");
 			switch (method) {
 				case "facebook": //if user log in using facebook
 					console.log("Logging in with facebook");
@@ -86,10 +85,7 @@ class App extends Component {
 					// The signed-in user info.
 					user = result.user;
 					console.log("logged in");
-					console.log(user);
 					// clientIdToken = await user.getIdToken();
-					// console.log("clientIdToken", clientIdToken);
-					// return clientIdToken;
 					return user;
 				//break;
 
@@ -100,16 +96,12 @@ class App extends Component {
 					await firebase.auth().onAuthStateChanged(function (userObj) {
 						if (userObj) {
 							//User is signed in
-							console.log(userObj);
 							user = userObj;
 						} else {
 							console.log("No user is logged in");
 						}
 					});
 					if (user !== null) {
-						// clientIdToken = await user.getIdToken();
-						// console.log("clientIdToken", clientIdToken);
-						// return clientIdToken;
 						return user;
 					}
 
@@ -124,8 +116,6 @@ class App extends Component {
 	}
 
 	async login(method) {
-		console.log("Logging in");
-		console.log(method);
 		this.setState({ isLoading: true, errorMessage: "" });
 		try {
 			let userObj = await loginWithEmail(this.state.email, this.state.password);
@@ -137,7 +127,6 @@ class App extends Component {
 			}, () => localStorage.setItem("yamexState", JSON.stringify(this.state)));
 		} catch (error) {
 			this.setState({ errorMessage: error.message });
-			console.log(error);
 		} finally {
 			this.setState({ isLoading: false });
 		}
@@ -157,7 +146,6 @@ class App extends Component {
 
 		} catch (error) {
 			this.setState({ errorMessage: error.message });
-			console.log(error);
 		} finally {
 			this.setState({ isLoading: false });
 		}

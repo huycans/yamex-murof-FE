@@ -119,7 +119,6 @@ async function logout() {
 			}
 		});
 		let responseJSON = await response.json();
-		console.log(responseJSON);
 	} catch (error) {
 		throw error;
 	}

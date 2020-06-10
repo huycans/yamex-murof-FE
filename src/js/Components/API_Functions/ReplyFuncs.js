@@ -2,7 +2,6 @@ import { URL, SERVER_API } from "../../Constants/API";
 import { sendDataWithAuth, sendThankWithAuth } from "./SecureConnect";
 async function sendReply(authData, content, threadId) {
 	try {
-		console.log("Sending reply");
 		const body = {
 			author: {
 				id: authData.userId
@@ -25,12 +24,10 @@ async function sendReply(authData, content, threadId) {
 			body: JSON.stringify(body)
 		});
 		let responseJSON = await serverResponse.json();
-		console.log(responseJSON);
 		if (serverResponse.status === 200) {
 			//make sure there is content inside the response before return it
 			return responseJSON;
 		} else {
-			console.log(responseJSON.message);
 			throw responseJSON.message;
 		}
 		// await sendDataWithAuth("PUT", SERVER_API.reply, authData, body);
@@ -50,7 +47,6 @@ async function getReplyList(thrid, page) {
 			}
 		});
 		let responseJSON = await response.json();
-		console.log(responseJSON);
 		return responseJSON;
 	} catch (error) {
 		throw error;

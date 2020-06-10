@@ -75,7 +75,6 @@ class Thread extends Component {
 
   async thank(rid) {
     try {
-      // console.log(rid);
       const { authData } = this.props;
       if (!authData.sessionToken) {
         alert("You're not logging in");
@@ -94,12 +93,10 @@ class Thread extends Component {
       //loading thread is just loading replies in that thread
       this.setState({ isLoading: true });
       const { match } = this.props;
-      console.log(match.params, pageNum);
       getReplyList(match.params.threadId, pageNum).then(({ replies, current, pages }) => {
         this.setState({ replies, current, pages });
       });
     } catch (error) {
-      console.log(error);
       this.setState({ errorMessage: error });
     } finally {
       this.setState({ isLoading: false });
@@ -109,7 +106,6 @@ class Thread extends Component {
   componentDidMount() {
     const { match } = this.props;
     getThreadData(match.params.threadId).then(thread => {
-      console.log(thread);
       this.setState({ thread: thread });
     });
     this.loadRepliesFromPageNum(1);

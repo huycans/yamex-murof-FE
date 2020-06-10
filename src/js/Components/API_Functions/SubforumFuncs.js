@@ -10,7 +10,7 @@ async function getSubForumList(fid) {
 			}
 		});
 		let responseJSON = await response.json();
-		return responseJSON ;
+		return responseJSON;
 	} catch (error) {
 		throw error;
 	}
@@ -18,7 +18,6 @@ async function getSubForumList(fid) {
 
 async function createSubforum(forumId, description, name) {
 	try {
-		console.log(forumId, description, name);
 		let link = URL + SERVER_API.subforum;
 		let response = await fetch(link, {
 			method: "PUT",
@@ -34,7 +33,7 @@ async function createSubforum(forumId, description, name) {
 			})
 		});
 		let responseJSON = await response.json();
-		return responseJSON ;
+		return responseJSON;
 	} catch (error) {
 		throw error;
 	}

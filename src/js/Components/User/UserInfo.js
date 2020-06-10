@@ -30,7 +30,6 @@ class UserInfoComponent extends Component {
 		let targetName = event.target.name;
 		if (targetName == "avatarUpload") {
 			this.setState({ [targetName]: event.target.files[0] });
-			console.log(event.target.files[0]);
 		}
 		else this.setState({ [targetName]: event.target.value });
 	}
@@ -45,11 +44,9 @@ class UserInfoComponent extends Component {
 		data.append("avatarUrl", avatarUrl);
 		data.append("favoriteBike", favoriteBike);
 
-		console.log("avatarFile ", data.get("avatarFile"));
 		try {
 			this.setState({ isUpdating: true });
 			let response = await updateUserInfo(authData, data);
-			// console.log("user update", response);
 			this.setState({
 				isUpdateSuccess: true
 			});
@@ -70,7 +67,6 @@ class UserInfoComponent extends Component {
 	}
 
 	componentDidMount() {
-		console.log("Loading user data");
 		const { match, sessionToken } = this.props;
 		getUserInfo(match.params.userId, sessionToken).then(
 			user => {

@@ -19,10 +19,8 @@ async function sendDataWithAuth(method, api, authData, body) {
 		//make sure there is content inside the response before return it
 		if (serverResponse.status === 200) {
 			let responseJSON = await serverResponse.json();
-			console.log(responseJSON);
 			return responseJSON;
 		} else {
-			// console.log(serverResponse);
 			throw serverResponse;
 		}
 
@@ -47,10 +45,8 @@ async function sendFormWithAuth(method, api, authData, body) {
 		//make sure there is content inside the response before return it
 		if (serverResponse.status === 200) {
 			let responseJSON = await serverResponse.json();
-			console.log(responseJSON);
 			return responseJSON;
 		} else {
-			// console.log(serverResponse);
 			throw serverResponse;
 		}
 
@@ -75,7 +71,6 @@ async function sendThankWithAuth(method, api, authData, rid) {
 			let responseJSON = await serverResponse.json();
 			return responseJSON;
 		} else {
-			// console.log(serverResponse);
 			throw serverResponse;
 		}
 	} catch (error) {

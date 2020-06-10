@@ -10,8 +10,7 @@ async function getForumList() {
 			}
 		});
 		let responseJSON = await response.json();
-		console.log("responseJSON", responseJSON);
-		return responseJSON ;
+		return responseJSON;
 	} catch (error) {
 		throw error;
 	}
@@ -19,7 +18,6 @@ async function getForumList() {
 
 async function createForum(name, coverUrl = "", bikeInfo = {}) {
 	try {
-		console.log(name, coverUrl, bikeInfo);
 		let link = URL + SERVER_API.forum;
 		let response = await fetch(link, {
 			method: "PUT",
@@ -34,10 +32,8 @@ async function createForum(name, coverUrl = "", bikeInfo = {}) {
 				name: name
 			})
 		});
-		console.log(response);
 		let responseJSON = await response.json();
-		console.log(responseJSON);
-		return responseJSON ;
+		return responseJSON;
 	} catch (error) {
 		throw error;
 	}
