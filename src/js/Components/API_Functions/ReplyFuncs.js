@@ -8,23 +8,23 @@ async function sendReply(authData, content, threadId) {
 				id: authData.userId
 			},
 			threadId: threadId,
-      content: content,
-      // token: authData.sessionToken
-    };
+			content: content,
+			// token: authData.sessionToken
+		};
 		const link = URL + SERVER_API.reply;
-    const bearer = 'Bearer ' + authData.sessionToken;
-    let serverResponse = await fetch(link, {
+		const bearer = 'Bearer ' + authData.sessionToken;
+		let serverResponse = await fetch(link, {
 			method: "POST",
-      withCredentials: true,
+			withCredentials: true,
 			headers: {
 				Accept: "application/json",
 				"Access-Control-Allow-Origin": "*",
-        "Content-Type": "application/json",
-        "Authorization": bearer
+				"Content-Type": "application/json",
+				"Authorization": bearer
 			},
 			body: JSON.stringify(body)
-    });
-    let responseJSON = await serverResponse.json();
+		});
+		let responseJSON = await serverResponse.json();
 		console.log(responseJSON);
 		if (serverResponse.status === 200) {
 			//make sure there is content inside the response before return it
@@ -51,7 +51,7 @@ async function getReplyList(thrid, page) {
 		});
 		let responseJSON = await response.json();
 		console.log(responseJSON);
-		return responseJSON ;
+		return responseJSON;
 	} catch (error) {
 		throw error;
 	}
@@ -59,7 +59,9 @@ async function getReplyList(thrid, page) {
 
 async function sendThank(authData, rid) {
 	try {
-		await sendThankWithAuth("POST", SERVER_API.reply, authData, rid);
+		// let response = await sendThankWithAuth("POST", SERVER_API.reply, authData, rid);
+		let response = await sendDataWithAuth("PUT", SERVER_API.reply + "/" + rid, authData, {});
+		return response;
 	} catch (error) {
 		throw error;
 	}

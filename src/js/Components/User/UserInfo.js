@@ -125,10 +125,10 @@ class UserInfoComponent extends Component {
 						</div>
 						<div className="statistic">
 							<div className="no_post">
-								<b>No posts:</b> {userInfo.replyNumber}
+								<b>No posts:</b> {userInfo.numberOfPost}
 							</div>
 							<div className="no_tks">
-								<b>No thanks:</b> {userInfo.thankedNumber}
+								<b>No thanks:</b> {userInfo.numberOfThank}
 							</div>
 						</div>
 						<div className="contact">

@@ -75,13 +75,15 @@ class Thread extends Component {
 
   async thank(rid) {
     try {
-      console.log(rid);
+      // console.log(rid);
       const { authData } = this.props;
       if (!authData.sessionToken) {
         alert("You're not logging in");
         return;
       }
       await sendThank(authData, rid);
+      window.location.reload();
+
     } catch (error) {
       this.setState({ errorMessage: error });
     }
@@ -124,7 +126,7 @@ class Thread extends Component {
       if (props.reply)
         return (
           <div className="rep_quickrep_tool">
-            <div className="no_thank">{props.reply.thankedList.length} people thank this</div>
+            <div className="no_thank">{props.reply.numberOfThank || "0"} people thank this</div>
             <button onClick={this.openModal}>Reply</button>
             <button onClick={() => this.thank(props.reply.id)}>Thanks</button>
           </div>

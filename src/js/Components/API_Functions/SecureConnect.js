@@ -61,33 +61,22 @@ async function sendFormWithAuth(method, api, authData, body) {
 
 async function sendThankWithAuth(method, api, authData, rid) {
 	try {
-		console.log("starting sending data");
-		let currentTime = new Date().toISOString();
-		let serverResponse = null;
-		//calculate hash for enc field
-		let hashDigest = sha512(
-			`${method} ${api}/${rid}/thank ${currentTime} ${authData.userId}`
-		).toString();
-
-		let link = `${URL}${api}/${rid}/thank?emit=${currentTime}`;
-		serverResponse = await fetch(link, {
+		let link = `${URL}${api}/${rid}`;
+		let serverResponse = await fetch(link, {
 			method: method,
 			headers: {
 				Accept: "application/json",
 				"Access-Control-Allow-Origin": "*",
 				"Content-Type": "application/json",
-				sessionToken: authData.sessionToken,
-				enc: hashDigest
+				"Authorization": "Bearer " + authData.sessionToken
 			}
 		});
-		let responseJSON = await serverResponse.json();
-		console.log(responseJSON);
-		if (responseJSON.status.httpStatus === 200) {
-			//make sure there is content inside the response before return it
+		if (serverResponse.status === 200) {
+			let responseJSON = await serverResponse.json();
 			return responseJSON;
 		} else {
-			console.log(responseJSON.message);
-			throw responseJSON.message;
+			// console.log(serverResponse);
+			throw serverResponse;
 		}
 	} catch (error) {
 		throw error;
