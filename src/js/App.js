@@ -32,7 +32,7 @@ const blankAppState = {
 	sessionToken: "",
 	userId: ""
 };
-
+Modal.setAppElement("body");
 class App extends Component {
 	constructor(props) {
 		super(props);
@@ -188,6 +188,7 @@ class App extends Component {
 		}
 	}
 	async componentDidMount() {
+
 		this.setState({ isLoading: true });
 		console.log("Checking if user is signed in or not");
 		//look through local state
@@ -245,7 +246,7 @@ class App extends Component {
 
 		return (
 			<ContextProvider value={this.state}>
-				<div>
+				<div id="mainApp">
 					{LoadingModal}
 
 					<TopAuthComp userId={userId} userFromServer={userFromServer} logout={this.logout}
