@@ -148,7 +148,7 @@ class Forum extends Component {
 		//create a list of subforum in the forum, each subforum has a list of threads
 		let SubforumList = subforums.map(subforum => {
 			//if there is no threads, return nothing
-			if (!subforum.threadList) return;
+			if (!subforum.threadList) return null;
 			let MiniThreadViews = subforum.threadList.map(thread => (
 				<MiniThreadView
 					forumPath={forumData.path}

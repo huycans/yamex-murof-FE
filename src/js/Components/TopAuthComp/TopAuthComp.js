@@ -39,22 +39,24 @@ export const TopAuthComp = ({ userId, userFromServer, logout,
 					<button className="button-signup" onClick={signup}>
 						Signup
 					</button>
-					<input
-						className="login-button"
-						type="image"
-						src={require("../../../img/facebook.png")}
-						alt="fb logo"
-						onClick={() => login("facebook")}
-						onKeyPress={() => login("facebook")}
-					/>
-					<input
-						className="login-button"
-						type="image"
-						src={require("../../../img/google-plus.png")}
-						alt="google logo"
-						onClick={() => login("google")}
-						onKeyPress={() => login("google")}
-					/>
+					{
+						// 	<input
+						// 	className="login-button"
+						// 	type="image"
+						// 	src={require("../../../img/facebook.png")}
+						// 	alt="fb logo"
+						// 	onClick={() => login("facebook")}
+						// 	onKeyPress={() => login("facebook")}
+						// />
+						// <input
+						// 	className="login-button"
+						// 	type="image"
+						// 	src={require("../../../img/google-plus.png")}
+						// 	alt="google logo"
+						// 	onClick={() => login("google")}
+						// 	onKeyPress={() => login("google")}
+						// />
+					}
 				</div>
 			</div>
 		);

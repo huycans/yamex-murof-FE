@@ -3,7 +3,7 @@ import MainContent from "./Components/MainContent";
 import { Route, Link, Switch } from "react-router-dom";
 import Modal from "react-modal";
 
-import firebase from "./Components/Firebase/Firebase.js";
+// import firebase from "./Components/Firebase/Firebase.js";
 import {
 	verifyToken,
 	getUserInfo,
@@ -42,7 +42,7 @@ class App extends Component {
 		this.signup = this.signup.bind(this);
 		this.login = this.login.bind(this);
 		this.logout = this.logout.bind(this);
-		this.loginMethod = this.loginMethod.bind(this);
+		// this.loginMethod = this.loginMethod.bind(this);
 	}
 	handleInputEmail(event) {
 		this.setState({ email: event.target.value });
@@ -53,69 +53,69 @@ class App extends Component {
 	}
 
 	//function that will perform login function from various method and return user object
-	async loginMethod(method) {
-		let provider = null;
-		let result = null;
-		let user = null;
-		let { email, password } = this.state;
-		try {
-			switch (method) {
-				case "facebook": //if user log in using facebook
-					console.log("Logging in with facebook");
-					provider = new firebase.auth.FacebookAuthProvider();
-					await firebase.auth().signInWithRedirect(provider);
-					result = await firebase.auth().getRedirectResult();
-					// The signed-in user info.
-					user = result.user;
-					console.log("logged in");
-					console.log(user);
-					// clientIdToken = await user.getIdToken(true);
-					// console.log("clientIdToken", clientIdToken);
-					// return clientIdToken;
-					return user;
-				//break;
+	// async loginMethod(method) {
+	// 	let provider = null;
+	// 	let result = null;
+	// 	let user = null;
+	// 	let { email, password } = this.state;
+	// 	try {
+	// 		switch (method) {
+	// 			case "facebook": //if user log in using facebook
+	// 				console.log("Logging in with facebook");
+	// 				provider = new firebase.auth.FacebookAuthProvider();
+	// 				await firebase.auth().signInWithRedirect(provider);
+	// 				result = await firebase.auth().getRedirectResult();
+	// 				// The signed-in user info.
+	// 				user = result.user;
+	// 				console.log("logged in");
+	// 				console.log(user);
+	// 				// clientIdToken = await user.getIdToken(true);
+	// 				// console.log("clientIdToken", clientIdToken);
+	// 				// return clientIdToken;
+	// 				return user;
+	// 			//break;
 
-				case "google": //if user log in using google
-					console.log("Logging in with google");
-					provider = new firebase.auth.GoogleAuthProvider();
-					await firebase.auth().signInWithRedirect(provider);
-					firebase.auth().languageCode = "en";
-					result = await firebase.auth().getRedirectResult();
+	// 			case "google": //if user log in using google
+	// 				console.log("Logging in with google");
+	// 				provider = new firebase.auth.GoogleAuthProvider();
+	// 				await firebase.auth().signInWithRedirect(provider);
+	// 				firebase.auth().languageCode = "en";
+	// 				result = await firebase.auth().getRedirectResult();
 
-					// The signed-in user info.
-					user = result.user;
-					console.log("logged in");
-					// clientIdToken = await user.getIdToken();
-					return user;
-				//break;
+	// 				// The signed-in user info.
+	// 				user = result.user;
+	// 				console.log("logged in");
+	// 				// clientIdToken = await user.getIdToken();
+	// 				return user;
+	// 			//break;
 
-				case "email": //if user log in using email/password
-					if (email === "" || password === "") return;
-					console.log("Logging in with email");
-					await firebase.auth().signInWithEmailAndPassword(email, password);
-					await firebase.auth().onAuthStateChanged(function (userObj) {
-						if (userObj) {
-							//User is signed in
-							user = userObj;
-						} else {
-							console.log("No user is logged in");
-						}
-					});
-					if (user !== null) {
-						return user;
-					}
+	// 			case "email": //if user log in using email/password
+	// 				if (email === "" || password === "") return;
+	// 				console.log("Logging in with email");
+	// 				await firebase.auth().signInWithEmailAndPassword(email, password);
+	// 				await firebase.auth().onAuthStateChanged(function (userObj) {
+	// 					if (userObj) {
+	// 						//User is signed in
+	// 						user = userObj;
+	// 					} else {
+	// 						console.log("No user is logged in");
+	// 					}
+	// 				});
+	// 				if (user !== null) {
+	// 					return user;
+	// 				}
 
-					break;
-				default:
-					console.log("Not recognize login method");
-					break;
-			}
-		} catch (error) {
-			throw error;
-		}
-	}
+	// 				break;
+	// 			default:
+	// 				console.log("Not recognize login method");
+	// 				break;
+	// 		}
+	// 	} catch (error) {
+	// 		throw error;
+	// 	}
+	// }
 
-	async login(method) {
+	async login() {
 		this.setState({ isLoading: true, errorMessage: "" });
 		try {
 			let userObj = await loginWithEmail(this.state.email, this.state.password);
