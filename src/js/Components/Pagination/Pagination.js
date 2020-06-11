@@ -7,7 +7,7 @@ const Pagination = ({ current, pages, loadOnClick }) => {
   return (
     <ReactPaginate pageCount={pages} pageRangeDisplayed={3} marginPagesDisplayed={2}
       onPageChange={({ selected }) => loadOnClick(selected + 1)}
-      initialPage={current}
+      initialPage={0}
       containerClassName="pagination"
       pageClassName="page-item"
       pageLinkClassName="page-link"

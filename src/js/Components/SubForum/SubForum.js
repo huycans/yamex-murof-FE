@@ -199,9 +199,13 @@ class SubForum extends Component {
 						</div>
 					) : null}
 
-					<div>
-						<Pagination current={current} loadOnClick={this.loadThreadsFromPageNum} pages={pages} />
-					</div>
+					{pages
+						? <div>
+							<Pagination current={current} loadOnClick={this.loadThreadsFromPageNum} pages={pages} />
+						</div>
+						: null
+					}
+
 				</div>
 
 				<div className="subforum_bar">
@@ -214,14 +218,14 @@ class SubForum extends Component {
 }
 
 SubForum.propTypes = {
-	match: {
+	match: PropTypes.shape({
 		url: PropTypes.string,
 		path: PropTypes.string,
 		isExact: PropTypes.bool,
 		params: PropTypes.object
-	},
+	}),
 	history: PropTypes.object,
-	subforumData: {
+	subforumData: PropTypes.shape({
 		id: PropTypes.string,
 		createdTime: PropTypes.string,
 		lastModifiedTime: PropTypes.string,
@@ -231,8 +235,8 @@ SubForum.propTypes = {
 		latestThread: PropTypes.object,
 		threadNumber: PropTypes.number,
 		replyNumber: PropTypes.number
-	},
-	forumData: {
+	}),
+	forumData: PropTypes.shape({
 		bikeInfo: PropTypes.string,
 		coverUrl: PropTypes.string,
 		createdTime: PropTypes.string,
@@ -242,7 +246,7 @@ SubForum.propTypes = {
 		moderators: PropTypes.arrayOf(PropTypes.string),
 		name: PropTypes.string,
 		path: PropTypes.string
-	},
+	}),
 	authData: PropTypes.object
 };
 export default SubForum;
