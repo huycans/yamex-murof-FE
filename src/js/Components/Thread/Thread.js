@@ -76,12 +76,20 @@ class Thread extends Component {
   async thank(rid) {
     try {
       const { authData } = this.props;
+      const { replies } = this.state;
       if (!authData.sessionToken) {
         alert("You're not logging in");
         return;
       }
       await sendThank(authData, rid);
-      window.location.reload();
+
+      let repliesCopy = replies.map((reply, index) => {
+        if (reply.id == rid) {
+          reply.numberOfThank = reply.numberOfThank + 1;
+        }
+        return reply;
+      });
+      this.setState({ repliesCopy });
 
     } catch (error) {
       this.setState({ errorMessage: error });
