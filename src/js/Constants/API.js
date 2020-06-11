@@ -1,10 +1,15 @@
 //constants for api access
-const PROTOCOL = "http://";
 // const PROTOCOL = "https://";
 // const SERVER_IP = "35.196.89.114:5003";
 //const SERVER_IP = "10.80.250.235:5003";
+
+// local link
+const PROTOCOL = "http://";
 const SERVER_IP = "localhost:3000";
-const SERVER_LINK = "/yamex";
+
+//deployed link
+// const PROTOCOL = "https://";
+// const SERVER_IP = "yamex.herokuapp.com";
 const SERVER_API = {
 	auth: "/auth",
 	forum: "/forum",
@@ -15,10 +20,10 @@ const SERVER_API = {
 	reply: "/reply",
 	user: "/user",
 	userlogin: "/user/login",
-  usersignup: "/user/signup",
+	usersignup: "/user/signup",
 	userTokenCheck: "/user/checkJWTToken",
-	logout:"/user/logout"
+	logout: "/user/logout"
 };
-let URL = PROTOCOL + SERVER_IP;
+let URL = process.env.baseURL || PROTOCOL + SERVER_IP;
 
 export { URL, SERVER_API };
