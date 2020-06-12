@@ -5,8 +5,8 @@
 
 // local link
 const PROTOCOL = "http://";
-const SERVER_IP = "localhost:3000";
-
+const SERVER_IP = "localhost:4000";
+const LOCAL_URL = (PROTOCOL + SERVER_IP);
 //deployed link
 // const PROTOCOL = "https://";
 // const SERVER_IP = "yamex.herokuapp.com";
@@ -24,6 +24,7 @@ const SERVER_API = {
 	userTokenCheck: "/user/checkJWTToken",
 	logout: "/user/logout"
 };
-let URL = process.env.baseURL || PROTOCOL + SERVER_IP;
+console.log("BASE_URL", process.env.REACT_APP_BASE_URL);
+let URL = process.env.REACT_APP_BASE_URL || LOCAL_URL;
 
 export { URL, SERVER_API };
